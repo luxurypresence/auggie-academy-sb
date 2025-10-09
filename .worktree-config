@@ -1,0 +1,55 @@
+# Worktree Manager Configuration
+# AI Orchestration Mastery Course - Default Configuration
+
+# Branch prefix for new branches (e.g., "f-" creates branches like "f-01-data-pipeline")
+BRANCH_PREFIX="f-"
+
+# Default branch suffix when none is provided
+DEFAULT_BRANCH_SUFFIX="test"
+
+# Main branch name (usually "main" or "master")
+MAIN_BRANCH="main"
+
+# Package manager (npm, yarn, pnpm, or none)
+# Set to "auto" to detect based on lock files
+PACKAGE_MANAGER="auto"
+
+# Editor to open after creating worktree (code, cursor, vim, none, or auto)
+# Set to "auto" to detect available editors
+EDITOR="auto"
+
+# Files to copy (simple filenames that can appear anywhere)
+# These will be copied from main worktree to new worktrees
+COPY_FILES=(
+    ".env.local"
+    ".env.development"
+)
+
+# Path patterns to copy (relative paths from repo root)
+# These are matched as */pattern
+COPY_PATH_PATTERNS=(
+    ".vscode/settings.json"
+)
+
+# Directories to exclude when searching for files to copy
+EXCLUDE_DIRS=(
+    "node_modules"
+    ".git"
+    ".next"
+    "dist"
+    "build"
+    ".turbo"
+    "coverage"
+    ".vitest-cache"
+)
+
+# Custom setup commands to run after worktree creation
+# These run in the new worktree directory
+POST_CREATE_COMMANDS=(
+    # Example: "npm run prepare"
+    # Example: "git config user.email 'team@company.com'"
+)
+
+# MCP template directory (relative to main worktree)
+# Leave empty if not using MCP templates
+MCP_TEMPLATE_DIR=""
