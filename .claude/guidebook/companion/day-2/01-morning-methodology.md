@@ -169,25 +169,25 @@ You: "Agents succeeded but integration failed - what went wrong?"
 
 ## Note: Parallel Agents vs Sub-Agents
 
-**You'll be launching parallel tactical agents** (backend agent, frontend agent, etc.) - this is covered throughout the course.
+**You'll orchestrate parallel agents** (backend agent, frontend agent) - covered throughout the course.
 
-**That's different from sub-agents:** Sub-agents are when Claude (or an agent) uses the Task tool within a session to isolate context for exploration or research tasks.
+**That's different from sub-agents:**
 
-**Sub-agents are useful for:**
+**Sub-agents** = Agent spawns focused tasks within its own session (using Task tool)
 
-- Large codebase exploration (keeps main session lean)
-- Research-heavy tasks (returns summary, not full docs)
-- Context management (prevents session bloat)
+**Use cases:**
+- Large codebase exploration
+- Research synthesis
+- Context isolation
 
-**Trade-off:** ~30% slower execution, but higher quality (especially in brownfield work)
+**How to use:**
+- Tell Claude: "use a sub-agent to explore the auth code"
+- Or let Claude decide autonomously
+- Check with `/agents` command
 
-**For this course:** You likely won't need sub-agents (greenfield, small codebase)
+**Trade-off:** ~30% slower, higher quality (especially large codebases)
 
-**For production/brownfield:** Sub-agents become valuable for managing context in large codebases
-
-**Deep dive:** [playbook/context-management.md](../../../playbook/context-management.md)
-
-**For now:** Just know Task tool exists for context isolation. Focus on parallel tactical agent orchestration.
+**Deep dive:** [Chapter 15: Sub-Agents](../../chapters/15-sub-agents.md) and [Chapter 16: Context Management](../../chapters/16-context-management.md)
 
 ---
 

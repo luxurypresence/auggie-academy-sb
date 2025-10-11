@@ -16,7 +16,7 @@
 - `workspace-management.md` - Feature organization
 - `testing-standards.md` - Testing requirements
 - `session-continuity.md` - Session handoffs
-- `context-management.md` - Sub-agent usage
+- `sub-agent-usage.md` - Sub-agent quick reference
 
 ---
 
