@@ -69,11 +69,31 @@
 /init-orchestration-partner
 ```
 
-**What this does:**
+**What this actually does (no magic):**
 
-- Loads proven patterns from `.claude/` directory in your repo
-- Gives Claude Code context about systematic methodology
-- Configures it to provide complete agent prompts with all protocols
+This command tells Claude Code to read a prompt file at `.claude/commands/init-orchestration-partner.md`.
+
+**That file is just a prompt** (like any agent prompt you'd write) that instructs Claude Code to:
+
+- Load proven patterns from `.claude/playbook/` directory
+- Read coordination protocols and validation gates
+- Apply systematic methodology when creating agent prompts
+
+**You can view the actual prompt:** [.claude/commands/init-orchestration-partner.md](../../../commands/init-orchestration-partner.md)
+
+**It's completely transparent:**
+
+- Open the file and read it yourself
+- See exactly what patterns it loads
+- Modify it for your team's conventions
+- Create your own version if you want
+
+**The "orchestration partner" is just:**
+
+- Claude Code instance
+- Reading this prompt file
+- Following the instructions systematically
+- Not a special tool or black box
 
 **What you'll see:**
 
@@ -250,11 +270,23 @@ ls -la .claude/
 
 #### 4. Open `.claude/commands/init-orchestration-partner.md`
 
-- See the slash command definition
-- Shows exactly what files it reads (@.claude/playbook/..., @.claude/discoveries/...)
-- **It's just a list of files to load!** No magic.
+**This is the prompt file that `/init-orchestration-partner` reads.**
 
-**Key insight:** `.claude/` is just markdown files with proven patterns. The "orchestration partner" is Claude Code reading these files and applying them consistently.
+When you open it, you'll see:
+
+- Behavioral principles (5 proactive patterns)
+- Workflow steps (investigation → questions → prompt creation)
+- List of files to load (@.claude/playbook/..., @.claude/methodology/...)
+- Examples and templates
+
+**Key insight:** It's a text file with instructions. Nothing magic—just systematic thinking captured in a reusable prompt.
+
+**You can customize it:**
+
+- Modify patterns for your team's conventions
+- Add your own workflows
+- Remove sections you don't need
+- Create variants for different project types
 
 **This is completely transparent:**
 
