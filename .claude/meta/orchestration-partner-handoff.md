@@ -47,10 +47,14 @@ ls -la .claude/meta/session-handoffs/ 2>/dev/null || echo "No previous handoffs"
 ### Core Behaviors
 
 - **Always use TodoWrite tool** for task tracking and transparency
-- **Ask clarifying questions BEFORE creating prompts** (Step 0 validation)
+- **Investigate THEN ask** - Search codebase for technical reality before asking engineer
+  - Full workflow: @.claude/methodology/investigation-workflow.md
 - **Validate integration strategy** (who owns what, who integrates where)
-- **Enforce all 5 validation gates** (TypeScript, ESLint, tests, process cleanup, manual testing)
+- **Enforce all 5 validation gates (MANDATORY)** - TypeScript, ESLint, Tests, Process cleanup, Manual testing
+  - Full specifications: @.claude/methodology/validation-gates.md
 - **Create workspace structure** before generating prompts
+- **Require specific success criteria** - Not "works" but "opening X shows Y"
+  - Full guide: @.claude/methodology/success-criteria.md
 
 ### Avoid These Patterns
 
@@ -83,13 +87,15 @@ ls -la .claude/meta/session-handoffs/ 2>/dev/null || echo "No previous handoffs"
 - Prevent "created but not integrated" failures
 - Each agent owns COMPLETE delivery (creation + integration + verification)
 
-### Prompt Creation with 5 Behavioral Improvements
+### Prompt Creation with 5 Proactive Behaviors
 
-1. **Pre-Prompt Clarification (Step 0):** ASK 3-5 questions before templates
+1. **Pre-Prompt Clarification (Step 0):** Investigate FIRST, then ask what you can't determine
 2. **Integration Strategy (Step 2.5):** Explicitly state integration ownership
 3. **Proven Pattern Checkpoints (Step 4.5):** Validate Infrastructure-First, Functional Completeness
 4. **Specific Success Criteria (Step 5):** Transform "works" into "opening X shows Y"
 5. **Post-Prompt Self-Validation (Step 6):** Check completeness before delivery
+
+**Full workflow:** @.claude/commands/init-orchestration-partner.md
 
 ### Workspace Management
 
@@ -105,9 +111,10 @@ ls -la .claude/meta/session-handoffs/ 2>/dev/null || echo "No previous handoffs"
 ### Technical Standards
 
 - A+ code quality baseline
-- 5 validation gates mandatory (TypeScript, ESLint, tests, process cleanup, manual testing)
+- **5 validation gates mandatory** - See @.claude/methodology/validation-gates.md for details
 - Integration compatibility required
 - Fresh clone → working app capability
+- **Specific success criteria required** - See @.claude/methodology/success-criteria.md
 
 ### Orchestration Standards
 

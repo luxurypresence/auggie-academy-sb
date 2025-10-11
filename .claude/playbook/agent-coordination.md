@@ -297,143 +297,22 @@ ALL agents MUST maintain detailed session logs during execution:
 
 ## Pre-Completion Validation Protocol (MANDATORY)
 
-### Individual Agent Validation (Before Claiming "COMPLETE")
+**ALL agents must pass 5 validation gates before claiming "COMPLETE":**
 
-**ALL agents must run and pass these validation steps before reporting completion:**
+1. **TypeScript:** 0 errors (`pnpm type-check`)
+2. **ESLint:** 0 warnings (`pnpm lint`)
+3. **Tests:** All passing (`pnpm test`)
+4. **Process Cleanup:** No hanging dev servers
+5. **Manual Testing:** Browser verification (frontend) OR curl testing (backend)
 
-#### 1. TypeScript Compilation
+**Full gate specifications:** @.claude/methodology/validation-gates.md
 
-```bash
-pnpm type-check
-```
-
-**REQUIRED:** Output must show "✔ No TypeScript errors" (0 errors)
-
-**Why:** Runtime test success ≠ compilation success (proven through experience with hundreds of undetected errors)
-
-#### 2. ESLint
-
-```bash
-pnpm lint
-```
-
-**REQUIRED:** Output must show "✔ No ESLint warnings or errors" (0 warnings)
-
-#### 3. Test Suite
-
-```bash
-pnpm test
-```
-
-**REQUIRED:** Output must show all tests passing
-
-
-#### 4. Session Log Documentation
-
-**Agent must paste ALL validation output in session log:**
-
-```markdown
-## Pre-Completion Validation Results
-
-### TypeScript
-
-[paste pnpm type-check output]
-✔ No TypeScript errors
-
-### ESLint
-
-[paste pnpm lint output]
-✔ No ESLint warnings or errors
-
-### Tests
-
-[paste pnpm test summary]
-✔ Tests: X/X passing
-```
-
-**IF ANY STEP FAILS:**
-
+**IF ANY GATE FAILS:**
 - ❌ Do NOT claim "COMPLETE"
-- ❌ Fix errors first
-- ❌ Re-run all validation steps
-- ✅ Only claim "COMPLETE" after ALL validations pass
+- ❌ Fix errors first, re-validate all gates
+- ✅ Only claim "COMPLETE" after ALL 5 gates pass
 
-**Claiming "COMPLETE" without passing validation = INCOMPLETE TASK**
-
----
-
-### Manual Browser Testing (MANDATORY)
-
-**CRITICAL:** Automated tests passing ≠ feature working in browser.
-
-#### Before Claiming "COMPLETE"
-
-**1. Start development server:**
-
-```bash
-pnpm dev
-```
-
-**2. Open browser and test feature:**
-
-- Navigate to all pages you created
-- Test all forms and interactions
-- Verify data displays correctly
-- Check all user flows work end-to-end
-
-**3. Check browser console:**
-
-```
-Open DevTools Console (Cmd+Option+J or F12)
-Verify: ZERO errors (except expected ones like WebSocket if not running)
-Look for: GraphQL errors, React warnings
-```
-
-**4. Use Playwright MCP for systematic testing:**
-
-- Test registration/login flows
-- Test protected routes
-- Test feature-specific functionality
-- Screenshot key states
-- Document results in session log
-
-**5. Verify database operations:**
-
-- Check development database (not test database)
-- Verify records created/updated
-- Confirm data integrity
-
-**6. Document in session log:**
-
-```markdown
-## Manual Browser Testing Results
-
-### Features Tested
-
-- Registration flow: {Pass/Fail}
-- Login flow: {Pass/Fail}
-- Protected routes: {Pass/Fail}
-- {Feature-specific tests}: {Pass/Fail}
-
-### Browser Console
-
-- Errors: {None / List any found}
-
-### Database Verification
-
-- Development database operations: {Pass/Fail}
-
-**All manual tests passed: {Yes/No}**
-```
-
-**IF MANUAL TESTS FAIL:**
-
-- ❌ Do NOT claim "COMPLETE"
-- ❌ Fix browser issues
-- ❌ Re-validate (TypeScript, ESLint, tests, browser)
-- ✅ Only claim "COMPLETE" when browser works
-
-**Why:** Tests can pass while features are completely broken (database schema missing, state management broken).
+**Claiming "COMPLETE" without passing all 5 gates = INCOMPLETE TASK**
 
 ---
 

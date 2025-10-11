@@ -414,70 +414,25 @@ Before completing:
 
 ### Pre-Completion Validation Gate (MANDATORY)
 
-**Add to every agent prompt's success criteria section:**
+**Add to every agent prompt:**
 
 ```markdown
 ## PRE-COMPLETION VALIDATION (MUST PASS BEFORE "COMPLETE")
 
-Before claiming "COMPLETE", run ALL validation steps and paste output in session log:
+**ALL 5 validation gates MUST pass:**
+1. TypeScript: 0 errors (`pnpm type-check`)
+2. ESLint: 0 warnings (`pnpm lint`)
+3. Tests: All passing (`pnpm test`)
+4. Process Cleanup: No hanging dev servers
+5. Manual Testing: Browser (frontend) OR curl (backend)
 
-### 1. TypeScript Compilation
-```bash
-pnpm type-check
-````
+**Full specifications:** @.claude/methodology/validation-gates.md
 
-**REQUIRED:** Output must show "✔ No TypeScript errors" (0 errors)
-
-### 2. ESLint
-
-```bash
-pnpm lint
-```
-
-**REQUIRED:** Output must show "✔ No ESLint warnings or errors" (0 warnings)
-
-### 3. Test Suite
-
-```bash
-ppnpm test
-```
-
-**REQUIRED:** Output must show all tests passing
-
-
-### 4. Session Log Documentation
-
-**In your session log, add:**
-
-```markdown
-## Pre-Completion Validation Results
-
-### TypeScript
-
-[paste pnpm type-check output]
-✔ No TypeScript errors
-
-### ESLint
-
-[paste pnpm lint output]
-✔ No ESLint warnings or errors
-
-### Tests
-
-[paste ppnpm test summary]
-✔ Tests: X/X passing
-```
-
-**IF ANY STEP FAILS:**
-
+**IF ANY GATE FAILS:**
 - ❌ Do NOT claim "COMPLETE"
-- ❌ Fix errors first
-- ❌ Re-run all validation steps
-- ✅ Only claim "COMPLETE" after ALL validations pass
-
-**Claiming "COMPLETE" without passing validation = INCOMPLETE TASK**
-
-````
+- ❌ Fix errors first, re-validate all gates
+- ✅ Only claim "COMPLETE" after ALL 5 gates pass
+```
 
 
 ---
@@ -562,135 +517,27 @@ ppnpm test
 
 ---
 
-## Manual Browser Testing Requirement (MANDATORY)
+## Manual Testing Requirement (MANDATORY)
 
-**Purpose:** Ensure features actually work in browser, not just pass automated tests.
+**CRITICAL:** Automated tests passing ≠ feature actually working
 
-**Pattern:** Automated tests can pass while browser features are broken - manual verification required.
+**ALL agent prompts MUST include manual testing:**
+- **Frontend:** Browser testing (Playwright MCP)
+- **Backend:** API testing (curl commands)
 
-### Add to ALL Feature Agent Prompts
+**Why:** Tests can pass while features are completely broken (database schema not applied, integration points failing, etc.)
 
-````markdown
-## MANUAL BROWSER TESTING (MANDATORY)
+**Full manual testing specifications:** @.claude/methodology/validation-gates.md (Gate 5)
 
-**CRITICAL:** Automated tests passing ≠ feature working. You MUST test in actual browser.
-
-### Before Claiming "COMPLETE"
-
-**1. Start development server:**
-
-```bash
-pnpm dev
-```
-````
-
-**2. Open browser:**
-http://localhost:3000
-
-**3. Test your feature end-to-end:**
-
-- Click through all UI you created
-- Test all forms (submit, validation, error states)
-- Verify all data displays correctly
-- Check all user interactions work
-- Test edge cases and error handling
-
-**4. Check browser console (CRITICAL):**
-
-- Open DevTools Console (Cmd+Option+J or F12)
-- Verify ZERO errors (except expected ones like WebSocket if not running)
-- Look for GraphQL errors
-- Verify no React warnings
-
-**5. Ensure development database ready:**
-
-```bash
-# If browser testing shows database errors:
-pnpm db:migrate:fresh  # Apply schema to development database
-pnpm seed              # Add test data
-```
-
-**Why:** Integration tests use test database (`agentiq_test`), browser uses development database (`agentiq`). They can be out of sync.
-
-**6. Use Playwright MCP for systematic testing:**
+**Template for agent prompts:**
 
 ```markdown
-## Playwright Browser Testing
+## MANUAL TESTING (MANDATORY - Gate 5)
 
-- [ ] Navigate to all pages you created
-- [ ] Fill and submit all forms
-- [ ] Verify redirects and navigation
-- [ ] Check data displays correctly
-- [ ] Screenshot key states
-- [ ] Document any errors found
-```
+FRONTEND: Use Playwright MCP to verify in actual browser
+BACKEND: Use curl to verify API responses
 
-**7. Verify database operations:**
+**See full testing requirements:** @.claude/methodology/validation-gates.md
 
-```bash
-# Check development database (NOT test database)
-# Verify your feature created/updated records
-```
-
-**7. Document in session log:**
-
-```markdown
-## Manual Browser Testing Results
-
-### Features Tested in Browser
-
-- {Feature 1}: ✅ Working / ❌ Broken - {details}
-- {Feature 2}: ✅ Working / ❌ Broken - {details}
-
-### Browser Console
-
-- Errors: {None / List any found}
-- GraphQL errors: {No / Yes with details}
-
-### Database Verification (Development DB)
-
-- Operations work: {Yes/No}
-- Records created: {Yes/No}
-
-**All manual tests passed: {Yes/No}**
-```
-
-**IF ANY MANUAL TEST FAILS:**
-
-- ❌ Feature is NOT COMPLETE
-- ❌ Fix browser issues
-- ❌ Re-run all validation (TypeScript, ESLint, tests, browser)
-- ✅ Only claim "COMPLETE" when browser works
-
-**Why:** Automated tests can pass while:
-
-- Database schema not applied to development database
-- Client state management broken
-- Integration points failing
-
-Only browser testing reveals these issues.
-
-**Claiming "COMPLETE" without browser testing = INCOMPLETE TASK**
-
-```
-
-### Why This Is Non-Negotiable
-
-**Example scenario:**
-- TypeScript: 0 errors ✅
-- ESLint: 0 warnings ✅
-- Tests: All passing ✅
-- **Browser:** Critical bugs found ❌
-
-**Automated tests validate code correctness, browser testing reveals integration failures.**
-
----
-
-**Updated Validation Requirements (Complete List):**
-1. TypeScript: 0 errors
-2. ESLint: 0 warnings
-3. Tests: All passing
-4. **Manual browser testing: All features work**
-
-**All 4 mandatory for claiming "COMPLETE"**
+**Document results in session log - feature NOT complete until manual testing passes**
 ```

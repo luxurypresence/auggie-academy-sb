@@ -170,52 +170,16 @@ When engineer says: "I need [feature description]"
 
 ### Step 0: Pre-Prompt Clarification & Investigation (2-5 minutes)
 
-**BEFORE analyzing coordination or templates, investigate codebase reality FIRST, then ask ONLY for requirements you cannot determine.**
+**INVESTIGATE codebase FIRST, then ASK only for requirements you cannot determine.**
 
-**Two-Phase Approach:**
+**Core workflow:**
+1. **INVESTIGATE** - Technical reality (what exists, current patterns, infrastructure)
+2. **ASK** - Business requirements (what they want, where it goes, priorities)
+3. **DETERMINE** - Implementation strategy based on investigation + requirements
 
-1. **INVESTIGATE** - Search codebase to answer technical questions (what exists, current patterns, infrastructure)
-2. **ASK** - Get requirements/preferences from engineer (what they want, where it goes, business priorities)
+**Don't ask questions you can answer through codebase investigation. Don't ask questions to hit a quota.**
 
-Don't ask questions you can answer through codebase investigation. Don't ask questions to hit a quota.
-
-**What to INVESTIGATE (Search Codebase - Don't Ask):**
-
-**Technical Reality:**
-- Does infrastructure exist? (pages, components, services, database tables)
-- What are current patterns? (how existing features integrate, naming conventions)
-- What's the file structure? (where do similar features live)
-- What dependencies exist? (imports, APIs, database relationships)
-- What's the tech stack? (React? Vue? NestJS? GraphQL?)
-
-**Example investigations:**
-- `grep -r "Dashboard" src/` → Find Dashboard page location
-- Read `Dashboard.tsx` → Understand current structure, existing widgets
-- Check `src/components/widgets/` → See widget naming/structure patterns
-- Read existing widget → Understand integration pattern (import? registry? props?)
-
-**What to ASK ENGINEER (Requirements/Preferences - Can't Determine):**
-
-**Business Requirements:**
-- What's the desired behavior? ("What happens when user clicks X?")
-- What are business rules? ("Should admin override user settings?")
-- What defines success? ("What exactly constitutes a 'completed' order?")
-- How to handle edge cases? ("What if user enters duplicate email?")
-
-**UI/UX Placement & Priorities:**
-- Where should component display? ("Top of dashboard? Sidebar? Modal?")
-- What's the layout/styling? ("3-column grid? List view? Card layout?")
-- What's the content/data? ("Show conversions? Engagement? Revenue?")
-- What's the priority/order? ("Which widget is most important?")
-
-**Feature Scope & Completeness:**
-- What's included in MVP? ("Just read-only display? Or interactive filters?")
-- What's out of scope? ("Don't worry about export functionality?")
-- What's the complete user flow? ("User navigates how? What do they see?")
-- How do we verify success?
-  - Frontend: "What should I see in the browser to confirm it works?"
-  - Backend: "What API call should I make to verify the endpoint works?"
-  - Auth: "How should I test login/authentication flow?"
+**Full investigation workflow & question framework:** @.claude/methodology/investigation-workflow.md
 
 **Example (Dashboard-Analytics-Widgets):**
 
@@ -364,13 +328,14 @@ NOT: Widget agents create files, separate agent integrates all.
 **ALWAYS INCLUDE (No Exceptions):**
 
 - ✅ Session logging requirement
-- ✅ 5 validation gates (TypeScript, ESLint, tests, process cleanup, manual testing)
-- ✅ Testing requirements (unit + integration)
+- ✅ **5 validation gates (MANDATORY):** TypeScript (0 errors), ESLint (0 warnings), Tests (all passing), Process cleanup (no hanging servers), Manual testing (browser OR curl)
+  - Full gate specifications: @.claude/methodology/validation-gates.md
+- ✅ Testing requirements (unit WITH mocks + integration WITHOUT mocks)
 - ✅ Dependency validation (if has imports)
 - ✅ Coordination protocols (if high coordination)
-- ✅ Quality standards
-- ✅ Specific integration verification (not generic "feature works")
-- ✅ Manual testing requirements (frontend: browser/Playwright verification; backend: curl/API testing)
+- ✅ Quality standards (A+ code)
+- ✅ **Specific success criteria** (not "feature works" - see @.claude/methodology/success-criteria.md)
+- ✅ Manual testing (frontend: Playwright browser verification; backend: curl/API testing)
 
 ### Step 4.5: Proven Pattern Application Checkpoint (2-3 minutes)
 
@@ -398,58 +363,14 @@ NOT: Widget agents create files, separate agent integrates all.
 
 ### Step 5: Specific Success Criteria Requirements (1-2 minutes)
 
-**Transform generic success criteria into specific verification:**
+**Transform generic → specific success criteria:**
 
-**❌ GENERIC (Don't Use):**
+**❌ GENERIC:** "Feature works", "Widget created", "Login works"
+**✅ SPECIFIC:** "Opening /dashboard displays ConversionWidget with live data", "curl POST to /graphql with loginMutation returns valid JWT token"
 
-- "Feature works"
-- "Widget component created"
-- "Dashboard updated"
-- "API endpoint created"
-- "Login works"
+**Key principle:** NOT "feature works" - but "user sees X when they do Y" AND "API returns X when called with Y"
 
-**✅ SPECIFIC (Always Use):**
-
-**Frontend:**
-- "Opening /dashboard displays ConversionWidget with live data"
-- "Widget appears in grid layout at expected position"
-- "Clicking widget interactions trigger expected behavior"
-
-**Backend:**
-- "curl POST to /graphql with loginMutation returns valid JWT token"
-- "GraphQL query userProfile returns email, firstName, lastName fields"
-- "POST /api/auth/login with valid credentials returns 200 + sets httpOnly cookie"
-
-**Template Pattern:**
-
-```markdown
-## SUCCESS CRITERIA (SPECIFIC VERIFICATION)
-
-**Manual Testing Validation:**
-
-FRONTEND (use Playwright MCP for browser verification):
-1. Open browser to {SPECIFIC_URL}
-2. Verify {SPECIFIC_ELEMENT} displays {SPECIFIC_BEHAVIOR}
-3. Test {SPECIFIC_INTERACTION} results in {SPECIFIC_OUTCOME}
-4. Check browser console: 0 errors
-
-BACKEND (use curl/API testing):
-1. curl -X POST {API_ENDPOINT} -d '{REQUEST_BODY}'
-2. Verify response status: {EXPECTED_STATUS}
-3. Verify response body contains: {EXPECTED_FIELDS}
-4. Test authentication: login returns valid token/session
-5. Test authorization: protected endpoints reject unauthorized requests
-
-**Integration Verification:**
-
-- [ ] {Component} integrated into {Target}
-- [ ] {Target} displays {Component} correctly
-- [ ] User can see {Component} at {Location}
-- [ ] Backend API returns expected data structure
-- [ ] Frontend successfully consumes backend response
-
-NOT "feature works" - but "user sees X when they do Y" AND "API returns X when called with Y"
-```
+**Full guide with frontend/backend examples & templates:** @.claude/methodology/success-criteria.md
 
 ### Step 6: Post-Prompt Self-Validation (1-2 minutes)
 
@@ -677,13 +598,14 @@ Me (optional): "Creates retrospective.md for future learning"
 **Every prompt you create MUST include:**
 
 - [ ] Session logging requirement
-- [ ] 5 validation gates (TypeScript, ESLint, tests, process cleanup, manual testing)
-- [ ] Testing requirements (unit + integration)
+- [ ] **5 validation gates (MANDATORY):** See @.claude/methodology/validation-gates.md
+- [ ] Testing requirements (unit WITH mocks + integration WITHOUT mocks)
 - [ ] Coordination protocols (if high coordination)
-- [ ] Field naming conventions (camelCase)
+- [ ] Field naming conventions (camelCase throughout)
 - [ ] Dependency validation (if has imports)
 - [ ] Technology stack specifications
 - [ ] Quality standards (A+ code)
+- [ ] **Specific success criteria:** See @.claude/methodology/success-criteria.md
 
 **If ANY missing → Prompt incomplete (go back and add)**
 
