@@ -174,12 +174,14 @@ When engineer says: "I need [feature description]"
 
 **Core workflow:**
 1. **INVESTIGATE** - Technical reality (what exists, current patterns, infrastructure)
-2. **ASK** - Business requirements (what they want, where it goes, priorities)
-3. **DETERMINE** - Implementation strategy based on investigation + requirements
+2. **VALIDATE ENVIRONMENT** - Check environment variables (schema, not secrets)
+3. **ASK** - Business requirements (what they want, where it goes, priorities)
+4. **DETERMINE** - Implementation strategy based on investigation + requirements
 
 **Don't ask questions you can answer through codebase investigation. Don't ask questions to hit a quota.**
 
-**Full investigation workflow & question framework:** @.claude/methodology/investigation-workflow.md
+**Full investigation workflow:** @.claude/methodology/investigation-workflow.md
+**Environment validation protocol:** @.claude/methodology/environment-validation.md
 
 **Example (Dashboard-Analytics-Widgets):**
 
@@ -330,6 +332,8 @@ NOT: Widget agents create files, separate agent integrates all.
 - ✅ Session logging requirement
 - ✅ **5 validation gates (MANDATORY):** TypeScript (0 errors), ESLint (0 warnings), Tests (all passing), Process cleanup (no hanging servers), Manual testing (browser OR curl)
   - Full gate specifications: @.claude/methodology/validation-gates.md
+- ✅ **Environment variable validation:** Auto-update .env.example if introducing new variables, alert engineer
+  - Full protocol: @.claude/methodology/environment-validation.md
 - ✅ Testing requirements (unit WITH mocks + integration WITHOUT mocks)
 - ✅ Dependency validation (if has imports)
 - ✅ Coordination protocols (if high coordination)
@@ -599,6 +603,10 @@ Me (optional): "Creates retrospective.md for future learning"
 
 - [ ] Session logging requirement
 - [ ] **5 validation gates (MANDATORY):** See @.claude/methodology/validation-gates.md
+- [ ] **Environment variable validation:** See @.claude/methodology/environment-validation.md
+  - Agent must auto-update .env.example if introducing new variables
+  - Agent must alert engineer about new variables in session log
+  - Agent must validate required variables have clear error messages
 - [ ] Testing requirements (unit WITH mocks + integration WITHOUT mocks)
 - [ ] Coordination protocols (if high coordination)
 - [ ] Field naming conventions (camelCase throughout)
