@@ -9,6 +9,40 @@ You are Claude Code serving as Orchestration Partner - helping engineers apply A
 
 If handoff file path provided as argument, read and analyze it FIRST to understand context from previous session before proceeding with initialization.
 
+## DIRECTORY STRUCTURE UNDERSTANDING (CRITICAL)
+
+**Before reading files, understand where content lives and WHY:**
+
+### `.claude/playbook/` - Quick Operational Checklists
+- **Purpose:** Fast lookup during work (checklists, workflows)
+- **You read:** For operational steps (what to include in prompts)
+- **Content:** Brief summaries + links to methodology
+- **Think:** Cheat sheet kept open during work
+
+### `.claude/methodology/` - Canonical Technical Specifications
+- **Purpose:** Single source of truth (authoritative definitions)
+- **You read:** When need complete technical details
+- **Content:** Full specifications, all examples, all scenarios
+- **Think:** Technical manual (complete reference)
+
+### `.claude/guidebook/chapters/` - Sequential Learning Material
+- **Purpose:** Educational content (theory + practice)
+- **You DON'T read:** These are for engineers learning concepts
+- **Content:** Theory → Evidence → Practice exercises
+- **Think:** Textbook (NOT for agents)
+
+**Key relationship:**
+- Playbook summarizes → Methodology defines completely
+- You use playbook workflows → Reference methodology for complete specs
+- You NEVER reference guidebook/chapters (that's for human learning)
+
+**When creating content:**
+- **Add to playbook/** if creating operational checklist (brief workflow)
+- **Add to methodology/** if creating authoritative specification (complete technical details)
+- **NEVER add to guidebook/chapters/** (that's for human curriculum development only)
+
+---
+
 ## METHODOLOGY CONTEXT RECOVERY (MANDATORY)
 
 Read these files to understand complete orchestration methodology:
@@ -18,15 +52,21 @@ Read these files to understand complete orchestration methodology:
 1. @.claude/meta/project-mission.md - **Project context** (what we're building and why)
 2. @.claude/meta/working-relationship.md - **Collaboration patterns** (how engineer and orchestration partner work together)
 
-**Orchestration Methodology:**
-3. @.claude/playbook/strategic-orchestration.md - Pre-execution validation protocol (proactive blocker removal)
-4. @.claude/playbook/agent-coordination.md - Validation gates, coordination protocols, 5 mandatory gates
-5. @.claude/playbook/prompt-creation.md - How to create agent prompts from templates
-6. @.claude/playbook/workspace-management.md - **CRITICAL:** Feature organization, execution planning, retrospective learning
-7. @.claude/methodology/pattern-library.md - Some proven orchestration patterns
+**Orchestration Workflows (playbook/ - operational):**
+3. @.claude/playbook/strategic-orchestration.md - Pre-execution validation workflow
+4. @.claude/playbook/agent-coordination.md - Coordination protocol workflows
+5. @.claude/playbook/prompt-creation.md - Prompt creation operational steps
+6. @.claude/playbook/workspace-management.md - **CRITICAL:** Feature organization workflow
+
+**Canonical Specifications (methodology/ - reference when need complete details):**
+7. @.claude/methodology/pattern-library.md - Proven orchestration patterns
+8. @.claude/methodology/validation-gates.md - Complete 5 gates specification
+9. @.claude/methodology/success-criteria.md - Specific vs generic success criteria guide
+10. @.claude/methodology/investigation-workflow.md - Investigate-first approach
+11. @.claude/methodology/environment-validation.md - Environment variable protocol
 
 **Templates:**
-8. @.claude/curriculum/Starter-Repository-Structure.md - All 8 available prompt templates
+12. @.claude/templates/agent-prompts/ - Available prompt templates
 
 ## YOUR ROLE: Proactive Feature Strategist (NOT Reactive Prompt Generator)
 

@@ -1,39 +1,40 @@
-# Methodology Documentation
+# Methodology: Canonical Technical Specifications
 
-## Pattern Library
+**What:** Single source of truth for technical specs
 
-**File**: [pattern-library.md](pattern-library.md)
-**Purpose**: Some proven AI orchestration patterns
+**When:** Need complete details, creating agent prompts
 
-**Use when**:
-
-- Applying patterns to features
-- Understanding coordination requirements
-- Learning pattern implementation
-
-**Format**: Problem → Solution → How to Apply (with code examples)
+**Think:** Technical manual (authoritative reference)
 
 ---
 
-## Other Protocol Files
+## Key Specification Files
 
-- **coordination-protocols.md** - Low vs high coordination requirements
-- **session-logging-system.md** - How to log agent execution for analysis
-- **pre-execution-validation-protocol.md** - Strategic orchestration before agent launch
-- **testing-as-infrastructure.md** - Why testing framework is infrastructure
-- **database-migration-strategy.md** - Managing schema changes
-- **atomic-commit-guidelines.md** - Git commit best practices
-- **prompt-templates.md** - Template patterns for agent prompts
-- **logging-templates.md** - Session logging examples
-- **agent-specs-library.md** - Common agent specifications
-- **bugfix-prompt-template.md** - How to write bug fix prompts
+**Validation & Quality:**
+- `validation-gates.md` - 5 gates complete spec
+- `success-criteria.md` - Specific vs generic guide
+- `environment-validation.md` - Environment variable protocol
+
+**Workflows:**
+- `investigation-workflow.md` - Investigate-first approach
+- `pattern-library.md` - Proven orchestration patterns
+
+**Other Protocols:**
+- `coordination-protocols.md` - Low vs high coordination
+- `session-logging-system.md` - Agent execution logging
+- `testing-as-infrastructure.md` - Testing framework as infrastructure
+- `atomic-commit-guidelines.md` - Git commit practices
+- Plus others (see directory listing)
 
 ---
 
-## For Orchestration Partner
+## Relationship to Playbook
 
-**`/init-orchestration-partner` loads:**
+**Methodology = Complete specification**
+**Playbook = Summary + link to methodology**
 
-- pattern-library.md (mandatory) - apply proven patterns
-- coordination-protocols.md (mandatory) - determine coordination level
-- Other protocol files (as needed) - answer deep questions and apply specific protocols
+Update methodology → playbook automatically current (references it)
+
+---
+
+**See:** [../README.md](../README.md) for complete .claude/ organization

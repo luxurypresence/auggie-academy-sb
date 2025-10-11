@@ -1,92 +1,84 @@
-# AI Orchestration Mastery - Complete Methodology Documentation
+# AI Orchestration Mastery
 
-Welcome to the `.claude/` directory - your complete methodology reference for systematic AI agent orchestration.
-
----
-
-## Your Learning Path
-
-**Day 0:** Read [Guidebook overview](guidebook/README.md) for complete curriculum
-
-**Days 1-5:** Follow [guidebook/companion/](guidebook/companion/) hands-on exercises session-by-session
-
-**Beyond Course:** Use [playbook/](playbook/) for daily operations, refer to [methodology/](methodology/) for deep patterns
+Your complete methodology for building production software with AI agents.
 
 ---
 
-## Folder Organization
+## Quick Start
 
-### 📚 Guidebook (Start Here - Sequential Learning)
+**Starting the course?** → [guidebook/companion/day-1/](guidebook/companion/day-1/)
 
-**Location:** [guidebook/](guidebook/)
-**Purpose:** Complete course curriculum (13 chapters + 5-day companion)
+**Need help creating prompts?** → Run `/init-orchestration-partner`
 
-**Key Files:**
+**Looking for a specific protocol?** → See navigation below
 
-- [README.md](guidebook/README.md) - Complete guidebook overview and navigation
+---
+
+## What's Where (3 Main Directories)
+
+```
+.claude/
+├── guidebook/     → LEARN (course curriculum - read to understand)
+├── playbook/      → APPLY (quick checklists - use during work)
+└── methodology/   → REFERENCE (complete specs - cite in prompts)
+```
+
+### 📚 guidebook/ - Learn Concepts
+
+**Purpose:** Educational course material
+
+**What's inside:**
 - [companion/](guidebook/companion/) - Day-by-day session guides
-- [chapters/](guidebook/chapters/) - 13 deep-dive chapters (Part 1: Strategic Orchestration, Part 2: Coordination Mastery, Part 3: Advanced Patterns)
+- [chapters/](guidebook/chapters/) - 13 deep-dive chapters
 
-**When to use:**
+**Use when:** Learning during course, understanding "why"
 
-- Starting the course (read guidebook overview)
-- Each session (follow companion guide)
-- Deep dives (reference specific chapters)
+**NOT for:** Agents (human learning only)
 
 ---
 
-### ⚡ Playbook (Daily Reference - Quick Protocols)
+### ⚡ playbook/ - Quick Reference
 
-**Location:** [playbook/](playbook/)
-**Purpose:** Operational protocols you'll use every day
+**Purpose:** Fast lookup during work (keep open)
 
-**Key Files:**
+**What's inside:** Operational checklists and workflows
 
-- `strategic-orchestration.md` - Pre-execution validation, proactive blocker removal
-- `agent-coordination.md` - Validation gates, field naming locks, coordination requirements
-- `prompt-creation.md` - How to create agent prompts with all protocols
-- `session-continuity.md` - Handoff patterns for session preservation
-- `testing-standards.md` - Two-tier testing requirements, validation gates
+**Use when:** Creating prompts, planning features, active work
 
-**When to use:**
+**Used by:** You + Orchestration partner
 
-- Planning features (strategic orchestration)
-- Creating agent prompts (prompt creation patterns)
-- Debugging agents (coordination protocols)
-- Continuing work across sessions (session continuity)
-- Validating completion (testing standards)
-
-**Quick Reference:** Keep playbook open during feature development for fast protocol lookup.
+**Links to:** methodology/ for complete details
 
 ---
 
-### 🔧 Methodology (Implementation Details - Deep Dive)
+### 🔧 methodology/ - Complete Specifications
 
-**Location:** [methodology/](methodology/)
-**Purpose:** Deep-dive protocols and proven patterns
+**Purpose:** Single source of truth (authoritative)
 
-**Key Files:**
+**What's inside:** Complete technical specs
 
-- [pattern-library.md](methodology/pattern-library.md) - Comprehensive proven orchestration patterns
-- `coordination-protocols.md` - Low vs high coordination scenarios
-- `session-logging-system.md` - Agent execution logging for analysis
-- `pre-execution-validation-protocol.md` - Strategic orchestration before agent launch
-- `testing-as-infrastructure.md` - Why testing framework is infrastructure
-- `database-migration-strategy.md` - Managing schema changes
-- `atomic-commit-guidelines.md` - Git commit best practices
-- `prompt-templates.md` - Template patterns for agent prompts
-- `logging-templates.md` - Session logging examples
-- `agent-specs-library.md` - Common agent specifications
-- `bugfix-prompt-template.md` - How to write bug fix prompts
+**Key files:**
+- `validation-gates.md` - 5 gates specification
+- `success-criteria.md` - Specific vs generic guide
+- `investigation-workflow.md` - Investigate-first approach
+- `environment-validation.md` - Environment variable protocol
+- `pattern-library.md` - Proven patterns
 
-**When to use:**
+**Use when:** Need complete details, creating agent prompts
 
-- Need pattern details (pattern-library.md)
-- Understanding coordination requirements (coordination-protocols.md)
-- Implementing specific protocols (other protocol files)
-- Creating specialized agents (agent-specs-library.md)
+**Used by:** You, Orchestration partner, Agents (via @ references)
 
-**Note:** Playbook references methodology for deeper context when needed.
+---
+
+## Quick Comparison
+
+| Need to... | Go to... |
+|------------|----------|
+| Learn a concept | guidebook/chapters/ |
+| Quick checklist during work | playbook/ |
+| Complete technical specification | methodology/ |
+
+**Think:** Textbook → Cheat sheet → Technical manual
 
 ---
 

@@ -185,7 +185,7 @@ You: "Agents succeeded but integration failed - what went wrong?"
 
 **For production/brownfield:** Sub-agents become valuable for managing context in large codebases
 
-**Deep dive:** [playbook/context-management.md](../../playbook/context-management.md)
+**Deep dive:** [playbook/context-management.md](../../../playbook/context-management.md)
 
 **For now:** Just know Task tool exists for context isolation. Focus on parallel tactical agent orchestration.
 
