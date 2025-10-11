@@ -73,7 +73,7 @@ You: "Use Serena MCP to find:
 
 ### Import Dependency Chain Analysis
 
-**For complete parallelization analysis:** [playbook/strategic-orchestration.md](../../playbook/strategic-orchestration.md) - See "Import Chain Parallelization Pattern"
+**For complete parallelization analysis:** [playbook/strategic-orchestration.md](../../../playbook/strategic-orchestration.md) - See "Import Chain Parallelization Pattern"
 
 **The 5-condition test for parallel execution:**
 1. Task X does NOT import from Task Y ✅

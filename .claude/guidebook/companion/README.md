@@ -91,7 +91,7 @@ Present your work, extend methodology to company codebases
 
 **This companion is NOT:**
 
-- ❌ **Comprehensive reference** - Use [playbook](../../playbook/) and [methodology](../../methodology/) for deep protocols
+- ❌ **Comprehensive reference** - Use [playbook](../../../playbook/) and [methodology](../../methodology/) for deep protocols
 - ❌ **Prescriptive rulebook** - You make decisions, companion guides you
 - ❌ **Theory-heavy** - Quick reads with focus on building
 
@@ -107,7 +107,7 @@ Present your work, extend methodology to company codebases
 
 **For deeper dives:**
 
-- [Playbook](../../playbook/) - Operational protocols you'll use daily
+- [Playbook](../../../playbook/) - Operational protocols you'll use daily
 - [Methodology](../../methodology/) - Deep pattern details and implementation
 - [Chapters](../chapters/) - Comprehensive theory (optional reading)
 

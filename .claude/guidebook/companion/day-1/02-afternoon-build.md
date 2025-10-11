@@ -205,9 +205,9 @@ While you're free to decide your approach, there are a few non-negotiables:
 
 **Need a specific protocol?**
 
-- Validation gates: [playbook/agent-coordination.md](../../playbook/agent-coordination.md#pre-completion-validation-protocol)
+- Validation gates: [playbook/agent-coordination.md](../../../playbook/agent-coordination.md#pre-completion-validation-protocol)
 - Field naming: See "Field Naming Locks" in same file
-- Testing patterns: [playbook/testing-standards.md](../../playbook/testing-standards.md)
+- Testing patterns: [playbook/testing-standards.md](../../../playbook/testing-standards.md)
 
 _Not sure where things are? See [.claude/README.md](../../README.md#folder-organization) for folder guide._
 

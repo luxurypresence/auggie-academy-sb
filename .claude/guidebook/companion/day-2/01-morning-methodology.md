@@ -161,7 +161,7 @@ You: "Agents succeeded but integration failed - what went wrong?"
 
 **Most engineers:** Start with partner-assisted (learn the thinking), then choose what works for you
 
-**For complete strategic orchestration protocol:** [playbook/strategic-orchestration.md](../../playbook/strategic-orchestration.md)
+**For complete strategic orchestration protocol:** [playbook/strategic-orchestration.md](../../../playbook/strategic-orchestration.md)
 
 **This is still just Claude Code** - configured with systematic methodology context to help you think strategically.
 

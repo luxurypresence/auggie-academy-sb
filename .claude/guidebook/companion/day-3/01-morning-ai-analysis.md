@@ -241,7 +241,7 @@ test("generates valid score for real lead", async () => {
 
 **Run integration test at least once** to catch API key issues, prompt errors, etc.
 
-**For AI testing patterns:** [playbook/testing-standards.md](../../playbook/testing-standards.md) - See "Testing External Dependencies"
+**For AI testing patterns:** [playbook/testing-standards.md](../../../playbook/testing-standards.md) - See "Testing External Dependencies"
 
 ---
 
