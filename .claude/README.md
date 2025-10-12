@@ -189,28 +189,53 @@ Templates (Starting points)
 
 ---
 
-## Orchestration Partner
+## Orchestration Partner: "Rise from the Ashes"
 
-### `/init-orchestration-partner`
+### Why It's More Than Regular Claude Code
 
-**Your strategic partner for feature delivery:**
+**Regular Claude session:**
+- Starts fresh each time
+- Doesn't know your project conventions
+- Can't learn from previous features
+- Loses context when session ends
 
-- Workspace management (execution plans, agent prompts, retrospectives)
-- Strategic pre-execution validation (proactive blocker removal)
-- Complete agent prompt creation with all protocols
-- Coordination analysis (low/medium/high)
-- Import dependency analysis (sequential vs parallel)
-- Compound learning (reads retrospectives from similar features)
-- Session continuity (handoff support)
-- Quality enforcement (5 validation gates)
+**Orchestration partner (`/init-orchestration-partner`):**
+- **Recovers project context** (reads .env.example, schema, codebase patterns)
+- **Learns from history** (reads workspace/ retrospectives, applies lessons)
+- **Preserves conventions** (knows field naming, Docker ports, tech stack)
+- **Continues mid-feature** (loads session handoffs, resumes work)
 
-**Use for:**
+**Example:**
+```
+Regular Claude: "What project is this? What patterns do you use?"
 
-- Any feature development (course or production)
-- Creating agent prompts
-- Analyzing coordination requirements
-- Continuing work across sessions
-- Applying methodology to any codebase
+Orchestration Partner: "NestJS + GraphQL, camelCase fields, Docker on 5433.
+Previous user-auth feature learned: validate JWT_SECRET early. Ready for next feature."
+```
+
+### The Session Handoff Pattern
+
+**Mid-feature pause:**
+```bash
+/create-session-handoff  # Captures current state, blockers, next steps
+```
+
+**Resume later (even weeks later):**
+```bash
+/init-orchestration-partner path/to/handoff.md
+# Partner recovers exact context, continues seamlessly
+```
+
+**Result:** No context loss, conventions preserved, work continues where you left off.
+
+### Compound Learning
+
+Each feature builds on previous features:
+- Feature 1 → Retrospective documents what worked/failed
+- Feature 2 → Partner reads Feature 1 retrospective, applies learnings
+- Feature N → Benefits from all previous feature knowledge
+
+**The partner gets smarter as you build.**
 
 ---
 

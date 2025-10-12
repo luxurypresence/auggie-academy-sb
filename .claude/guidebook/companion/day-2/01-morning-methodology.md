@@ -85,6 +85,32 @@ As you build features, orchestration partner learns:
 
 **Each new session:** Partner recovers ALL previous knowledge by reading workspace/
 
+**Session Handoff for Mid-Feature Continuity:**
+
+When ending a session mid-feature:
+```bash
+/create-session-handoff
+```
+
+This creates a handoff document capturing:
+- Current state (what's complete, what's in-progress)
+- Blockers identified (what's preventing completion)
+- Next steps (what to do when resuming)
+- Conventions discovered (patterns, port configs, field naming)
+
+**Next session (even weeks later):**
+```bash
+/init-orchestration-partner path/to/handoff.md
+```
+
+Partner loads handoff → Recovers exact mid-feature state → Continues seamlessly
+
+**Why this matters:**
+- No "what was I doing?" confusion
+- Partner knows blockers already identified
+- Conventions preserved across sessions
+- Can pause/resume features without context loss
+
 **This is still YOUR code and YOUR decisions.** The partner just helps you apply patterns systematically and learn from what worked before.
 
 ---
