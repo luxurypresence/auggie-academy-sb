@@ -27,18 +27,37 @@
 - Consistent approach to creating agent instructions
 - Quality checklist enforcement
 
+**The "Rise from the Ashes" Capability:**
+
+Unlike regular Claude Code sessions that start fresh each time, the orchestration partner can **recreate itself** with complete project context:
+
+**What it recovers:**
+
+- ✅ What's already built (reads workspace/, checks codebase)
+- ✅ Conventions used (camelCase, field naming, patterns)
+- ✅ What worked (reads retrospectives from completed features)
+- ✅ What failed (reads session logs, identifies anti-patterns)
+- ✅ Current infrastructure (Docker setup, testing framework, MCP servers)
+- ✅ In-progress features (execution plans, blockers identified)
+
 **Think of it as:** Senior engineer who's built this type of feature, in this repository 100 times before
 
-- Knows what coordination issues to prevent
-- Remembers to include validation gates
-- Applies consistent conventions
-- Documents decisions systematically
+- Knows what coordination issues to prevent (learned from retrospectives)
+- Remembers to include validation gates (systematic protocols)
+- Applies consistent conventions (reads .env.example, schema patterns)
+- Documents decisions systematically (workspace management)
+
+**The key difference:**
+
+Regular Claude Code: "What project is this? What patterns do you use?"
+Orchestration Partner: "I see you use camelCase, Docker on port 5433, NestJS + GraphQL. Last feature (user-auth) learned: validate JWT_SECRET in .env.example first. Ready to build next feature."
 
 **It's just Claude Code** with:
 
 1. Clear patterns to follow
 2. Checklists to enforce quality
 3. Documentation of what worked before
+4. **Ability to rebuild itself with project knowledge**
 
 ### What You Control vs What Partner Provides
 
@@ -56,7 +75,17 @@
 - ✅ Validation gate enforcement
 - ✅ Documentation of methodology decisions
 
-**This is still YOUR code and YOUR decisions.** The partner just helps you apply patterns systematically.
+**The compound learning effect:**
+
+As you build features, orchestration partner learns:
+
+- Feature 1: Creates dashboard → Documents patterns in retrospective
+- Feature 2: Creates widgets → Reads Feature 1 retrospective, applies learnings
+- Feature 3: Creates analytics → Reads Features 1+2, builds on established patterns
+
+**Each new session:** Partner recovers ALL previous knowledge by reading workspace/
+
+**This is still YOUR code and YOUR decisions.** The partner just helps you apply patterns systematically and learn from what worked before.
 
 ---
 
@@ -176,11 +205,13 @@ You: "Agents succeeded but integration failed - what went wrong?"
 **Sub-agents** = Agent spawns focused tasks within its own session (using Task tool)
 
 **Use cases:**
+
 - Large codebase exploration
 - Research synthesis
 - Context isolation
 
 **How to use:**
+
 - Tell Claude: "use a sub-agent to explore the auth code"
 - Or let Claude decide autonomously
 - Check with `/agents` command
