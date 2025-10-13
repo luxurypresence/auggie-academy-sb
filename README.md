@@ -128,7 +128,7 @@ cp .env.local.template .env.local
 
 ### 6. Start Day 1
 
-**👉 Begin:** [Day 1, Session 01 - Tool Foundations](.claude/guidebook/companion/day-1/01-morning-tools.md)
+**👉 Begin:** [Day 1 - Foundation](.claude/guidebook/companion/day-1-foundation.md)
 
 **The companion guides are your trail** - follow sessions sequentially (01 → 02 → 03...).
 

@@ -6,7 +6,7 @@ Your complete methodology for building production software with AI agents.
 
 ## Quick Start
 
-**Starting the course?** → [guidebook/companion/day-1/](guidebook/companion/day-1/)
+**Starting the course?** → [guidebook/companion/day-1-foundation.md](guidebook/companion/day-1-foundation.md)
 
 **Need help creating prompts?** → Run `/init-orchestration-partner`
 
@@ -28,8 +28,9 @@ Your complete methodology for building production software with AI agents.
 **Purpose:** Educational course material
 
 **What's inside:**
+
 - [companion/](guidebook/companion/) - Day-by-day session guides
-- [chapters/](guidebook/chapters/) - 13 deep-dive chapters
+- [chapters/](guidebook/chapters/) - Deep-dive chapters
 
 **Use when:** Learning during course, understanding "why"
 
@@ -58,11 +59,13 @@ Your complete methodology for building production software with AI agents.
 **What's inside:** Complete technical specs
 
 **Key files:**
+
 - `validation-gates.md` - 5 gates specification
 - `success-criteria.md` - Specific vs generic guide
 - `investigation-workflow.md` - Investigate-first approach
 - `environment-validation.md` - Environment variable protocol
 - `pattern-library.md` - Proven patterns
+- etc.
 
 **Use when:** Need complete details, creating agent prompts
 
@@ -72,32 +75,24 @@ Your complete methodology for building production software with AI agents.
 
 ## Quick Comparison
 
-| Need to... | Go to... |
-|------------|----------|
-| Learn a concept | guidebook/chapters/ |
-| Quick checklist during work | playbook/ |
-| Complete technical specification | methodology/ |
-
-**Think:** Textbook → Cheat sheet → Technical manual
+| Need to...                       | Go to...            | Think of as...   |
+| -------------------------------- | ------------------- | ---------------- |
+| Learn a concept                  | guidebook/chapters/ | Textbook         |
+| Quick checklist during work      | playbook/           | Cheat sheet      |
+| Complete technical specification | methodology/        | Technical manual |
 
 ---
 
 ### 📋 Templates (Copy-Paste Starters)
 
 **Location:** [templates/](templates/)
-**Purpose:** Pre-built agent prompts and session handoff templates
+**Purpose:** Pre-built agent prompts and other useful templates
 
 **What's included:**
 
 - Agent prompt templates (infrastructure, feature, bug fix)
 - Session handoff templates (mid-feature, post-validation)
 - Validation checklist templates
-
-**When to use:**
-
-- Starting new features (copy agent prompt template)
-- Switching sessions (use handoff template)
-- Systematic validation (use checklist template)
 
 **Two ways to use templates:**
 
@@ -132,37 +127,23 @@ Your complete methodology for building production software with AI agents.
 
 ---
 
-### ⚙️ Meta (System Configuration)
+### ⚙️ Meta (Orchestration Partner Context)
 
 **Location:** [meta/](meta/)
-**Purpose:** System configuration and session handoff storage
+**Purpose:** Context files that help the orchestration partner understand your project, working relationship, and recover from session loss
 
 **Key Files:**
 
-- `session-handoff-protocol.md` - How to create effective handoffs
-- `session-handoffs/` - Preserved session continuity files
+- `project-mission.md` - Project goals and methodology validation focus
+- `working-relationship.md` - Communication preferences and workflow patterns
+- `orchestration-partner-handoff.md` - Role recovery reference
+- `session-handoffs/` - Preserved session continuity files (see [/create-session-handoff](commands/create-session-handoff.md))
 
 **When to use:**
 
-- Understanding handoff system (read protocol once)
-- Rarely modified (system configuration)
-
----
-
-### 💭 Reflections (Your Learning Journal)
-
-**Location:** [reflections/](reflections/)
-**Purpose:** Document your daily learning and discoveries
-
-**What to do:**
-
-- Create new file each day (e.g., `day-1-reflections.md`)
-- Capture friction points, surprises, insights
-
-**When to use:**
-
-- End of each session (5-10 minutes)
-- Synthesis discussions (review your patterns)
+- Read when initializing orchestration partner (`/init-orchestration-partner`)
+- Reference when partner seems to lose context or focus
+- Update when project conventions or workflows change
 
 ---
 
@@ -194,18 +175,21 @@ Templates (Starting points)
 ### Why It's More Than Regular Claude Code
 
 **Regular Claude session:**
+
 - Starts fresh each time
 - Doesn't know your project conventions
 - Can't learn from previous features
 - Loses context when session ends
 
 **Orchestration partner (`/init-orchestration-partner`):**
+
 - **Recovers project context** (reads .env.example, schema, codebase patterns)
 - **Learns from history** (reads workspace/ retrospectives, applies lessons)
 - **Preserves conventions** (knows field naming, Docker ports, tech stack)
 - **Continues mid-feature** (loads session handoffs, resumes work)
 
 **Example:**
+
 ```
 Regular Claude: "What project is this? What patterns do you use?"
 
@@ -216,11 +200,13 @@ Previous user-auth feature learned: validate JWT_SECRET early. Ready for next fe
 ### The Session Handoff Pattern
 
 **Mid-feature pause:**
+
 ```bash
 /create-session-handoff  # Captures current state, blockers, next steps
 ```
 
 **Resume later (even weeks later):**
+
 ```bash
 /init-orchestration-partner path/to/handoff.md
 # Partner recovers exact context, continues seamlessly
@@ -231,6 +217,7 @@ Previous user-auth feature learned: validate JWT_SECRET early. Ready for next fe
 ### Compound Learning
 
 Each feature builds on previous features:
+
 - Feature 1 → Retrospective documents what worked/failed
 - Feature 2 → Partner reads Feature 1 retrospective, applies learnings
 - Feature N → Benefits from all previous feature knowledge
