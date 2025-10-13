@@ -8,35 +8,41 @@ Welcome! You're about to learn systematic AI agent orchestration by building a p
 
 Through this course, you'll orchestrate AI agents to build a complete CRM application with:
 
-**Day 1-2: Foundation & Methodology**
+**Day 1: Foundation**
 
-- NestJS backend + React frontend with PostgreSQL and Sequelize
-- CSV lead import with 50-100 sample leads and interaction history
-- Dashboard with CRUD operations (view, add, edit leads)
+- NestJS backend + React frontend with PostgreSQL
+- CSV lead import with sample leads and interaction history
+- Dashboard with CRUD operations (view, add, edit, delete leads)
 - Testing infrastructure (Jest + integration tests)
-- Agent coordination patterns
 
-**Day 3: AI Intelligence Layer**
+**Day 2: Methodology + AI Intelligence Layer**
 
-- Activity scoring system (LLM-powered 0-100 score)
-- AI-generated summaries of lead status
-- Task management (create, complete, delete tasks per lead)
-- Advanced MCP servers (Sequential Thinking, Zen, etc.)
+- AI lead summaries (LLM-generated 2-3 sentence summaries with persistent storage)
+- AI activity scoring (0-100 score with color-coded badges, dashboard sorting)
+- AI task recommendations (LLM suggests next steps with reasoning)
+- Advanced MCP servers (Sequential Thinking, Zen)
+- Orchestration partner pattern and workspace management
 
-**Day 4: Authentication & Mobile**
+**Day 3: Authentication + Real-Time Features**
 
 - JWT authentication (register, login, protected routes)
+- Real-time WebSocket notifications with persistent storage
+- Git worktrees for parallel feature development
+- Serena MCP for semantic code navigation
+
+**Day 4: Mobile Application**
+
 - React Native mobile app with Expo
-- Lead list and detail screens (read-only display)
-- Pre-execution validation and strategic orchestration
+- Lead list and detail screens
+- Display AI summaries and scores on mobile
+- Network configuration for physical device testing
 
-**Day 5: Project Refinement and Optional Advanced Features**
+**Day 5: Polish, Demos & Brownfield Extension**
 
-- Google OAuth integration
-- Real-time WebSocket notifications
-- Mobile editing features
-
-**The methodology guides you. Claude helps you. You build everything.**
+- Complete any missing features
+- Polish and refinement
+- Individual demos (3 minutes each)
+- Brownfield extension session (applying methodology to company codebases)
 
 ---
 
@@ -128,32 +134,6 @@ cp .env.local.template .env.local
 
 **See full 5-day trail:** [Companion overview](.claude/guidebook/companion/README.md)
 
-**Folder navigation:** [.claude/README.md](.claude/README.md) - Learn where protocols and patterns live
-
----
-
-## Course Structure
-
-### Days 1-2: Foundation + Testing Infrastructure
-
-- **Learn:** Orchestrating agents basics + Infrastructure-first pattern
-- **Build:** NestJS + React scaffold, database, testing framework
-
-### Day 3: AI Intelligence Layer
-
-- Learn: Testing AI features, advanced MCP servers (Sequential Thinking, Zen)
-- Build: Activity scoring, AI summaries, task management
-
-### Day 4: Authentication & Mobile
-
-- Learn: Sequential execution (import dependencies), pre-execution validation
-- Build: JWT authentication, React Native mobile app
-
-### Day 5: Optional Extensions
-
-- Learn: Brownfield application, advanced coordination
-- Build: Optional features (OAuth, WebSockets, mobile editing)
-
 ---
 
 ## What's in This Repository
@@ -170,30 +150,6 @@ cp .env.local.template .env.local
 
 ---
 
-## What's NOT Here (Yet)
-
-**Everything code-related!** You'll build:
-
-**Day 1 Infrastructure:**
-
-- NestJS backend application
-- React frontend application
-- PostgreSQL database + Sequelize ORM
-- Jest testing framework
-- Apollo Federation for GraphQL
-
-**Days 2-4 Features:**
-
-- CSV data pipeline with lead import
-- AI-powered activity scoring and summaries
-- Task management system
-- JWT authentication
-- React Native mobile app with Expo
-
-This is **not a template** - it's a methodology for **building from scratch with AI**.
-
----
-
 ## Learning Philosophy
 
 This course provides **guided AI assistance while building complex features that require orchestrating multiple agents**. This serves as a forcing function - you'll need to master AI orchestration to successfully complete the increasingly complex features.
@@ -207,46 +163,3 @@ This is an intensive, fast-paced course that will challenge you - and that's exa
 - Parallel agent coordination (build multiple features simultaneously)
 - Validation gates (TypeScript, ESLint, tests, browser/device testing)
 - Professional practices (A+ code quality, demo readiness)
-
----
-
-## Workflow Tools
-
-**Git Worktrees** (optional, for parallel feature development):
-
-```bash
-# Create worktree for a feature (example)
-./worktree.sh data-pipeline-feature
-
-# Later: Clean up merged worktrees
-./worktree-cleanup.sh
-```
-
-**Not required** - but recommended for managing multiple features simultaneously.
-
-See more documentation in the [appendix](.claude/guidebook/appendices/git-worktrees/git-worktrees.md)
-
----
-
-## Support & Commands
-
-**Orchestration Partner:**
-
-```
-/init-orchestration-partner
-```
-
-Strategic orchestration partner for feature development and brownfield work.
-
-**Other Commands:**
-
-```
-/validate-agents        # After feature completion
-/create-session-handoff # When changing sessions
-```
-
-For detailed command documentation, see [.claude/commands/README.md](.claude/commands/README.md)
-
----
-
-**Ready to start?** Run `/init-orchestration-partner` and begin with [Day 1](.claude/guidebook/companion/day-1/)
