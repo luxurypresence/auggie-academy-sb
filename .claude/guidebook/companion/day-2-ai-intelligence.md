@@ -572,7 +572,7 @@ curl -X POST http://localhost:3000/graphql \
 
 ---
 
-## Rest of Day: AI Intelligence Features ()
+## Rest of Day: AI Intelligence Features
 
 **Build 3 required AI features in order:**
 
