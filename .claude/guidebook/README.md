@@ -48,7 +48,6 @@ Each day is self-contained with everything you need in one file. Work at your ow
 
 ---
 
-
 **[Appendices](appendices/)** - Advanced workflows:
 
 - [Git worktrees](appendices/git-worktrees/git-worktrees.md) for parallel work
@@ -63,7 +62,7 @@ Each day is self-contained with everything you need in one file. Work at your ow
 
 1. Open today's [companion guide](companion/) and follow along
 2. Reference [chapters](chapters/) when you need deeper theory
-3. Use [appendices](appendices/) for advanced git workflows
+3. Use [appendices](appendices/) for advanced topics (git workflows, brownfield extension)
 
 **After the course:** Keep guidebook open as reference during real feature development.
 
@@ -80,27 +79,3 @@ This guidebook is built on **proven patterns** validated through systematic expe
 - **Two-tier testing catches production bugs** (F-04 proved unit tests aren't enough)
 - **Validation gates enforce quality** (F-05 established mandatory pre-completion checks)
 - **Strategic orchestration ensures success** (F-06b proved proactive > reactive)
-
-**Every pattern in this guidebook has evidence from real feature development.**
-
----
-
-## Content Status
-
-**Completed:**
-
-- ✅ Companion guides (Days 1-5 session-by-session)
-- ✅ Chapters 1-4 (Strategic Orchestration Foundations)
-- ✅ Playbook integration (operational protocols)
-- ✅ Methodology integration (deep-dive patterns)
-
-**In Progress:**
-
-- 🔄 Chapters 5-13 (detailed content)
-- 🔄 Additional appendices (advanced workflows)
-
----
-
----
-
-**Welcome to AI Orchestration Mastery. Learn by doing, document by building, master by teaching.**

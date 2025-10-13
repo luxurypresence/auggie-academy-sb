@@ -2,8 +2,6 @@
 
 Welcome! You're about to learn systematic AI agent orchestration by building a production CRM from scratch.
 
----
-
 ## What You'll Build
 
 Through this course, you'll orchestrate AI agents to build a complete CRM application with:
@@ -41,7 +39,7 @@ Through this course, you'll orchestrate AI agents to build a complete CRM applic
 
 - Complete any missing features
 - Polish and refinement
-- Individual demos (3 minutes each)
+- Group demos
 - Brownfield extension session (applying methodology to company codebases)
 
 ---
@@ -143,7 +141,9 @@ cp .env.local.template .env.local
 - 📚 **Guidebook** - Day-by-day learning path + deep-dive chapters
 - ⚡ **Playbook** - Quick operational references during work
 - 🔧 **Methodology** - Complete technical specifications
-- Plus templates, commands, and orchestration partner setup
+- 📋 **Templates** - Copy-paste agent prompts and session handoff templates
+- 🤖 **Commands** - Custom slash commands
+- ⚙️ **Meta** - Orchestration partner context files (project mission, working relationship)
 
 **→ See [.claude/README.md](.claude/README.md) for complete organization guide**
 
@@ -158,5 +158,3 @@ This intensive course teaches **systematic AI agent orchestration** through hand
 - Parallel agent coordination (build multiple features simultaneously)
 - Validation gates (TypeScript, ESLint, tests, browser/device testing)
 - Professional practices (A+ code quality, demo readiness)
-
-**Learn by building a complete production CRM from scratch.**

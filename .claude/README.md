@@ -8,12 +8,6 @@ Your complete methodology for building production software with AI agents.
 
 **Starting the course?** → [guidebook/companion/day-1-foundation.md](guidebook/companion/day-1-foundation.md)
 
-**Need help creating prompts?** → Run `/init-orchestration-partner`
-
-**Looking for a specific protocol?** → See navigation below
-
----
-
 ## What's Where (3 Main Directories)
 
 ```
@@ -43,6 +37,7 @@ Your complete methodology for building production software with AI agents.
 **Purpose:** Fast lookup during work (keep open)
 
 **What's inside:**
+
 - Operational checklists and workflows
 - Visual decision trees (coordination flowchart)
 - Code pattern references (NestJS, GraphQL)
