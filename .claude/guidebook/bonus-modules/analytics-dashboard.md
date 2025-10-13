@@ -1,12 +1,9 @@
 # Bonus Module: Analytics Dashboard
 
-**Time estimate:** 3-4 hours
-
----
-
 ## Prerequisites
 
 **✅ Required before starting:**
+
 - Core CRM complete with CRUD operations
 - AI features implemented (summaries, scoring, recommendations)
 - Lead and interaction data exists in database
@@ -27,6 +24,7 @@
 5. **Budget Analysis** - Pie chart showing budget allocation
 
 **Dashboard layout:**
+
 ```
 +--------------------------------------------------+
 | Analytics Dashboard                              |
@@ -54,6 +52,7 @@ pnpm add -D @types/recharts
 ```
 
 **Why Recharts?**
+
 - React-first (declarative API)
 - Responsive by default
 - Good TypeScript support
@@ -68,8 +67,8 @@ pnpm add -D @types/recharts
 **File:** `backend/src/analytics/analytics.resolver.ts`
 
 ```typescript
-import { Resolver, Query } from '@nestjs/graphql';
-import { AnalyticsService } from './analytics.service';
+import { Resolver, Query } from "@nestjs/graphql";
+import { AnalyticsService } from "./analytics.service";
 
 @Resolver()
 export class AnalyticsResolver {
@@ -86,7 +85,7 @@ export class AnalyticsResolver {
   }
 
   @Query(() => [ActivityTrendData])
-  async activityTrends(@Args('days', { defaultValue: 30 }) days: number) {
+  async activityTrends(@Args("days", { defaultValue: 30 }) days: number) {
     return this.analyticsService.getActivityTrends(days);
   }
 
@@ -109,12 +108,12 @@ export class AnalyticsResolver {
 **File:** `backend/src/analytics/analytics.service.ts`
 
 ```typescript
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Lead } from '../leads/entities/lead.entity';
-import { Interaction } from '../interactions/entities/interaction.entity';
-import { Task } from '../tasks/entities/task.entity';
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import { Lead } from "../leads/entities/lead.entity";
+import { Interaction } from "../interactions/entities/interaction.entity";
+import { Task } from "../tasks/entities/task.entity";
 
 @Injectable()
 export class AnalyticsService {
@@ -124,22 +123,23 @@ export class AnalyticsService {
     @InjectRepository(Interaction)
     private interactionRepository: Repository<Interaction>,
     @InjectRepository(Task)
-    private taskRepository: Repository<Task>,
+    private taskRepository: Repository<Task>
   ) {}
 
   async getAnalytics() {
     const totalLeads = await this.leadRepository.count();
     const activeLeads = await this.leadRepository.count({
-      where: { status: 'active' },
+      where: { status: "active" },
     });
     const activeTasks = await this.taskRepository.count({
-      where: { status: 'pending' },
+      where: { status: "pending" },
     });
     const convertedLeads = await this.leadRepository.count({
-      where: { status: 'closed_won' },
+      where: { status: "closed_won" },
     });
 
-    const conversionRate = totalLeads > 0 ? (convertedLeads / totalLeads) * 100 : 0;
+    const conversionRate =
+      totalLeads > 0 ? (convertedLeads / totalLeads) * 100 : 0;
 
     return {
       totalLeads,
@@ -153,16 +153,16 @@ export class AnalyticsService {
   async getPipelineData() {
     // Group leads by status (pipeline stage)
     const result = await this.leadRepository
-      .createQueryBuilder('lead')
-      .select('lead.status', 'stage')
-      .addSelect('COUNT(*)', 'count')
-      .groupBy('lead.status')
+      .createQueryBuilder("lead")
+      .select("lead.status", "stage")
+      .addSelect("COUNT(*)", "count")
+      .groupBy("lead.status")
       .getRawMany();
 
     // Calculate conversion rates between stages
     const totalLeads = await this.leadRepository.count();
 
-    return result.map(row => ({
+    return result.map((row) => ({
       stage: row.stage,
       count: parseInt(row.count),
       percentage: totalLeads > 0 ? (parseInt(row.count) / totalLeads) * 100 : 0,
@@ -175,15 +175,15 @@ export class AnalyticsService {
     startDate.setDate(startDate.getDate() - days);
 
     const result = await this.interactionRepository
-      .createQueryBuilder('interaction')
-      .select('DATE(interaction.date)', 'date')
-      .addSelect('COUNT(*)', 'count')
-      .where('interaction.date >= :startDate', { startDate })
-      .groupBy('DATE(interaction.date)')
-      .orderBy('DATE(interaction.date)', 'ASC')
+      .createQueryBuilder("interaction")
+      .select("DATE(interaction.date)", "date")
+      .addSelect("COUNT(*)", "count")
+      .where("interaction.date >= :startDate", { startDate })
+      .groupBy("DATE(interaction.date)")
+      .orderBy("DATE(interaction.date)", "ASC")
       .getRawMany();
 
-    return result.map(row => ({
+    return result.map((row) => ({
       date: row.date,
       count: parseInt(row.count),
     }));
@@ -192,7 +192,7 @@ export class AnalyticsService {
   async getScoreDistribution() {
     // Group leads by activity score ranges
     const result = await this.leadRepository
-      .createQueryBuilder('lead')
+      .createQueryBuilder("lead")
       .select(
         `CASE
           WHEN lead.activityScore >= 80 THEN 'High (80-100)'
@@ -200,14 +200,14 @@ export class AnalyticsService {
           WHEN lead.activityScore >= 40 THEN 'Low (40-59)'
           ELSE 'Very Low (0-39)'
         END`,
-        'range',
+        "range"
       )
-      .addSelect('COUNT(*)', 'count')
-      .where('lead.activityScore IS NOT NULL')
-      .groupBy('range')
+      .addSelect("COUNT(*)", "count")
+      .where("lead.activityScore IS NOT NULL")
+      .groupBy("range")
       .getRawMany();
 
-    return result.map(row => ({
+    return result.map((row) => ({
       range: row.range,
       count: parseInt(row.count),
     }));
@@ -216,7 +216,7 @@ export class AnalyticsService {
   async getBudgetAnalysis() {
     // Group leads by budget ranges
     const result = await this.leadRepository
-      .createQueryBuilder('lead')
+      .createQueryBuilder("lead")
       .select(
         `CASE
           WHEN lead.budget >= 100000 THEN 'Enterprise (100k+)'
@@ -224,15 +224,15 @@ export class AnalyticsService {
           WHEN lead.budget >= 10000 THEN 'Medium (10-50k)'
           ELSE 'Small (<10k)'
         END`,
-        'range',
+        "range"
       )
-      .addSelect('COUNT(*)', 'count')
-      .addSelect('SUM(lead.budget)', 'total')
-      .where('lead.budget IS NOT NULL')
-      .groupBy('range')
+      .addSelect("COUNT(*)", "count")
+      .addSelect("SUM(lead.budget)", "total")
+      .where("lead.budget IS NOT NULL")
+      .groupBy("range")
       .getRawMany();
 
-    return result.map(row => ({
+    return result.map((row) => ({
       range: row.range,
       count: parseInt(row.count),
       total: parseFloat(row.total),
@@ -248,7 +248,7 @@ export class AnalyticsService {
 **File:** `backend/src/analytics/dto/analytics.types.ts`
 
 ```typescript
-import { ObjectType, Field, Float, Int } from '@nestjs/graphql';
+import { ObjectType, Field, Float, Int } from "@nestjs/graphql";
 
 @ObjectType()
 export class AnalyticsData {
@@ -313,14 +313,14 @@ export class BudgetData {
 
 ---
 
-### Phase 3: Frontend Dashboard (1.5-2 hours)
+### Phase 3: Frontend Dashboard
 
 #### Create analytics queries:
 
 **File:** `frontend/src/apollo/queries/analytics.ts`
 
 ```typescript
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const GET_ANALYTICS = gql`
   query GetAnalytics {
@@ -380,7 +380,7 @@ export const GET_BUDGET_ANALYSIS = gql`
 **File:** `frontend/src/components/KPICard.tsx`
 
 ```typescript
-import { ReactNode } from 'react';
+import { ReactNode } from "react";
 
 interface KPICardProps {
   title: string;
@@ -394,31 +394,41 @@ interface KPICardProps {
 
 export function KPICard({ title, value, icon, trend }: KPICardProps) {
   return (
-    <div style={{
-      padding: '20px',
-      backgroundColor: 'white',
-      borderRadius: '8px',
-      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-    }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    <div
+      style={{
+        padding: "20px",
+        backgroundColor: "white",
+        borderRadius: "8px",
+        boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         <div>
-          <div style={{ fontSize: '14px', color: '#666', marginBottom: '8px' }}>
+          <div style={{ fontSize: "14px", color: "#666", marginBottom: "8px" }}>
             {title}
           </div>
-          <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#333' }}>
+          <div style={{ fontSize: "32px", fontWeight: "bold", color: "#333" }}>
             {value}
           </div>
           {trend && (
-            <div style={{
-              fontSize: '12px',
-              color: trend.isPositive ? '#10b981' : '#ef4444',
-              marginTop: '4px',
-            }}>
-              {trend.isPositive ? '↑' : '↓'} {trend.value}%
+            <div
+              style={{
+                fontSize: "12px",
+                color: trend.isPositive ? "#10b981" : "#ef4444",
+                marginTop: "4px",
+              }}
+            >
+              {trend.isPositive ? "↑" : "↓"} {trend.value}%
             </div>
           )}
         </div>
-        {icon && <div style={{ fontSize: '48px', opacity: 0.2 }}>{icon}</div>}
+        {icon && <div style={{ fontSize: "48px", opacity: 0.2 }}>{icon}</div>}
       </div>
     </div>
   );
@@ -432,21 +442,32 @@ export function KPICard({ title, value, icon, trend }: KPICardProps) {
 **File:** `frontend/src/pages/Analytics.tsx`
 
 ```typescript
-import { useQuery } from '@apollo/client';
+import { useQuery } from "@apollo/client";
 import {
-  LineChart, Line, BarChart, Bar, PieChart, Pie, Cell,
-  XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
-} from 'recharts';
-import { KPICard } from '../components/KPICard';
+  LineChart,
+  Line,
+  BarChart,
+  Bar,
+  PieChart,
+  Pie,
+  Cell,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+import { KPICard } from "../components/KPICard";
 import {
   GET_ANALYTICS,
   GET_PIPELINE_DATA,
   GET_ACTIVITY_TRENDS,
   GET_SCORE_DISTRIBUTION,
   GET_BUDGET_ANALYSIS,
-} from '../apollo/queries/analytics';
+} from "../apollo/queries/analytics";
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8"];
 
 export function Analytics() {
   const { data: analyticsData } = useQuery(GET_ANALYTICS);
@@ -458,16 +479,24 @@ export function Analytics() {
   const { data: budgetData } = useQuery(GET_BUDGET_ANALYSIS);
 
   return (
-    <div style={{ padding: '20px', backgroundColor: '#f5f5f5', minHeight: '100vh' }}>
-      <h1 style={{ marginBottom: '24px' }}>Analytics Dashboard</h1>
+    <div
+      style={{
+        padding: "20px",
+        backgroundColor: "#f5f5f5",
+        minHeight: "100vh",
+      }}
+    >
+      <h1 style={{ marginBottom: "24px" }}>Analytics Dashboard</h1>
 
       {/* KPI Cards */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-        gap: '16px',
-        marginBottom: '24px',
-      }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+          gap: "16px",
+          marginBottom: "24px",
+        }}
+      >
         <KPICard
           title="Total Leads"
           value={analyticsData?.analytics.totalLeads || 0}
@@ -487,20 +516,24 @@ export function Analytics() {
       </div>
 
       {/* Charts Row 1 */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(500px, 1fr))',
-        gap: '16px',
-        marginBottom: '24px',
-      }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(500px, 1fr))",
+          gap: "16px",
+          marginBottom: "24px",
+        }}
+      >
         {/* Pipeline Funnel */}
-        <div style={{
-          padding: '20px',
-          backgroundColor: 'white',
-          borderRadius: '8px',
-          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-        }}>
-          <h3 style={{ marginBottom: '16px' }}>Lead Pipeline</h3>
+        <div
+          style={{
+            padding: "20px",
+            backgroundColor: "white",
+            borderRadius: "8px",
+            boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+          }}
+        >
+          <h3 style={{ marginBottom: "16px" }}>Lead Pipeline</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={pipelineData?.pipelineData || []}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -514,13 +547,15 @@ export function Analytics() {
         </div>
 
         {/* Activity Trends */}
-        <div style={{
-          padding: '20px',
-          backgroundColor: 'white',
-          borderRadius: '8px',
-          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-        }}>
-          <h3 style={{ marginBottom: '16px' }}>Activity Trends (30 Days)</h3>
+        <div
+          style={{
+            padding: "20px",
+            backgroundColor: "white",
+            borderRadius: "8px",
+            boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+          }}
+        >
+          <h3 style={{ marginBottom: "16px" }}>Activity Trends (30 Days)</h3>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={trendsData?.activityTrends || []}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -535,19 +570,23 @@ export function Analytics() {
       </div>
 
       {/* Charts Row 2 */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(500px, 1fr))',
-        gap: '16px',
-      }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(500px, 1fr))",
+          gap: "16px",
+        }}
+      >
         {/* Score Distribution */}
-        <div style={{
-          padding: '20px',
-          backgroundColor: 'white',
-          borderRadius: '8px',
-          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-        }}>
-          <h3 style={{ marginBottom: '16px' }}>AI Score Distribution</h3>
+        <div
+          style={{
+            padding: "20px",
+            backgroundColor: "white",
+            borderRadius: "8px",
+            boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+          }}
+        >
+          <h3 style={{ marginBottom: "16px" }}>AI Score Distribution</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={scoreData?.scoreDistribution || []}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -561,13 +600,15 @@ export function Analytics() {
         </div>
 
         {/* Budget Analysis */}
-        <div style={{
-          padding: '20px',
-          backgroundColor: 'white',
-          borderRadius: '8px',
-          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-        }}>
-          <h3 style={{ marginBottom: '16px' }}>Budget Distribution</h3>
+        <div
+          style={{
+            padding: "20px",
+            backgroundColor: "white",
+            borderRadius: "8px",
+            boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+          }}
+        >
+          <h3 style={{ marginBottom: "16px" }}>Budget Distribution</h3>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
@@ -580,7 +621,10 @@ export function Analytics() {
                 label
               >
                 {(budgetData?.budgetAnalysis || []).map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
                 ))}
               </Pie>
               <Tooltip />
@@ -601,12 +645,12 @@ export function Analytics() {
 **File:** `frontend/src/App.tsx`
 
 ```typescript
-import { Analytics } from './pages/Analytics';
+import { Analytics } from "./pages/Analytics";
 
 <Routes>
   {/* ... existing routes ... */}
   <Route path="/analytics" element={<Analytics />} />
-</Routes>
+</Routes>;
 ```
 
 ---
@@ -636,11 +680,14 @@ const { data: trendsData } = useQuery(GET_ACTIVITY_TRENDS, {
   variables: { days: dateRange },
 });
 
-<select value={dateRange} onChange={(e) => setDateRange(Number(e.target.value))}>
+<select
+  value={dateRange}
+  onChange={(e) => setDateRange(Number(e.target.value))}
+>
   <option value={7}>Last 7 days</option>
   <option value={30}>Last 30 days</option>
   <option value={90}>Last 90 days</option>
-</select>
+</select>;
 ```
 
 #### Add export to CSV:
@@ -648,21 +695,23 @@ const { data: trendsData } = useQuery(GET_ACTIVITY_TRENDS, {
 ```typescript
 function exportToCSV(data: any[], filename: string) {
   const csv = [
-    Object.keys(data[0]).join(','),
-    ...data.map(row => Object.values(row).join(',')),
-  ].join('\n');
+    Object.keys(data[0]).join(","),
+    ...data.map((row) => Object.values(row).join(",")),
+  ].join("\n");
 
-  const blob = new Blob([csv], { type: 'text/csv' });
+  const blob = new Blob([csv], { type: "text/csv" });
   const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
+  const a = document.createElement("a");
   a.href = url;
   a.download = filename;
   a.click();
 }
 
-<button onClick={() => exportToCSV(pipelineData.pipelineData, 'pipeline-data.csv')}>
+<button
+  onClick={() => exportToCSV(pipelineData.pipelineData, "pipeline-data.csv")}
+>
   Export to CSV
-</button>
+</button>;
 ```
 
 #### Add real-time updates:
@@ -692,6 +741,7 @@ cd frontend && pnpm run dev
 ```
 
 **Test dashboard:**
+
 1. Navigate to `/analytics`
 2. Verify KPI cards show correct numbers
 3. Verify charts display data
@@ -707,12 +757,12 @@ cd frontend && pnpm run dev
 **File:** `backend/src/analytics/analytics.service.spec.ts`
 
 ```typescript
-import { Test } from '@nestjs/testing';
-import { getRepositoryToken } from '@nestjs/typeorm';
-import { AnalyticsService } from './analytics.service';
-import { Lead } from '../leads/entities/lead.entity';
+import { Test } from "@nestjs/testing";
+import { getRepositoryToken } from "@nestjs/typeorm";
+import { AnalyticsService } from "./analytics.service";
+import { Lead } from "../leads/entities/lead.entity";
 
-describe('AnalyticsService', () => {
+describe("AnalyticsService", () => {
   let service: AnalyticsService;
   let leadRepository: any;
 
@@ -735,9 +785,9 @@ describe('AnalyticsService', () => {
     leadRepository = module.get(getRepositoryToken(Lead));
   });
 
-  it('should calculate analytics correctly', async () => {
+  it("should calculate analytics correctly", async () => {
     leadRepository.count.mockResolvedValueOnce(100); // totalLeads
-    leadRepository.count.mockResolvedValueOnce(80);  // activeLeads
+    leadRepository.count.mockResolvedValueOnce(80); // activeLeads
     // ... mock other counts
 
     const result = await service.getAnalytics();
@@ -769,15 +819,15 @@ pnpm test            # All passing
 ### Caching expensive queries:
 
 ```typescript
-import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { Cache } from 'cache-manager';
+import { CACHE_MANAGER } from "@nestjs/cache-manager";
+import { Cache } from "cache-manager";
 
 @Injectable()
 export class AnalyticsService {
   constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
 
   async getAnalytics() {
-    const cacheKey = 'analytics_data';
+    const cacheKey = "analytics_data";
     const cached = await this.cacheManager.get(cacheKey);
 
     if (cached) {
@@ -820,6 +870,7 @@ async getActivityTrends(days: number, limit: number = 100) {
 - ✅ Tested in browser
 
 **Skills learned:**
+
 - Data aggregation queries (SQL grouping)
 - Chart library integration (Recharts)
 - Dashboard layout and design
@@ -827,6 +878,7 @@ async getActivityTrends(days: number, limit: number = 100) {
 - Data visualization best practices
 
 **Transferable to company work:**
+
 - Business intelligence dashboards
 - Data visualization
 - Analytics queries
@@ -838,22 +890,26 @@ async getActivityTrends(days: number, limit: number = 100) {
 ## Troubleshooting
 
 **Charts not rendering:**
+
 - Check console for errors
 - Verify data format matches chart expected format
 - Ensure ResponsiveContainer has parent with defined height
 
 **GraphQL query errors:**
+
 - Verify backend resolver returns correct types
 - Check database has data (seed if empty)
 - Test queries in GraphQL playground
 
 **Performance issues with large datasets:**
+
 - Add indexes to frequently queried columns
 - Implement caching for expensive queries
 - Add pagination/limits to queries
 - Consider database views for complex aggregations
 
 **Empty charts:**
+
 - Verify database has data
 - Check date ranges (not filtering out all data)
 - Test queries directly in database

@@ -195,8 +195,8 @@ You: "Create agent prompt for delete lead feature"
 # Ask for guidance:
 You: "Should I build this feature with one agent or multiple?"
 
-# Ask for clarification on whether a feature can be built with parallel agents or must be sequential
-You: "Can I run any of these steps in parallel? Why yes or why not?"
+# Ask about parallelization opportunities:
+You: "Can the backend API and frontend components be built in parallel, or does one depend on the other?"
 
 # Ask for validation:
 You: "Review my agent prompt - what am I missing?"
@@ -223,6 +223,7 @@ You: "Agents succeeded but my manual QA failed - what went wrong?"
 
 2. **Generate execution plan:**
 
+   - Think of this like a PRD
    - Writes `.claude/workspace/ai-lead-summaries/execution-plan.md`
    - Documents feature requirements, coordination analysis, task breakdown
    - Defines success criteria, integration strategy, timeline estimates
@@ -230,7 +231,7 @@ You: "Agents succeeded but my manual QA failed - what went wrong?"
 3. **Create agent prompts:**
 
    - Saves complete prompts to `.claude/workspace/ai-lead-summaries/agent-prompts/{task-name}.md`
-   - You copy these prompts and spawn new Claude Code agents to execute them
+   - You copy these prompts and spawn new Claude Code agents to execute them (in parallel or sequentionally depending on the orchestration partners suggestion)
    - Each agent writes its session log to `agent-logs/{task-name}-session.md` during execution
 
 4. **Guide validation:**
@@ -251,12 +252,14 @@ You've kicked off an agent to build a feature. It's working. Now what?
 - **Anxiety about what's being built** - Is the agent making good decisions? Writing quality code?
 - **Loss of flow state** - You were engaged, now you're idle, hard to regain momentum
 
-**Common reaction:** Combat boredom by haphazardly spawning agents without coordination - losing track of what's running where. This creates:
+**Common reaction:** Combat boredom by spawning agents without a plan - "Let me just kick off another one while I wait." This creates:
 
-- Merge conflicts between parallel agents
-- Cognitive overload tracking multiple simultaneous changes
-- Code you haven't reviewed before opening PRs
-- Accumulation of unnoticed bugs and tech debt
+- **Agent chaos** - Which terminal has what agent? What's each one doing?
+- **Collision risk** - Multiple agents modifying the same files simultaneously
+- **Integration mystery** - How do these pieces fit together? Who knows.
+- **Review paralysis** - Too many changes to understand before merging
+- **Hidden debt** - Bugs and tech debt slip through because you can't track it all
+- **Quality erosion aka AI Slop** - Low-quality code sneaks in because you're overwhelmed, creating cleanup work later
 
 **Orchestration partner solution:** While agents execute, stay engaged with the orchestration partner:
 
@@ -450,20 +453,70 @@ kill <PID>
 pkill -f "nest start"
 ```
 
-#### Gate 5: Manual Browser Testing
+#### Gate 5: Manual Testing
+
+**CRITICAL:** Automated tests passing ≠ feature actually working
+
+**Two types based on feature:**
+
+**Frontend Manual Testing (use Playwright MCP for browser verification):**
 
 ```bash
 pnpm run dev
 # Open http://localhost:3000
-# Test your features in actual browser
 ```
 
-**Required:** Features actually work in browser
+**Test in actual browser:**
 
-**Why:** Tests passing ≠ features working
+1. Open browser to specific URL
+2. Navigate through all UI you created
+3. Test all forms (submit, validation, error states)
+4. Verify data displays correctly
+5. Test all user interactions
+6. Check browser console: 0 errors (Cmd+Option+J or F12)
 
-- Example: All tests passed, but database schema not applied (registration broken)
-- Browser testing catches what automated tests miss
+**Playwright systematic testing:**
+
+- Navigate to all pages you created
+- Fill and submit all forms
+- Verify redirects and navigation work
+- Check data displays correctly
+- Screenshot key states
+- Document any errors found
+
+**Common issues caught:**
+
+- Database schema not applied to development database (tests use test DB, browser uses dev DB)
+- Client state management broken
+- GraphQL integration failing
+- UI rendering issues
+
+**Backend Manual Testing (use curl/API testing):**
+
+**Test with actual API calls:**
+
+```bash
+# Example: GraphQL mutation
+curl -X POST http://localhost:3000/graphql \
+  -H "Content-Type: application/json" \
+  -d '{"query": "mutation { login(email: \"test@example.com\", password: \"password\") { token user { email } } }"}'
+```
+
+**Verify:**
+
+1. Response status: Expected status (e.g., 200)
+2. Response body contains: Expected fields (e.g., token, user.email)
+3. Authentication: login returns valid token/session
+4. Authorization: protected endpoints reject unauthorized requests
+5. Error handling: invalid requests return proper error responses
+
+**Common issues caught:**
+
+- API returns wrong status codes
+- Missing fields in response
+- Authentication/authorization not working
+- Database queries failing
+- Error handling broken
 
 ### Why All 5 Matter
 
@@ -521,13 +574,11 @@ pnpm run dev
 
 ## Rest of Day: AI Intelligence Features ()
 
-**From 12:00pm onwards, build continuously without breaks.**
-
 **Build 3 required AI features in order:**
 
-1. AI Lead Summaries (2-3 hours)
-2. AI Activity Scoring (2-3 hours)
-3. AI Task Recommendations (3-4 hours)
+1. AI Lead Summaries
+2. AI Activity Scoring
+3. AI Task Recommendations
 
 **If all 3 complete:** Move to Product Manager Agent stretch goal (unlimited work)
 
@@ -545,6 +596,26 @@ pnpm run dev
 - **Simple features:** Essential MCP servers sufficient
 - **Complex debugging:** Add Sequential Thinking MCP
 - **Important decisions:** Add Zen MCP for multi-model consensus
+
+### The "Shiny Tool" Trap: Why More MCPs ≠ Better
+
+**Tempting mistake:** Install every interesting MCP server "just in case"
+
+**Why this backfires:**
+
+- **Context bloat** - Each MCP adds to Claude's system prompt, consuming valuable context tokens
+- **Tool confusion** - Too many options → Claude spends time deciding which tool to use → slower responses
+- **Cognitive overload** - You forget what tools are available and when to use them
+- **Maintenance burden** - More dependencies to keep updated and working
+- **Diminishing returns** - Most features need 3-5 core tools, not 20
+
+**The 80/20 rule for MCPs:**
+
+- **Essential 3** cover 80% of work: Filesystem, Playwright, Context7
+- **Advanced 2-3** handle remaining 20%: Sequential Thinking, Zen, specialized domain tools
+- **Beyond that** you're trading context for rarely-used functionality
+
+**Best practice:** Start minimal. Add tools only when you hit a specific need that existing tools can't solve. Remove tools you haven't used in weeks.
 
 ---
 

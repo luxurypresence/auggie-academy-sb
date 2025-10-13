@@ -1,12 +1,9 @@
 # Bonus Module: Advanced Mobile Features
 
-**Time estimate:** 2-3 hours
-
----
-
 ## Prerequisites
 
 **✅ Required before starting:**
+
 - Mobile app foundation complete (Day 4)
 - Lead list and detail screens working
 - React Native basics understood
@@ -26,8 +23,6 @@
 4. **Geolocation for Check-ins** - Log lead meetings with location
 
 **Choose features based on interest and time:**
-- All 4 features: 2-3 hours total
-- Pick 1-2 features: 30-60 minutes each
 
 ---
 
@@ -36,6 +31,7 @@
 ### What You'll Build
 
 **Offline-first architecture:**
+
 - Local storage (AsyncStorage) for cached data
 - App works fully without internet
 - Queue local changes (create/edit/delete)
@@ -57,11 +53,11 @@ pnpm add @react-native-community/netinfo
 **File:** `mobile/src/services/offlineStorage.ts`
 
 ```typescript
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const STORAGE_KEYS = {
-  LEADS: '@leads',
-  PENDING_CHANGES: '@pending_changes',
+  LEADS: "@leads",
+  PENDING_CHANGES: "@pending_changes",
 };
 
 export const offlineStorage = {
@@ -77,10 +73,16 @@ export const offlineStorage = {
   },
 
   // Queue changes for sync
-  async queueChange(change: { type: 'create' | 'update' | 'delete'; data: any }) {
+  async queueChange(change: {
+    type: "create" | "update" | "delete";
+    data: any;
+  }) {
     const pending = await this.getPendingChanges();
     pending.push({ ...change, timestamp: Date.now() });
-    await AsyncStorage.setItem(STORAGE_KEYS.PENDING_CHANGES, JSON.stringify(pending));
+    await AsyncStorage.setItem(
+      STORAGE_KEYS.PENDING_CHANGES,
+      JSON.stringify(pending)
+    );
   },
 
   // Get pending changes
@@ -103,14 +105,14 @@ export const offlineStorage = {
 **File:** `mobile/src/hooks/useNetworkStatus.ts`
 
 ```typescript
-import { useEffect, useState } from 'react';
-import NetInfo from '@react-native-community/netinfo';
+import { useEffect, useState } from "react";
+import NetInfo from "@react-native-community/netinfo";
 
 export function useNetworkStatus() {
   const [isOnline, setIsOnline] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = NetInfo.addEventListener(state => {
+    const unsubscribe = NetInfo.addEventListener((state) => {
       setIsOnline(state.isConnected ?? false);
     });
 
@@ -128,9 +130,9 @@ export function useNetworkStatus() {
 **File:** `mobile/src/services/syncService.ts`
 
 ```typescript
-import { apolloClient } from '../apollo/client';
-import { offlineStorage } from './offlineStorage';
-import { CREATE_LEAD, UPDATE_LEAD, DELETE_LEAD } from '../apollo/mutations';
+import { apolloClient } from "../apollo/client";
+import { offlineStorage } from "./offlineStorage";
+import { CREATE_LEAD, UPDATE_LEAD, DELETE_LEAD } from "../apollo/mutations";
 
 export const syncService = {
   async syncPendingChanges() {
@@ -144,17 +146,17 @@ export const syncService = {
 
     for (const change of changes) {
       try {
-        if (change.type === 'create') {
+        if (change.type === "create") {
           await apolloClient.mutate({
             mutation: CREATE_LEAD,
             variables: { input: change.data },
           });
-        } else if (change.type === 'update') {
+        } else if (change.type === "update") {
           await apolloClient.mutate({
             mutation: UPDATE_LEAD,
             variables: { id: change.data.id, input: change.data },
           });
-        } else if (change.type === 'delete') {
+        } else if (change.type === "delete") {
           await apolloClient.mutate({
             mutation: DELETE_LEAD,
             variables: { id: change.data.id },
@@ -163,7 +165,7 @@ export const syncService = {
 
         synced++;
       } catch (error) {
-        console.error('Sync error:', error);
+        console.error("Sync error:", error);
         // Continue with other changes
       }
     }
@@ -183,9 +185,9 @@ export const syncService = {
 **File:** `mobile/src/screens/LeadList.tsx`
 
 ```typescript
-import { useNetworkStatus } from '../hooks/useNetworkStatus';
-import { offlineStorage } from '../services/offlineStorage';
-import { syncService } from '../services/syncService';
+import { useNetworkStatus } from "../hooks/useNetworkStatus";
+import { offlineStorage } from "../services/offlineStorage";
+import { syncService } from "../services/syncService";
 
 export function LeadList() {
   const isOnline = useNetworkStatus();
@@ -230,6 +232,7 @@ export function LeadList() {
 ### What You'll Build
 
 **Push notifications when app is closed:**
+
 - New lead assigned to you
 - Task due soon
 - Lead status changed
@@ -249,9 +252,9 @@ npx expo install expo-notifications expo-device expo-constants
 **File:** `mobile/src/services/notificationService.ts`
 
 ```typescript
-import * as Notifications from 'expo-notifications';
-import * as Device from 'expo-device';
-import { Platform } from 'react-native';
+import * as Notifications from "expo-notifications";
+import * as Device from "expo-device";
+import { Platform } from "react-native";
 
 // Configure notification handler
 Notifications.setNotificationHandler({
@@ -265,20 +268,21 @@ Notifications.setNotificationHandler({
 export const notificationService = {
   async requestPermissions(): Promise<boolean> {
     if (!Device.isDevice) {
-      console.log('Notifications only work on physical devices');
+      console.log("Notifications only work on physical devices");
       return false;
     }
 
-    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    const { status: existingStatus } =
+      await Notifications.getPermissionsAsync();
     let finalStatus = existingStatus;
 
-    if (existingStatus !== 'granted') {
+    if (existingStatus !== "granted") {
       const { status } = await Notifications.requestPermissionsAsync();
       finalStatus = status;
     }
 
-    if (finalStatus !== 'granted') {
-      console.log('Failed to get push notification permissions');
+    if (finalStatus !== "granted") {
+      console.log("Failed to get push notification permissions");
       return false;
     }
 
@@ -288,11 +292,11 @@ export const notificationService = {
   async getExpoPushToken(): Promise<string | null> {
     try {
       const token = await Notifications.getExpoPushTokenAsync({
-        projectId: 'your-expo-project-id', // From app.json
+        projectId: "your-expo-project-id", // From app.json
       });
       return token.data;
     } catch (error) {
-      console.error('Error getting push token:', error);
+      console.error("Error getting push token:", error);
       return null;
     }
   },
@@ -306,12 +310,12 @@ export const notificationService = {
     const token = await this.getExpoPushToken();
 
     // Configure notification channel (Android)
-    if (Platform.OS === 'android') {
-      await Notifications.setNotificationChannelAsync('default', {
-        name: 'default',
+    if (Platform.OS === "android") {
+      await Notifications.setNotificationChannelAsync("default", {
+        name: "default",
         importance: Notifications.AndroidImportance.MAX,
         vibrationPattern: [0, 250, 250, 250],
-        lightColor: '#FF231F7C',
+        lightColor: "#FF231F7C",
       });
     }
 
@@ -338,9 +342,9 @@ export const notificationService = {
 **File:** `mobile/App.tsx`
 
 ```typescript
-import { useEffect, useRef } from 'react';
-import * as Notifications from 'expo-notifications';
-import { notificationService } from './src/services/notificationService';
+import { useEffect, useRef } from "react";
+import * as Notifications from "expo-notifications";
+import { notificationService } from "./src/services/notificationService";
 
 export default function App() {
   const notificationListener = useRef<any>();
@@ -348,27 +352,31 @@ export default function App() {
 
   useEffect(() => {
     // Register for push notifications
-    notificationService.registerForPushNotifications().then(token => {
+    notificationService.registerForPushNotifications().then((token) => {
       if (token) {
-        console.log('Push token:', token);
+        console.log("Push token:", token);
         // TODO: Send token to backend to associate with user
       }
     });
 
     // Listen for notifications while app is foregrounded
-    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-      console.log('Notification received:', notification);
-    });
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener((notification) => {
+        console.log("Notification received:", notification);
+      });
 
     // Listen for user tapping on notification
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-      console.log('Notification tapped:', response);
-      // TODO: Navigate to relevant screen based on notification data
-    });
+    responseListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        console.log("Notification tapped:", response);
+        // TODO: Navigate to relevant screen based on notification data
+      });
 
     return () => {
       if (notificationListener.current) {
-        Notifications.removeNotificationSubscription(notificationListener.current);
+        Notifications.removeNotificationSubscription(
+          notificationListener.current
+        );
       }
       if (responseListener.current) {
         Notifications.removeNotificationSubscription(responseListener.current);
@@ -387,28 +395,34 @@ export default function App() {
 **File:** `backend/src/notifications/notifications.service.ts`
 
 ```typescript
-import { Injectable } from '@nestjs/common';
-import axios from 'axios';
+import { Injectable } from "@nestjs/common";
+import axios from "axios";
 
 @Injectable()
 export class NotificationsService {
-  async sendPushNotification(expoPushToken: string, title: string, body: string) {
+  async sendPushNotification(
+    expoPushToken: string,
+    title: string,
+    body: string
+  ) {
     const message = {
       to: expoPushToken,
-      sound: 'default',
+      sound: "default",
       title,
       body,
-      data: { /* optional data */ },
+      data: {
+        /* optional data */
+      },
     };
 
     try {
-      await axios.post('https://exp.host/--/api/v2/push/send', message, {
+      await axios.post("https://exp.host/--/api/v2/push/send", message, {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
     } catch (error) {
-      console.error('Error sending push notification:', error);
+      console.error("Error sending push notification:", error);
     }
   }
 
@@ -431,6 +445,7 @@ export class NotificationsService {
 ### What You'll Build
 
 **Full create/edit functionality on mobile:**
+
 - Create new leads from mobile
 - Edit existing leads
 - Create/complete tasks
@@ -443,10 +458,10 @@ export class NotificationsService {
 **File:** `mobile/src/components/LeadForm.tsx`
 
 ```typescript
-import { useState } from 'react';
-import { View, TextInput, Button, StyleSheet } from 'react-native';
-import { useMutation } from '@apollo/client';
-import { CREATE_LEAD, UPDATE_LEAD } from '../apollo/mutations';
+import { useState } from "react";
+import { View, TextInput, Button, StyleSheet } from "react-native";
+import { useMutation } from "@apollo/client";
+import { CREATE_LEAD, UPDATE_LEAD } from "../apollo/mutations";
 
 interface LeadFormProps {
   lead?: any; // If editing
@@ -455,11 +470,11 @@ interface LeadFormProps {
 
 export function LeadForm({ lead, onComplete }: LeadFormProps) {
   const [formData, setFormData] = useState({
-    name: lead?.name || '',
-    email: lead?.email || '',
-    phone: lead?.phone || '',
-    company: lead?.company || '',
-    budget: lead?.budget || '',
+    name: lead?.name || "",
+    email: lead?.email || "",
+    phone: lead?.phone || "",
+    company: lead?.company || "",
+    budget: lead?.budget || "",
   });
 
   const [createLead] = useMutation(CREATE_LEAD);
@@ -480,7 +495,7 @@ export function LeadForm({ lead, onComplete }: LeadFormProps) {
       }
       onComplete();
     } catch (error) {
-      console.error('Error saving lead:', error);
+      console.error("Error saving lead:", error);
     }
   };
 
@@ -490,36 +505,39 @@ export function LeadForm({ lead, onComplete }: LeadFormProps) {
         style={styles.input}
         placeholder="Name"
         value={formData.name}
-        onChangeText={text => setFormData({ ...formData, name: text })}
+        onChangeText={(text) => setFormData({ ...formData, name: text })}
       />
       <TextInput
         style={styles.input}
         placeholder="Email"
         value={formData.email}
-        onChangeText={text => setFormData({ ...formData, email: text })}
+        onChangeText={(text) => setFormData({ ...formData, email: text })}
         keyboardType="email-address"
       />
       <TextInput
         style={styles.input}
         placeholder="Phone"
         value={formData.phone}
-        onChangeText={text => setFormData({ ...formData, phone: text })}
+        onChangeText={(text) => setFormData({ ...formData, phone: text })}
         keyboardType="phone-pad"
       />
       <TextInput
         style={styles.input}
         placeholder="Company"
         value={formData.company}
-        onChangeText={text => setFormData({ ...formData, company: text })}
+        onChangeText={(text) => setFormData({ ...formData, company: text })}
       />
       <TextInput
         style={styles.input}
         placeholder="Budget"
         value={formData.budget}
-        onChangeText={text => setFormData({ ...formData, budget: text })}
+        onChangeText={(text) => setFormData({ ...formData, budget: text })}
         keyboardType="numeric"
       />
-      <Button title={lead ? 'Update Lead' : 'Create Lead'} onPress={handleSubmit} />
+      <Button
+        title={lead ? "Update Lead" : "Create Lead"}
+        onPress={handleSubmit}
+      />
     </View>
   );
 }
@@ -528,7 +546,7 @@ const styles = StyleSheet.create({
   container: { padding: 16 },
   input: {
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: "#ddd",
     padding: 12,
     marginBottom: 12,
     borderRadius: 4,
@@ -543,8 +561,8 @@ const styles = StyleSheet.create({
 **File:** `mobile/src/screens/CreateLead.tsx`
 
 ```typescript
-import { View } from 'react-native';
-import { LeadForm } from '../components/LeadForm';
+import { View } from "react-native";
+import { LeadForm } from "../components/LeadForm";
 
 export function CreateLead({ navigation }) {
   return (
@@ -563,8 +581,8 @@ export function CreateLead({ navigation }) {
 **File:** `mobile/src/screens/EditLead.tsx`
 
 ```typescript
-import { View } from 'react-native';
-import { LeadForm } from '../components/LeadForm';
+import { View } from "react-native";
+import { LeadForm } from "../components/LeadForm";
 
 export function EditLead({ route, navigation }) {
   const { lead } = route.params;
@@ -589,6 +607,7 @@ export function EditLead({ route, navigation }) {
 ### What You'll Build
 
 **Log lead meetings with location:**
+
 - "Check in" button on lead detail screen
 - Captures GPS coordinates
 - Logs interaction with location data
@@ -608,19 +627,22 @@ npx expo install expo-location
 **File:** `mobile/src/services/locationService.ts`
 
 ```typescript
-import * as Location from 'expo-location';
+import * as Location from "expo-location";
 
 export const locationService = {
   async requestPermissions(): Promise<boolean> {
     const { status } = await Location.requestForegroundPermissionsAsync();
-    return status === 'granted';
+    return status === "granted";
   },
 
-  async getCurrentLocation(): Promise<{ latitude: number; longitude: number } | null> {
+  async getCurrentLocation(): Promise<{
+    latitude: number;
+    longitude: number;
+  } | null> {
     const hasPermission = await this.requestPermissions();
 
     if (!hasPermission) {
-      console.log('Location permission denied');
+      console.log("Location permission denied");
       return null;
     }
 
@@ -634,22 +656,25 @@ export const locationService = {
         longitude: location.coords.longitude,
       };
     } catch (error) {
-      console.error('Error getting location:', error);
+      console.error("Error getting location:", error);
       return null;
     }
   },
 
   async reverseGeocode(latitude: number, longitude: number): Promise<string> {
     try {
-      const results = await Location.reverseGeocodeAsync({ latitude, longitude });
+      const results = await Location.reverseGeocodeAsync({
+        latitude,
+        longitude,
+      });
       if (results.length > 0) {
         const { street, city, region, country } = results[0];
         return `${street}, ${city}, ${region}, ${country}`;
       }
-      return 'Unknown location';
+      return "Unknown location";
     } catch (error) {
-      console.error('Error reverse geocoding:', error);
-      return 'Unknown location';
+      console.error("Error reverse geocoding:", error);
+      return "Unknown location";
     }
   },
 };
@@ -662,10 +687,10 @@ export const locationService = {
 **File:** `mobile/src/screens/LeadDetail.tsx`
 
 ```typescript
-import { Button, Alert } from 'react-native';
-import { useMutation } from '@apollo/client';
-import { locationService } from '../services/locationService';
-import { CREATE_INTERACTION } from '../apollo/mutations';
+import { Button, Alert } from "react-native";
+import { useMutation } from "@apollo/client";
+import { locationService } from "../services/locationService";
+import { CREATE_INTERACTION } from "../apollo/mutations";
 
 export function LeadDetail({ route }) {
   const { lead } = route.params;
@@ -675,18 +700,24 @@ export function LeadDetail({ route }) {
     const location = await locationService.getCurrentLocation();
 
     if (!location) {
-      Alert.alert('Error', 'Unable to get location. Please enable location services.');
+      Alert.alert(
+        "Error",
+        "Unable to get location. Please enable location services."
+      );
       return;
     }
 
-    const address = await locationService.reverseGeocode(location.latitude, location.longitude);
+    const address = await locationService.reverseGeocode(
+      location.latitude,
+      location.longitude
+    );
 
     try {
       await createInteraction({
         variables: {
           input: {
             leadId: lead.id,
-            type: 'meeting',
+            type: "meeting",
             notes: `Check-in at ${address}`,
             date: new Date().toISOString(),
             location: {
@@ -698,10 +729,10 @@ export function LeadDetail({ route }) {
         },
       });
 
-      Alert.alert('Success', `Checked in at ${address}`);
+      Alert.alert("Success", `Checked in at ${address}`);
     } catch (error) {
-      console.error('Error checking in:', error);
-      Alert.alert('Error', 'Failed to check in');
+      console.error("Error checking in:", error);
+      Alert.alert("Error", "Failed to check in");
     }
   };
 
@@ -726,6 +757,7 @@ npx expo start
 ```
 
 **Test offline mode:**
+
 1. Open app, view leads
 2. Turn off wifi/data
 3. App should still show cached leads
@@ -734,17 +766,20 @@ npx expo start
 6. Changes should sync to server
 
 **Test push notifications:**
+
 1. Register for notifications (check console for token)
 2. Send test notification from backend or Expo dashboard
 3. Notification should appear even when app is closed
 
 **Test mobile CRUD:**
+
 1. Create new lead from mobile
 2. Edit existing lead
 3. Delete lead
 4. Verify changes sync to backend
 
 **Test geolocation:**
+
 1. Tap "Check In" on lead detail
 2. Grant location permissions
 3. Interaction logged with location
@@ -764,6 +799,7 @@ npx expo start
 - ✅ Tested on physical device
 
 **Skills learned:**
+
 - Offline-first architecture
 - Local storage and data sync
 - Push notification setup
@@ -771,6 +807,7 @@ npx expo start
 - Location services integration
 
 **Transferable to company work:**
+
 - Mobile offline capabilities
 - Push notification systems
 - Mobile data sync strategies

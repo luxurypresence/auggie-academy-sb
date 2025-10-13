@@ -4,9 +4,7 @@
 
 **Today's Goal:** Build authentication system + real-time notifications using parallel development
 
-**Two required features that are completely independent - perfect for parallel orchestration**
-
-**Time estimate:** 6-8 hours (sequential) OR 3-4 hours (parallel with worktrees)
+**Two required features that are completely independent - perfect for git worktrees**
 
 ---
 
@@ -15,6 +13,7 @@
 ### Install First - You'll Need This Today
 
 **Your codebase is getting substantial:**
+
 - Multiple models (Lead, Interaction, Task, User)
 - GraphQL schema with queries and mutations
 - Frontend components across multiple pages
@@ -27,6 +26,7 @@
 **Semantic code navigation and search**
 
 Instead of grep/find (text search), Serena understands:
+
 - Code structure (classes, functions, imports)
 - Relationships (what calls what)
 - Symbols (find all uses of a function)
@@ -34,12 +34,14 @@ Instead of grep/find (text search), Serena understands:
 ### When to Use It
 
 **Good for:**
+
 - "Where is Lead schema defined?"
 - "Find all authentication-related code"
 - "What files import useAuth hook?"
 - "Show me all GraphQL mutations"
 
 **Essential for brownfield** (tomorrow's topic):
+
 - Navigate existing codebases
 - Understand existing patterns before adding features
 - Find integration points
@@ -55,53 +57,54 @@ You: "Use Serena MCP to find:
 3. Where the Lead type is used"
 ```
 
-**Practice time: 10 minutes**
+**Practice**
+
 - Use Serena to navigate your own code
 - Find something you built yesterday
 - See how it's faster than manual search
 
-**Tomorrow (Day 4):** Serena becomes critical for brownfield extension demo
+---
+
+## Understanding Feature-Level Parallelization with Git Worktrees
+
+**This is different from task-level parallelization** (covered in Day 2):
+
+- **Day 2:** Parallel tasks within ONE feature (dashboard widgets A, B, C running together)
+- **Day 3:** Parallel FEATURES (Authentication + Notifications, completely separate features)
+
+**The key question:** Can these two FEATURES be built at the same time in separate worktrees?
+
+**It depends on:** Whether the features are completely independent
 
 ---
 
-## Understanding Parallel vs Sequential Execution
+### Example: Tasks Within Authentication Feature (Sequential)
 
-**The key question when orchestrating agents:** Can these features be built in parallel?
+**Even though we're using worktrees for features, tasks WITHIN a feature may still need to be sequential:**
 
-**It depends on:** Import dependency chains
-
----
-
-### Sequential Execution (Feature 1: Authentication)
-
-**Import dependency chain:**
+**Authentication has an import dependency chain:**
 
 ```typescript
 // Task A: Backend Auth Service
 // Exports: LOGIN_MUTATION, REGISTER_MUTATION, User type
 
 // Task B: Frontend Auth Context
-import { LOGIN_MUTATION } from '@/graphql/operations/auth' // ← Imports from Task A
+import { LOGIN_MUTATION } from "@/graphql/operations/auth"; // ← Imports from Task A
 // Exports: useAuth hook
 
 // Task C: Protected Routes
-import { useAuth } from '@/hooks/useAuth' // ← Imports from Task B
+import { useAuth } from "@/hooks/useAuth"; // ← Imports from Task B
 ```
 
-**Result:** MUST be sequential (A → B → C) ❌ Cannot parallelize
+**Result:** Within the auth feature, tasks MUST be sequential (A → B → C)
 
 **The rule:** If Task B imports from Task A, they CANNOT run in parallel.
 
-**Must build in order:**
-1. Backend auth exports GraphQL operations
-2. Frontend context imports those operations, exports useAuth
-3. Protected routes import useAuth
-
-**Any attempt to parallelize breaks** - you can't import what doesn't exist yet.
+**This is task-level orchestration (from Day 2)** - not related to worktrees.
 
 ---
 
-### Parallel Execution (Feature 1 + Feature 2 Simultaneously)
+### Example: Two Independent Features (Parallel with Worktrees)
 
 **Authentication and WebSocket notifications are completely independent:**
 
@@ -123,16 +126,17 @@ import { useAuth } from '@/hooks/useAuth' // ← Imports from Task B
 // Can be built simultaneously ✅
 ```
 
-**The 5-condition test for parallel execution:**
+**The 5-condition test for parallel FEATURE execution (worktrees):**
+
 1. Feature 1 does NOT import from Feature 2 ✅
 2. Feature 2 does NOT import from Feature 1 ✅
 3. Features work on different files (no merge conflicts) ✅
 4. No shared state during execution ✅
 5. Features truly independent in scope ✅
 
-**Result:** CAN be parallel ✅
+**Result:** These two FEATURES can be built simultaneously in separate worktrees ✅
 
-**This is perfect for worktrees.**
+**This is perfect for worktrees** - each feature gets its own directory and branch, developed in parallel.
 
 ---
 
@@ -141,11 +145,13 @@ import { useAuth } from '@/hooks/useAuth' // ← Imports from Task B
 ### What Are Worktrees?
 
 **Multiple working directories from same repository:**
+
 - Each on different branch
 - Share git history, separate working files
 - Perfect for parallel independent features
 
 **Traditional workflow (sequential):**
+
 ```bash
 cd ~/auggie-academy-<your-name>
 git checkout -b feature/auth
@@ -162,6 +168,7 @@ git merge feature/notifications
 ```
 
 **Worktree workflow (parallel):**
+
 ```bash
 # Main worktree: Build authentication
 cd ~/auggie-academy-<your-name>
@@ -184,12 +191,14 @@ cd ../auggie-academy-<your-name>-notifications
 ### When to Use Worktrees
 
 **✅ Good for:**
+
 - Features are completely independent (no shared files)
 - No import dependencies between features
 - Want to work on multiple features simultaneously
 - Can orchestrate multiple agents in parallel
 
 **❌ Not good for:**
+
 - Features have import dependencies (use sequential)
 - Features modify same files (merge conflicts)
 - You prefer sequential (worktrees are optional)
@@ -198,80 +207,156 @@ cd ../auggie-academy-<your-name>-notifications
 
 ---
 
-### Worktree Commands Reference
+### Worktree Management: Helper Scripts vs Raw Git Commands
+
+**Two ways to manage worktrees:**
+
+#### Option 1: Helper Scripts (Recommended)
+
+This repository includes automation scripts that handle worktree creation and cleanup:
+
+**Create worktree with automatic setup:**
+
+```bash
+./worktree.sh notifications
+# Creates worktree directory: ../gw-notifications
+# Creates branch: gw-notifications
+# Copies .env files automatically
+# Installs dependencies (pnpm install)
+# Opens in your editor (Cursor/VS Code)
+```
+
+**Benefits:**
+
+- Automatically copies .env and configuration files
+- Runs package installation
+- Opens in editor
+- Handles branch naming conventions
+- Customizable via `.worktree-config`
+
+**List / Cleanup completed worktrees:**
+
+```bash
+./worktree-cleanup.sh
+# Interactive UI showing all worktrees
+# Shows PR status (merged/open/no PR)
+# Select multiple worktrees to delete
+# Auto-detects merged PRs for safe cleanup
+```
+
+**Benefits:**
+
+- Visual interface with PR status
+- Prevents deletion of protected branches
+- Batch deletion of merged features
+- Runs cleanup commands before deletion
+
+**Script Configuration (Optional):**
+
+Both scripts work immediately with sensible defaults. No configuration required.
+
+**Customize if needed:**
+
+```bash
+# Initialize configuration files (optional)
+./worktree.sh --init                 # Creates .worktree-config
+./worktree-cleanup.sh --init         # Creates .worktree-cleanup-config
+```
+
+**`.worktree-config` customization options:**
+
+```bash
+BRANCH_PREFIX="gw-"              # Branch naming (gw-feature, gw-auth)
+COPY_FILES=(".env" ".env.local") # Auto-copy to new worktrees
+PACKAGE_MANAGER="pnpm"           # Or "npm", "yarn", "auto"
+EDITOR="cursor"                  # Or "code", "vim", "auto"
+POST_CREATE_COMMANDS=(           # Run after creation
+    "pnpm run db:migrate"
+)
+```
+
+**`.worktree-cleanup-config` customization options:**
+
+```bash
+CHECK_PR_STATUS=true             # Show PR merge status
+PROTECTED_PATTERNS=(             # Never delete
+    "main" "develop" "release/.*"
+)
+AUTO_SELECT_MERGED=true          # Auto-select merged PRs
+```
+
+**When to configure:** Team conventions, additional files to copy, auto-setup commands
+
+**When to skip:** Defaults work fine (recommended for first use)
+
+#### Option 2: Raw Git Commands (Manual)
 
 **Create worktree:**
+
 ```bash
 git worktree add <path> -b <branch-name>
 
-# Example for today:
-git worktree add ../auggie-academy-<your-name>-notifications -b feature/notifications
+# Example:
+git worktree add ../starter-repo-notifications -b feature/notifications
+
+# Then manually:
+cd ../starter-repo-notifications
+cp ../<main-repo>/.env .
+pnpm install
 ```
 
-**List all worktrees:**
+**List worktrees:**
+
 ```bash
 git worktree list
-
 # Output:
-# /Users/you/auggie-academy-<your-name>  abc123 [feature/auth]
-# /Users/you/auggie-academy-<your-name>-notifications  def456 [feature/notifications]
+# /Users/you/starter-repo  abc123 [feature/auth]
+# /Users/you/starter-repo-notifications  def456 [feature/notifications]
 ```
 
-**Remove worktree (after merging):**
+**Remove worktree:**
+
 ```bash
-# First, merge the feature back to main
-cd ~/auggie-academy-<your-name>
+# First, merge feature to main
+cd ~/starter-repo
 git merge feature/notifications
 
-# Then remove the worktree
-git worktree remove ../auggie-academy-<your-name>-notifications
+# Remove worktree
+git worktree remove ../starter-repo-notifications
+
+# Delete branch
+git branch -D feature/notifications
 
 # Or if directory already deleted:
 git worktree prune
 ```
 
-**See also:** `.claude/playbook/git-worktrees.md` (if exists) for complete worktree workflow
+**Use helper scripts to save time** - they handle the tedious setup automatically.
 
 ---
 
-### This Is Optional
+### Worktrees Are Optional (But Powerful)
 
-**Sequential development works fine** - you don't have to use worktrees.
+**Remember, you can parallelize agents WITHOUT worktrees:**
 
-**Worktrees demonstrate parallel orchestration:**
-- How to manage multiple agents simultaneously
-- How to identify truly independent features
-- How to optimize development time
+**Three valid approaches for today:**
 
-**Choose your approach:**
-- **Sequential:** Build auth, then notifications (6-8h)
-- **Parallel:** Use worktrees, build both simultaneously (3-4h)
+1. **Sequential (no worktrees):** Build auth → then notifications (6-8h total)
+2. **Parallel agents (no worktrees):** Both features in same directory, careful file coordination (3-4h)
+3. **Parallel with worktrees:** Complete isolation, safest parallel approach (3-4h)
 
-Both are valid. Worktrees are for practicing advanced orchestration.
+**All are valid.** Worktrees demonstrate advanced orchestration and provide the safest parallel development experience.
 
 ---
 
 ## Feature 1: JWT Authentication (Required)
 
-**Time estimate:** 3-4 hours (sequential: Task A → B → C)
-
-### Why This Is Sequential
-
-**Import chain:**
-```
-Task A (Backend) → exports auth operations
-Task B (Frontend Context) → imports from A, exports useAuth
-Task C (Protected Routes) → imports from B
-```
-
-**Cannot parallelize** - each task builds on previous.
-
----
-
 ### Task A: Backend Auth Service
 
 **What to build:**
+
 - [ ] User model (Sequelize):
+
   - `id` (UUID primary key)
   - `email` (unique, validated)
   - `passwordHash` (bcrypt hashed, never store plain password)
@@ -281,15 +366,22 @@ Task C (Protected Routes) → imports from B
   - `updatedAt` (timestamp)
 
 - [ ] JWT strategy (Passport.js):
+
   - Install: `pnpm add passport passport-jwt bcryptjs jsonwebtoken`
   - Install types: `pnpm add -D @types/passport-jwt @types/bcryptjs @types/jsonwebtoken`
   - Configure JWT strategy in auth module
   - Secret from environment variable: `JWT_SECRET`
 
 - [ ] GraphQL mutations:
+
   ```graphql
   type Mutation {
-    register(email: String!, password: String!, firstName: String!, lastName: String!): AuthPayload!
+    register(
+      email: String!
+      password: String!
+      firstName: String!
+      lastName: String!
+    ): AuthPayload!
     login(email: String!, password: String!): AuthPayload!
   }
 
@@ -307,8 +399,9 @@ Task C (Protected Routes) → imports from B
   ```
 
 - [ ] Password hashing:
+
   ```typescript
-  import bcrypt from 'bcryptjs';
+  import bcrypt from "bcryptjs";
 
   // On registration:
   const passwordHash = await bcrypt.hash(password, 10);
@@ -318,22 +411,25 @@ Task C (Protected Routes) → imports from B
   ```
 
 - [ ] JWT token generation:
+
   ```typescript
-  import jwt from 'jsonwebtoken';
+  import jwt from "jsonwebtoken";
 
   const token = jwt.sign(
     { userId: user.id, email: user.email },
     process.env.JWT_SECRET!,
-    { expiresIn: '15m' }
+    { expiresIn: "15m" }
   );
   ```
 
 **What this exports:**
+
 - `LOGIN_MUTATION` (GraphQL operation file)
 - `REGISTER_MUTATION` (GraphQL operation file)
 - `User` type (TypeScript)
 
 **Testing requirements:**
+
 - [ ] Unit tests: Password hashing works
 - [ ] Unit tests: Token generation includes correct payload
 - [ ] Integration tests: Register creates user in database
@@ -341,12 +437,14 @@ Task C (Protected Routes) → imports from B
 - [ ] Integration tests: Invalid credentials rejected
 
 **Validation gates before moving to Task B:**
+
 - [ ] TypeScript: 0 errors
 - [ ] Tests passing (auth service unit + integration)
 - [ ] Can import LOGIN_MUTATION from GraphQL operations file
 - [ ] File exists: `src/graphql/operations/auth.ts` (or similar path)
 
 **External dependencies:**
+
 ```env
 # Add to .env file:
 JWT_SECRET=your-secret-key-here  # Generate with: openssl rand -base64 32
@@ -354,6 +452,7 @@ JWT_EXPIRES_IN=15m
 ```
 
 **Document in README:**
+
 - How to generate JWT_SECRET
 - Why short expiration (security best practice)
 - What won't work without this variable
@@ -365,6 +464,7 @@ JWT_EXPIRES_IN=15m
 **Before starting:**
 
 **Agent dependency validation** (teaching moment):
+
 ```
 You to agent: "Implement auth context using LOGIN_MUTATION from backend"
 
@@ -380,43 +480,53 @@ Agent: "❌ File not found - Task A must complete first. I cannot proceed."
 **This is GOOD agent behavior** - refusing to create broken code with missing imports.
 
 **What to build (AFTER Task A complete):**
+
 - [ ] AuthContext (React Context API):
+
   ```typescript
   interface AuthContextType {
     currentUser: User | null;
     login: (email: string, password: string) => Promise<void>;
-    register: (email: string, password: string, firstName: string, lastName: string) => Promise<void>;
+    register: (
+      email: string,
+      password: string,
+      firstName: string,
+      lastName: string
+    ) => Promise<void>;
     logout: () => void;
     loading: boolean;
   }
   ```
 
 - [ ] Import LOGIN_MUTATION and REGISTER_MUTATION from Task A:
+
   ```typescript
-  import { LOGIN_MUTATION, REGISTER_MUTATION } from '@/graphql/operations/auth';
+  import { LOGIN_MUTATION, REGISTER_MUTATION } from "@/graphql/operations/auth";
   ```
 
 - [ ] useAuth hook:
+
   ```typescript
   export const useAuth = () => {
     const context = useContext(AuthContext);
     if (!context) {
-      throw new Error('useAuth must be used within AuthProvider');
+      throw new Error("useAuth must be used within AuthProvider");
     }
     return context;
   };
   ```
 
 - [ ] Token storage (localStorage):
+
   ```typescript
   // On login:
-  localStorage.setItem('authToken', token);
+  localStorage.setItem("authToken", token);
 
   // On logout:
-  localStorage.removeItem('authToken');
+  localStorage.removeItem("authToken");
 
   // On app load:
-  const token = localStorage.getItem('authToken');
+  const token = localStorage.getItem("authToken");
   if (token) {
     // Validate token and set currentUser
   }
@@ -429,10 +539,12 @@ Agent: "❌ File not found - Task A must complete first. I cannot proceed."
   - Clear token if invalid
 
 **What this exports:**
+
 - `useAuth` hook
 - `AuthProvider` component
 
 **Testing requirements:**
+
 - [ ] Unit tests: Login updates currentUser state
 - [ ] Unit tests: Logout clears currentUser and localStorage
 - [ ] Unit tests: Invalid token rejected
@@ -440,6 +552,7 @@ Agent: "❌ File not found - Task A must complete first. I cannot proceed."
 - [ ] Integration tests: Token persists after page refresh
 
 **Validation gates before moving to Task C:**
+
 - [ ] Successfully imports from Task A
 - [ ] TypeScript: 0 errors
 - [ ] Tests passing
@@ -452,6 +565,7 @@ Agent: "❌ File not found - Task A must complete first. I cannot proceed."
 **Before starting:**
 
 **Agent dependency validation:**
+
 ```
 Agent: "Checking dependencies..."
 Agent: "ls src/hooks/useAuth.ts" (or wherever useAuth is exported)
@@ -463,14 +577,21 @@ Agent: "❌ File not found - Task B must complete first. I cannot proceed."
 ```
 
 **What to build (AFTER Task B complete):**
+
 - [ ] Import useAuth from Task B:
+
   ```typescript
-  import { useAuth } from '@/hooks/useAuth';
+  import { useAuth } from "@/hooks/useAuth";
   ```
 
 - [ ] ProtectedRoute component:
+
   ```typescript
-  export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  export const ProtectedRoute = ({
+    children,
+  }: {
+    children: React.ReactNode;
+  }) => {
     const { currentUser, loading } = useAuth();
 
     if (loading) return <div>Loading...</div>;
@@ -484,6 +605,7 @@ Agent: "❌ File not found - Task B must complete first. I cannot proceed."
   ```
 
 - [ ] Wrap protected routes:
+
   ```typescript
   <Route path="/leads" element={
     <ProtectedRoute>
@@ -499,6 +621,7 @@ Agent: "❌ File not found - Task B must complete first. I cannot proceed."
   ```
 
 - [ ] Login page:
+
   - Form with email and password fields
   - Calls `login()` from useAuth
   - Redirects to /leads on success
@@ -511,6 +634,7 @@ Agent: "❌ File not found - Task B must complete first. I cannot proceed."
   - Shows error message on failure
 
 **Testing requirements:**
+
 - [ ] Unit tests: ProtectedRoute redirects when not authenticated
 - [ ] Unit tests: ProtectedRoute renders children when authenticated
 - [ ] Integration tests: Login form submission works
@@ -518,6 +642,7 @@ Agent: "❌ File not found - Task B must complete first. I cannot proceed."
 - [ ] E2E tests: Complete auth flow in browser
 
 **Validation gates:**
+
 - [ ] Successfully imports from Task B
 - [ ] TypeScript: 0 errors
 - [ ] Tests passing
@@ -538,6 +663,7 @@ pnpm run dev
 ```
 
 **Test complete flow:**
+
 1. Navigate to /leads (should redirect to /login)
 2. Try to register new user:
    - [ ] Form works
@@ -563,11 +689,13 @@ pnpm run dev
 **"Tests pass but browser broken"**
 
 **Likely causes:**
+
 - Database migration not run in dev database (only test database has schema)
 - Tokens not clearing on logout (localStorage issue)
 - Protected routes not actually checking auth
 
 **Fix:**
+
 ```bash
 # Ensure dev database has latest schema
 pnpm run db:migrate
@@ -579,6 +707,7 @@ pnpm run db:migrate
 **"Agent refuses to proceed"**
 
 **This is GOOD:**
+
 - Agent validating dependencies exist
 - Means you need to complete previous task first
 - Don't try to force parallel execution
@@ -600,12 +729,14 @@ pnpm run db:migrate
 ### What to Build: Complete Overview
 
 **Backend:**
+
 - WebSocket gateway (Socket.io + NestJS)
 - Notification database model
 - Event publishing system
 - GraphQL queries/mutations for notification history
 
 **Frontend:**
+
 - WebSocket connection hook
 - Live notification toasts (when events occur)
 - Notification center UI (persistent history)
@@ -613,6 +744,7 @@ pnpm run db:migrate
 - Mark as read/unread functionality
 
 **The difference from simple real-time:**
+
 - ❌ Not just: "Show toast when event happens"
 - ✅ Instead: "Store in database, show toast, persist history, manage read state"
 
@@ -623,12 +755,20 @@ pnpm run db:migrate
 **What to build:**
 
 **Sequelize model:**
+
 ```typescript
 // models/notification.model.ts
-import { Table, Column, Model, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
-import { User } from './user.model';
+import {
+  Table,
+  Column,
+  Model,
+  DataType,
+  ForeignKey,
+  BelongsTo,
+} from "sequelize-typescript";
+import { User } from "./user.model";
 
-@Table({ tableName: 'notifications' })
+@Table({ tableName: "notifications" })
 export class Notification extends Model {
   @Column({
     type: DataType.UUID,
@@ -648,10 +788,15 @@ export class Notification extends Model {
   user!: User;
 
   @Column({
-    type: DataType.ENUM('lead_created', 'task_completed', 'score_updated', 'comment_added'),
+    type: DataType.ENUM(
+      "lead_created",
+      "task_completed",
+      "score_updated",
+      "comment_added"
+    ),
     allowNull: false,
   })
-  type!: 'lead_created' | 'task_completed' | 'score_updated' | 'comment_added';
+  type!: "lead_created" | "task_completed" | "score_updated" | "comment_added";
 
   @Column({
     type: DataType.STRING,
@@ -687,6 +832,7 @@ export class Notification extends Model {
 ```
 
 **Migration:**
+
 ```bash
 # Generate migration
 npx sequelize-cli migration:generate --name create-notifications
@@ -745,6 +891,7 @@ pnpm run db:migrate
 ```
 
 **Validation:**
+
 - [ ] TypeScript: 0 errors
 - [ ] Migration runs successfully
 - [ ] Can create notification in database
@@ -757,11 +904,13 @@ pnpm run db:migrate
 **What to build:**
 
 **Install dependencies:**
+
 ```bash
 pnpm add @nestjs/websockets @nestjs/platform-socket.io socket.io
 ```
 
 **WebSocket gateway:**
+
 ```typescript
 // notification.gateway.ts
 import {
@@ -769,19 +918,21 @@ import {
   WebSocketServer,
   OnGatewayConnection,
   OnGatewayDisconnect,
-} from '@nestjs/websockets';
-import { Server, Socket } from 'socket.io';
-import { Injectable } from '@nestjs/common';
+} from "@nestjs/websockets";
+import { Server, Socket } from "socket.io";
+import { Injectable } from "@nestjs/common";
 
 @WebSocketGateway({
   cors: {
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    origin: process.env.FRONTEND_URL || "http://localhost:5173",
     credentials: true,
   },
-  namespace: '/notifications',
+  namespace: "/notifications",
 })
 @Injectable()
-export class NotificationGateway implements OnGatewayConnection, OnGatewayDisconnect {
+export class NotificationGateway
+  implements OnGatewayConnection, OnGatewayDisconnect
+{
   @WebSocketServer()
   server!: Server;
 
@@ -808,7 +959,7 @@ export class NotificationGateway implements OnGatewayConnection, OnGatewayDiscon
 
     // Remove from tracking
     const sockets = this.userSockets.get(userId) || [];
-    const filtered = sockets.filter(id => id !== client.id);
+    const filtered = sockets.filter((id) => id !== client.id);
 
     if (filtered.length === 0) {
       this.userSockets.delete(userId);
@@ -824,32 +975,33 @@ export class NotificationGateway implements OnGatewayConnection, OnGatewayDiscon
     const sockets = this.userSockets.get(userId);
     if (!sockets) return;
 
-    sockets.forEach(socketId => {
-      this.server.to(socketId).emit('notification', notification);
+    sockets.forEach((socketId) => {
+      this.server.to(socketId).emit("notification", notification);
     });
   }
 
   // Broadcast to all connected users
   async broadcast(notification: any) {
-    this.server.emit('notification', notification);
+    this.server.emit("notification", notification);
   }
 }
 ```
 
 **Notification service (publishes events):**
+
 ```typescript
 // notification.service.ts
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/sequelize';
-import { Notification } from './notification.model';
-import { NotificationGateway } from './notification.gateway';
+import { Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/sequelize";
+import { Notification } from "./notification.model";
+import { NotificationGateway } from "./notification.gateway";
 
 @Injectable()
 export class NotificationService {
   constructor(
     @InjectModel(Notification)
     private notificationModel: typeof Notification,
-    private notificationGateway: NotificationGateway,
+    private notificationGateway: NotificationGateway
   ) {}
 
   async create(data: {
@@ -879,8 +1031,8 @@ export class NotificationService {
   async notifyLeadCreated(userId: string, leadId: string, leadName: string) {
     return this.create({
       userId,
-      type: 'lead_created',
-      title: 'New Lead Created',
+      type: "lead_created",
+      title: "New Lead Created",
       message: `Lead "${leadName}" has been created`,
       relatedLeadId: leadId,
     });
@@ -889,17 +1041,22 @@ export class NotificationService {
   async notifyTaskCompleted(userId: string, taskId: string, taskName: string) {
     return this.create({
       userId,
-      type: 'task_completed',
-      title: 'Task Completed',
+      type: "task_completed",
+      title: "Task Completed",
       message: `Task "${taskName}" has been marked as complete`,
     });
   }
 
-  async notifyScoreUpdated(userId: string, leadId: string, oldScore: number, newScore: number) {
+  async notifyScoreUpdated(
+    userId: string,
+    leadId: string,
+    oldScore: number,
+    newScore: number
+  ) {
     return this.create({
       userId,
-      type: 'score_updated',
-      title: 'Lead Score Updated',
+      type: "score_updated",
+      title: "Lead Score Updated",
       message: `Lead score changed from ${oldScore} to ${newScore}`,
       relatedLeadId: leadId,
     });
@@ -908,15 +1065,16 @@ export class NotificationService {
 ```
 
 **Integrate with existing services:**
+
 ```typescript
 // lead.service.ts
-import { NotificationService } from '../notification/notification.service';
+import { NotificationService } from "../notification/notification.service";
 
 @Injectable()
 export class LeadService {
   constructor(
     @InjectModel(Lead) private leadModel: typeof Lead,
-    private notificationService: NotificationService, // ← Inject
+    private notificationService: NotificationService // ← Inject
   ) {}
 
   async create(data: CreateLeadDto, userId: string) {
@@ -926,7 +1084,7 @@ export class LeadService {
     await this.notificationService.notifyLeadCreated(
       userId,
       lead.id,
-      lead.name,
+      lead.name
     );
 
     return lead;
@@ -935,6 +1093,7 @@ export class LeadService {
 ```
 
 **Environment variables:**
+
 ```env
 # Add to .env:
 WEBSOCKET_PORT=3001  # Or same port as backend
@@ -942,6 +1101,7 @@ FRONTEND_URL=http://localhost:5173
 ```
 
 **Testing:**
+
 - [ ] WebSocket connection accepts clients
 - [ ] Creating notification saves to database
 - [ ] Creating notification emits WebSocket event
@@ -955,6 +1115,7 @@ FRONTEND_URL=http://localhost:5173
 **What to build:**
 
 **GraphQL schema:**
+
 ```graphql
 type Notification {
   id: ID!
@@ -981,44 +1142,45 @@ type Query {
 
 type Mutation {
   markNotificationRead(id: ID!): Notification!
-  markAllRead(userId: ID!): Int!  # Returns count of updated notifications
+  markAllRead(userId: ID!): Int! # Returns count of updated notifications
   deleteNotification(id: ID!): Boolean!
 }
 ```
 
 **Resolver:**
+
 ```typescript
 // notification.resolver.ts
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
-import { InjectModel } from '@nestjs/sequelize';
-import { Notification } from './notification.model';
+import { Resolver, Query, Mutation, Args } from "@nestjs/graphql";
+import { InjectModel } from "@nestjs/sequelize";
+import { Notification } from "./notification.model";
 
-@Resolver('Notification')
+@Resolver("Notification")
 export class NotificationResolver {
   constructor(
     @InjectModel(Notification)
-    private notificationModel: typeof Notification,
+    private notificationModel: typeof Notification
   ) {}
 
   @Query()
-  async notifications(@Args('userId') userId: string) {
+  async notifications(@Args("userId") userId: string) {
     return this.notificationModel.findAll({
       where: { userId },
-      order: [['createdAt', 'DESC']],
+      order: [["createdAt", "DESC"]],
     });
   }
 
   @Query()
-  async unreadCount(@Args('userId') userId: string) {
+  async unreadCount(@Args("userId") userId: string) {
     return this.notificationModel.count({
       where: { userId, isRead: false },
     });
   }
 
   @Mutation()
-  async markNotificationRead(@Args('id') id: string) {
+  async markNotificationRead(@Args("id") id: string) {
     const notification = await this.notificationModel.findByPk(id);
-    if (!notification) throw new Error('Notification not found');
+    if (!notification) throw new Error("Notification not found");
 
     notification.isRead = true;
     await notification.save();
@@ -1027,16 +1189,16 @@ export class NotificationResolver {
   }
 
   @Mutation()
-  async markAllRead(@Args('userId') userId: string) {
+  async markAllRead(@Args("userId") userId: string) {
     const [count] = await this.notificationModel.update(
       { isRead: true },
-      { where: { userId, isRead: false } },
+      { where: { userId, isRead: false } }
     );
     return count;
   }
 
   @Mutation()
-  async deleteNotification(@Args('id') id: string) {
+  async deleteNotification(@Args("id") id: string) {
     const count = await this.notificationModel.destroy({ where: { id } });
     return count > 0;
   }
@@ -1044,9 +1206,10 @@ export class NotificationResolver {
 ```
 
 **GraphQL operations file (frontend imports this):**
+
 ```typescript
 // graphql/operations/notifications.ts
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const GET_NOTIFICATIONS = gql`
   query GetNotifications($userId: ID!) {
@@ -1097,16 +1260,18 @@ export const DELETE_NOTIFICATION = gql`
 **What to build:**
 
 **Install dependencies:**
+
 ```bash
 pnpm add socket.io-client
 ```
 
 **WebSocket hook:**
+
 ```typescript
 // hooks/useNotificationSocket.ts
-import { useEffect, useRef } from 'react';
-import { io, Socket } from 'socket.io-client';
-import { useAuth } from './useAuth';
+import { useEffect, useRef } from "react";
+import { io, Socket } from "socket.io-client";
+import { useAuth } from "./useAuth";
 
 export const useNotificationSocket = (
   onNotification: (notification: any) => void
@@ -1118,23 +1283,23 @@ export const useNotificationSocket = (
     if (!currentUser) return;
 
     // Connect to WebSocket
-    const socket = io('http://localhost:3001/notifications', {
+    const socket = io("http://localhost:3001/notifications", {
       auth: {
         userId: currentUser.id,
       },
     });
 
-    socket.on('connect', () => {
-      console.log('WebSocket connected');
+    socket.on("connect", () => {
+      console.log("WebSocket connected");
     });
 
-    socket.on('notification', (notification) => {
-      console.log('Received notification:', notification);
+    socket.on("notification", (notification) => {
+      console.log("Received notification:", notification);
       onNotification(notification);
     });
 
-    socket.on('disconnect', () => {
-      console.log('WebSocket disconnected');
+    socket.on("disconnect", () => {
+      console.log("WebSocket disconnected");
     });
 
     socketRef.current = socket;
@@ -1149,6 +1314,7 @@ export const useNotificationSocket = (
 ```
 
 **Environment variable:**
+
 ```env
 # Add to frontend .env:
 VITE_WEBSOCKET_URL=http://localhost:3001
@@ -1161,10 +1327,11 @@ VITE_WEBSOCKET_URL=http://localhost:3001
 **What to build:**
 
 **1. Toast notification component (live):**
+
 ```typescript
 // components/NotificationToast.tsx
-import { useEffect, useState } from 'react';
-import { useNotificationSocket } from '@/hooks/useNotificationSocket';
+import { useEffect, useState } from "react";
+import { useNotificationSocket } from "@/hooks/useNotificationSocket";
 
 export const NotificationToast = () => {
   const [toast, setToast] = useState<any | null>(null);
@@ -1189,13 +1356,14 @@ export const NotificationToast = () => {
 ```
 
 **2. Notification bell icon with unread count:**
+
 ```typescript
 // components/NotificationBell.tsx
-import { useState } from 'react';
-import { useQuery } from '@apollo/client';
-import { GET_UNREAD_COUNT } from '@/graphql/operations/notifications';
-import { useAuth } from '@/hooks/useAuth';
-import { NotificationCenter } from './NotificationCenter';
+import { useState } from "react";
+import { useQuery } from "@apollo/client";
+import { GET_UNREAD_COUNT } from "@/graphql/operations/notifications";
+import { useAuth } from "@/hooks/useAuth";
+import { NotificationCenter } from "./NotificationCenter";
 
 export const NotificationBell = () => {
   const { currentUser } = useAuth();
@@ -1210,10 +1378,7 @@ export const NotificationBell = () => {
 
   return (
     <div className="relative">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2"
-      >
+      <button onClick={() => setIsOpen(!isOpen)} className="relative p-2">
         <BellIcon className="w-6 h-6" />
         {unreadCount > 0 && (
           <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
@@ -1222,26 +1387,25 @@ export const NotificationBell = () => {
         )}
       </button>
 
-      {isOpen && (
-        <NotificationCenter onClose={() => setIsOpen(false)} />
-      )}
+      {isOpen && <NotificationCenter onClose={() => setIsOpen(false)} />}
     </div>
   );
 };
 ```
 
 **3. Notification center (persistent history):**
+
 ```typescript
 // components/NotificationCenter.tsx
-import { useQuery, useMutation } from '@apollo/client';
+import { useQuery, useMutation } from "@apollo/client";
 import {
   GET_NOTIFICATIONS,
   MARK_NOTIFICATION_READ,
   MARK_ALL_READ,
   DELETE_NOTIFICATION,
-} from '@/graphql/operations/notifications';
-import { useAuth } from '@/hooks/useAuth';
-import { useNavigate } from 'react-router-dom';
+} from "@/graphql/operations/notifications";
+import { useAuth } from "@/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 export const NotificationCenter = ({ onClose }: { onClose: () => void }) => {
   const { currentUser } = useAuth();
@@ -1279,7 +1443,9 @@ export const NotificationCenter = ({ onClose }: { onClose: () => void }) => {
       <div className="p-4 border-b flex justify-between items-center">
         <h3 className="font-bold">Notifications</h3>
         <button
-          onClick={() => markAllRead({ variables: { userId: currentUser?.id } })}
+          onClick={() =>
+            markAllRead({ variables: { userId: currentUser?.id } })
+          }
           className="text-sm text-blue-500"
         >
           Mark all read
@@ -1288,16 +1454,14 @@ export const NotificationCenter = ({ onClose }: { onClose: () => void }) => {
 
       <div>
         {data?.notifications?.length === 0 && (
-          <div className="p-4 text-center text-gray-500">
-            No notifications
-          </div>
+          <div className="p-4 text-center text-gray-500">No notifications</div>
         )}
 
         {data?.notifications?.map((notification: any) => (
           <div
             key={notification.id}
             className={`p-4 border-b cursor-pointer hover:bg-gray-50 ${
-              !notification.isRead ? 'bg-blue-50' : ''
+              !notification.isRead ? "bg-blue-50" : ""
             }`}
             onClick={() => handleNotificationClick(notification)}
           >
@@ -1329,10 +1493,11 @@ export const NotificationCenter = ({ onClose }: { onClose: () => void }) => {
 ```
 
 **4. Add to layout:**
+
 ```typescript
 // layouts/MainLayout.tsx
-import { NotificationBell } from '@/components/NotificationBell';
-import { NotificationToast } from '@/components/NotificationToast';
+import { NotificationBell } from "@/components/NotificationBell";
+import { NotificationToast } from "@/components/NotificationToast";
 
 export const MainLayout = ({ children }) => {
   return (
@@ -1355,46 +1520,48 @@ export const MainLayout = ({ children }) => {
 ### Testing Real-Time Features
 
 **Unit tests:**
+
 ```typescript
 // Mock WebSocket events
-describe('NotificationToast', () => {
-  it('shows toast when notification received', () => {
+describe("NotificationToast", () => {
+  it("shows toast when notification received", () => {
     const mockSocket = { on: jest.fn(), emit: jest.fn() };
     // Test toast appears
   });
 
-  it('hides toast after 5 seconds', async () => {
+  it("hides toast after 5 seconds", async () => {
     // Test auto-hide
   });
 });
 
-describe('NotificationCenter', () => {
-  it('renders notification list', () => {
+describe("NotificationCenter", () => {
+  it("renders notification list", () => {
     // Test rendering
   });
 
-  it('marks notification as read on click', async () => {
+  it("marks notification as read on click", async () => {
     // Test mark read
   });
 });
 ```
 
 **Integration tests:**
+
 ```typescript
 // Real WebSocket connection
-describe('Notification flow', () => {
-  it('creates notification in database when event emitted', async () => {
+describe("Notification flow", () => {
+  it("creates notification in database when event emitted", async () => {
     const notification = await notificationService.notifyLeadCreated(
       userId,
       leadId,
-      'Test Lead',
+      "Test Lead"
     );
 
     expect(notification).toBeDefined();
-    expect(notification.type).toBe('lead_created');
+    expect(notification.type).toBe("lead_created");
   });
 
-  it('emits WebSocket event when notification created', async () => {
+  it("emits WebSocket event when notification created", async () => {
     const mockSocket = jest.fn();
     // Test WebSocket emit
   });
@@ -1421,11 +1588,13 @@ describe('Notification flow', () => {
 **"WebSocket not connecting"**
 
 **Likely causes:**
+
 - Backend not running or wrong port
 - CORS not configured
 - Authentication failing
 
 **Fix:**
+
 ```bash
 # Check backend logs
 pnpm run dev:backend
@@ -1439,11 +1608,13 @@ echo $VITE_WEBSOCKET_URL
 **"Notifications not persisting"**
 
 **Likely causes:**
+
 - Database model not migrated
 - Not calling notification service (only emitting WebSocket)
 - Frontend not querying database
 
 **Fix:**
+
 ```bash
 # Run migration
 pnpm run db:migrate
@@ -1455,14 +1626,16 @@ pnpm run db:migrate
 **"Multiple toasts appearing"**
 
 **Likely causes:**
+
 - Multiple WebSocket connections (not cleaning up)
 - Not removing event listeners
 
 **Fix:**
+
 ```typescript
 // Ensure cleanup in useEffect
 return () => {
-  socket.off('notification');
+  socket.off("notification");
   socket.disconnect();
 };
 ```
@@ -1476,6 +1649,7 @@ return () => {
 ### Option A: Sequential Development (Traditional)
 
 **Build one feature at a time:**
+
 ```bash
 cd ~/auggie-academy-<your-name>
 
@@ -1503,6 +1677,7 @@ git merge feature/notifications
 **Build both features simultaneously:**
 
 **Step 1: Main worktree builds authentication**
+
 ```bash
 cd ~/auggie-academy-<your-name>
 git checkout -b feature/auth
@@ -1512,6 +1687,7 @@ git checkout -b feature/auth
 ```
 
 **Step 2: Create worktree for notifications**
+
 ```bash
 # From main worktree directory
 git worktree add ../auggie-academy-<your-name>-notifications -b feature/notifications
@@ -1524,6 +1700,7 @@ git worktree list
 ```
 
 **Step 3: Build notifications in worktree**
+
 ```bash
 # Open new terminal window
 cd ../auggie-academy-<your-name>-notifications
@@ -1534,12 +1711,14 @@ cd ../auggie-academy-<your-name>-notifications
 ```
 
 **Step 4: Both agents work simultaneously**
+
 - **Agent 1** (main worktree): Building auth backend → auth context → protected routes
 - **Agent 2** (notifications worktree): Building notification model → WebSocket gateway → frontend UI
 - **No conflicts:** Different files, no shared imports
 - **Total time:** 3-4 hours (instead of 6-8 hours sequential)
 
 **Step 5: Merge both features**
+
 ```bash
 # After both agents complete, merge notifications to main
 cd ~/auggie-academy-<your-name>
@@ -1558,6 +1737,7 @@ git worktree remove ../auggie-academy-<your-name>-notifications
 ### Why This Works for These Features
 
 **Authentication files:**
+
 - `backend/src/auth/auth.service.ts`
 - `backend/src/auth/auth.resolver.ts`
 - `backend/src/models/user.model.ts`
@@ -1567,6 +1747,7 @@ git worktree remove ../auggie-academy-<your-name>-notifications
 - `frontend/src/components/ProtectedRoute.tsx`
 
 **Notification files:**
+
 - `backend/src/notification/notification.service.ts`
 - `backend/src/notification/notification.gateway.ts`
 - `backend/src/notification/notification.resolver.ts`
@@ -1585,6 +1766,7 @@ git worktree remove ../auggie-academy-<your-name>-notifications
 ### Worktree Best Practices
 
 **Do:**
+
 - ✅ Use worktrees for completely independent features
 - ✅ Verify no file overlap before starting
 - ✅ Keep both worktrees in sync with main (regular pulls)
@@ -1592,6 +1774,7 @@ git worktree remove ../auggie-academy-<your-name>-notifications
 - ✅ Merge frequently to avoid divergence
 
 **Don't:**
+
 - ❌ Use worktrees for features with import dependencies
 - ❌ Modify same files in both worktrees (merge conflicts)
 - ❌ Forget to remove worktrees after merging
@@ -1604,6 +1787,7 @@ git worktree remove ../auggie-academy-<your-name>-notifications
 ### Minimum Completion (Everyone)
 
 **Authentication (Feature 1):**
+
 - [ ] User model with password hashing
 - [ ] JWT token generation and validation
 - [ ] GraphQL mutations: register, login
@@ -1613,6 +1797,7 @@ git worktree remove ../auggie-academy-<your-name>-notifications
 - [ ] Browser testing: Complete auth flow works
 
 **WebSocket Notifications (Feature 2):**
+
 - [ ] Notification database model
 - [ ] WebSocket gateway with Socket.io
 - [ ] Notification service publishes events
@@ -1625,6 +1810,7 @@ git worktree remove ../auggie-academy-<your-name>-notifications
 - [ ] Browser testing: Real-time notifications work
 
 **Validation:**
+
 - [ ] All 5 gates passing for both features
 - [ ] TypeScript: 0 errors
 - [ ] Tests passing
@@ -1635,11 +1821,13 @@ git worktree remove ../auggie-academy-<your-name>-notifications
 ### Fast Engineers Will Also Have
 
 **Parallel execution mastery:**
+
 - [ ] Built both features simultaneously using worktrees
 - [ ] Demonstrated parallel agent orchestration
 - [ ] Saved 3-4 hours of development time
 
 **Additional features (stretch goals):**
+
 - [ ] Google OAuth integration
 - [ ] PM-suggested features from Day 2 roadmap
 - [ ] Cross-platform notification sync
@@ -1651,6 +1839,7 @@ git worktree remove ../auggie-academy-<your-name>-notifications
 ### Option 1: Continue PM-Suggested Features
 
 **If you built PM agent on Day 2:**
+
 - Review PM roadmap from Day 2
 - Pick next highest priority feature
 - Implement with agent assistance
@@ -1661,6 +1850,7 @@ git worktree remove ../auggie-academy-<your-name>-notifications
 ### Option 2: Google OAuth (2-3 hours)
 
 **What to build:**
+
 - [ ] Install Passport.js Google strategy
 - [ ] Google OAuth app credentials (Google Cloud Console)
 - [ ] Backend OAuth callback route
@@ -1669,41 +1859,47 @@ git worktree remove ../auggie-academy-<your-name>-notifications
 - [ ] Store Google profile data
 
 **Implementation:**
+
 ```typescript
 // Backend: Google strategy
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 
-passport.use(new GoogleStrategy({
-  clientID: process.env.GOOGLE_CLIENT_ID!,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-  callbackURL: '/auth/google/callback',
-}, async (accessToken, refreshToken, profile, done) => {
-  // Find or create user
-  const user = await User.findOrCreate({
-    where: { email: profile.emails[0].value },
-    defaults: {
-      firstName: profile.name.givenName,
-      lastName: profile.name.familyName,
-      googleId: profile.id,
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      callbackURL: "/auth/google/callback",
     },
-  });
+    async (accessToken, refreshToken, profile, done) => {
+      // Find or create user
+      const user = await User.findOrCreate({
+        where: { email: profile.emails[0].value },
+        defaults: {
+          firstName: profile.name.givenName,
+          lastName: profile.name.familyName,
+          googleId: profile.id,
+        },
+      });
 
-  return done(null, user);
-}));
+      return done(null, user);
+    }
+  )
+);
 
 // Frontend: Google login button
-<a href="http://localhost:3000/auth/google">
-  Sign in with Google
-</a>
+<a href="http://localhost:3000/auth/google">Sign in with Google</a>;
 ```
 
 **Environment variables:**
+
 ```env
 GOOGLE_CLIENT_ID=...
 GOOGLE_CLIENT_SECRET=...
 ```
 
 **Testing:**
+
 - [ ] Clicking "Sign in with Google" redirects to Google
 - [ ] Callback creates or finds user
 - [ ] User logged in after OAuth flow
@@ -1714,6 +1910,7 @@ GOOGLE_CLIENT_SECRET=...
 ### Option 3: Cross-Platform Notification Sync (2-3 hours)
 
 **What to build:**
+
 - [ ] Notification sync between web and mobile
 - [ ] Mark as read on web → syncs to mobile
 - [ ] Mark as read on mobile → syncs to web
@@ -1721,6 +1918,7 @@ GOOGLE_CLIENT_SECRET=...
 - [ ] Requires mobile app foundation (Day 4)
 
 **Implementation:**
+
 ```typescript
 // Backend: Notification sync service
 @Injectable()
@@ -1731,12 +1929,12 @@ export class NotificationSyncService {
     // Update database
     await Notification.update(
       { isRead: true },
-      { where: { id: notificationId } },
+      { where: { id: notificationId } }
     );
 
     // Broadcast to all user's devices
     await this.notificationGateway.sendToUser(userId, {
-      type: 'sync',
+      type: "sync",
       notificationId,
       isRead: true,
     });
@@ -1744,13 +1942,14 @@ export class NotificationSyncService {
 }
 
 // Frontend: Listen for sync events
-socket.on('sync', (data) => {
+socket.on("sync", (data) => {
   // Update local notification state
   updateNotification(data.notificationId, { isRead: data.isRead });
 });
 ```
 
 **Testing:**
+
 - [ ] Open web app on desktop
 - [ ] Open mobile app on phone
 - [ ] Mark notification as read on desktop
@@ -1762,12 +1961,14 @@ socket.on('sync', (data) => {
 ## Tomorrow: Day 4 - Brownfield Extension
 
 **Building in existing codebases:**
+
 - Understanding established patterns
 - Finding integration points
 - Extending without breaking
 - Serena MCP becomes critical
 
 **Required reading tonight:**
+
 - `.claude/playbook/strategic-orchestration.md` - Parallel vs sequential patterns
 - `.claude/playbook/brownfield-analysis.md` (if exists) - Working with existing code
 

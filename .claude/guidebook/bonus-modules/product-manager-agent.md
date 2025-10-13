@@ -2,8 +2,6 @@
 
 ## What You'll Build: Three Phases
 
-### Phase 1: Codebase Analysis Agent (1-2 hours)
-
 **Goal:** Understand what YOU actually built
 
 **Agent tasks:**
