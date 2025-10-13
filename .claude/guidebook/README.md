@@ -6,18 +6,15 @@ Welcome to the complete curriculum for systematic AI agent orchestration. This g
 
 ## Quick Start
 
-**Starting the course?**
-
-1. Read this overview
-2. Begin with [Day 1 companion guide](companion/day-1-foundation.md)
-3. Follow days sequentially
+**Starting the course?** → [Day 1: Foundation](companion/day-1-foundation.md)
 
 **Looking for specific content?**
 
-- **Daily sessions:** See [companion/README.md](companion/README.md) for hands-on guides
-- **Chapters:** See [chapters/README.md](chapters/README.md) for deep dive chapters table of contents
-- **Troubleshooting:** See [../playbook/gotcha-library.md](../playbook/gotcha-library.md) for known issues and fixes
-- **Advanced topics:** See [appendices/](appendices/) for git workflows and brownfield patterns
+- **Daily guides:** [companion/README.md](companion/README.md) - Session-by-session breakdown
+- **Deep theory:** [chapters/README.md](chapters/README.md) - Comprehensive chapters
+- **Advanced workflows:** [appendices/](appendices/) - Git worktrees, stacked PRs, brownfield
+
+**Need operational references?** → See [../README.md](../README.md) for playbook/methodology organization
 
 ---
 
@@ -51,19 +48,6 @@ Each day is self-contained with everything you need in one file. Work at your ow
 
 ---
 
-### 📚 Supporting Resources
-
-**Quick Reference (in [playbook](../playbook/))**
-
-Need quick operational references during feature development?
-
-- [Coordination decision tree](../playbook/coordination-decision-tree.md) - Visual decision flowchart
-- [NestJS + Sequelize + GraphQL patterns](../playbook/nestjs-patterns.md) - Code snippet library
-- [Gotcha library](../playbook/gotcha-library.md) - Known issues with proven fixes
-
-These are operational references used during work - see [playbook/README.md](../playbook/README.md) for all quick references.
-
----
 
 **[Appendices](appendices/)** - Advanced workflows:
 
@@ -71,36 +55,19 @@ These are operational references used during work - see [playbook/README.md](../
 - [Stacked PRs](appendices/stacked-prs.md) workflows
 - [Brownfield extension](appendices/brownfield-extension.md) strategies
 
-Use after mastering core patterns.
-
 ---
 
 ## How to Use This Guidebook
 
-### During the 5-Day Course
-
 **Daily workflow:**
 
-1. Open the relevant [companion session](companion/)
-2. Follow checklists and exercises
-3. Reference [chapters](chapters/) for deep theory
-4. Use [playbook](../playbook/) for quick operational references
-5. Check [gotcha library](../playbook/gotcha-library.md) if stuck
+1. Open today's [companion guide](companion/) and follow along
+2. Reference [chapters](chapters/) when you need deeper theory
+3. Use [appendices](appendices/) for advanced git workflows
 
-**The companion guides you through chapters sequentially - follow them day by day.**
+**After the course:** Keep guidebook open as reference during real feature development.
 
----
-
-### After the Course
-
-**Use as reference:**
-
-- **Quick lookups:** [Playbook](../playbook/) for fast operational references
-- **Deep dives:** Return to [chapters](chapters/) when need theory refresher
-- **Troubleshooting:** [Gotcha library](../playbook/gotcha-library.md) for known issues
-- **Advanced patterns:** [Appendices](appendices/) for git workflows, brownfield work
-
-**Keep this guidebook open during real feature development.**
+**Need operational checklists?** → See [playbook](../playbook/) and [methodology](../methodology/) in [.claude/README.md](../README.md)
 
 ---
 
@@ -133,18 +100,6 @@ This guidebook is built on **proven patterns** validated through systematic expe
 - 🔄 Additional appendices (advanced workflows)
 
 ---
-
-## Quick Navigation
-
-**Starting course?** → [companion/day-1-foundation.md](companion/day-1-foundation.md)
-
-**Need chapter details?** → [chapters/README.md](chapters/README.md)
-
-**Want session overview?** → [companion/README.md](companion/README.md)
-
-**Looking for pattern?** → [../methodology/pattern-library.md](../methodology/pattern-library.md)
-
-**Need protocol?** → [../playbook/](../playbook/)
 
 ---
 

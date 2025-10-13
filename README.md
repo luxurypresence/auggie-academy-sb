@@ -138,28 +138,25 @@ cp .env.local.template .env.local
 
 ## What's in This Repository
 
-**Complete methodology documentation in `.claude/` directory:**
+**Everything you need is in `.claude/` directory:**
 
-- 📚 **Guidebook** - Sequential learning (Deep dive chapters + 5-day companion)
-- ⚡ **Playbook** - Daily operational protocols
-- 🔧 **Methodology** - Deep-dive patterns and protocols
-- 📋 **Templates** - Copy-paste agent prompts
-- 🤖 **Commands** - Slash commands for partner setup
+- 📚 **Guidebook** - Day-by-day learning path + deep-dive chapters
+- ⚡ **Playbook** - Quick operational references during work
+- 🔧 **Methodology** - Complete technical specifications
+- Plus templates, commands, and orchestration partner setup
 
-**For detailed folder organization, see [.claude/README.md](.claude/README.md)**
+**→ See [.claude/README.md](.claude/README.md) for complete organization guide**
 
 ---
 
-## Learning Philosophy
+## What You'll Learn
 
-This course provides **guided AI assistance while building complex features that require orchestrating multiple agents**. This serves as a forcing function - you'll need to master AI orchestration to successfully complete the increasingly complex features.
-
-This is an intensive, fast-paced course that will challenge you - and that's exactly the point. Learning to effectively orchestrate AI agents is inherently complex, but mastering this skill is essential for achieving truly transformative productivity gains.
-
-**You'll experience:**
+This intensive course teaches **systematic AI agent orchestration** through hands-on feature development. You'll master:
 
 - Infrastructure-first pattern (foundation before features)
 - Strategic orchestration (proactive blocker removal)
 - Parallel agent coordination (build multiple features simultaneously)
 - Validation gates (TypeScript, ESLint, tests, browser/device testing)
 - Professional practices (A+ code quality, demo readiness)
+
+**Learn by building a complete production CRM from scratch.**
