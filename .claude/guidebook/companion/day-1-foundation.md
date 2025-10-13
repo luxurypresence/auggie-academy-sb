@@ -806,30 +806,52 @@ My line 2 looks like -
 
 **Why it matters:** When orchestrating multiple agents, you need to know when each one completes a response so you can switch context or provide the next instruction.
 
-**The problem:** You're working on something else and miss when Claude finishes responding.
+**Setup (macOS):**
 
-**The solution:** Configure terminal bells to notify you when Claude completes.
+Edit your global Claude Code settings file at `~/.claude/settings.json`:
 
-**iTerm2 Setup (macOS):**
+```json
+{
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "osascript -e 'display notification \"Claude finished task\" with title \"Claude Code\" sound name \"Hero\"'"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "osascript -e 'display notification \"Claude needs your input\" with title \"Claude Code\" sound name \"Hero\"'"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
 
-Navigate to: **Settings > Profiles > Terminal > Bell**
+**What this does:**
 
-Enable these settings:
+- **Stop hook** - Triggers when Claude finishes a response (shows "Claude finished task" notification)
+- **Notification hook** - Triggers when Claude needs input (shows "Claude needs your input" notification)
+- **Sound:** Uses "Hero" alert sound (change to any macOS alert sound you prefer)
 
-- ✅ **Flash visual bell** - Visual notification in terminal
-- ✅ **Show bell icon in tabs** - See which tab got the notification
-- ✅ **Notification Center alerts** - macOS notification popup
-- ✅ **Filter alerts > Send escape sequence-generated alerts** - Ensure Claude's completion triggers the bell
+**Customization:**
 
-**Bonus: Mac System Sound Settings**
+Change the sound name to your preference:
 
-Make the notification more attention-grabbing:
+- See all available sounds: `ls /System/Library/Sounds/`
 
-1. Open **System Settings > Sound > Alert Sound**
-2. Choose something distinctive (I personally use **"Heroine"** - more noticeable than the default)
-
-You may also need to run `claude config set --global preferredNotifChannel terminal_bell`.
-Setting this alone didn't actually work for notifications. The instructions in the claude docs for iterm bells _also_ didn't work for me... 🤷‍♂️
+**This is the most reliable method** - works consistently unlike terminal bell configurations.
 
 ---
 
