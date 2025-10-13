@@ -1,118 +1,159 @@
-# AI Orchestration Mastery: Your 5-Day Trail
+# AI Orchestration Mastery: Your 5-Day Journey
 
-**How to use:** Follow sessions sequentially (01 → 02 → 03...). Each session is self-contained with everything you need.
-
----
-
-## The Trail
-
-### Day 1: Discovery Mode
-
-**Session 01:** [Tool Foundations](day-1/01-morning-tools.md)
-Learn Claude Code, MCP servers, multiple instances
-
-**Session 02:** [Build Dashboard](day-1/02-afternoon-build.md)
-Build complete CRM with your own approach to agent orchestration - discover what works and what's challenging
+**How to use:** Follow days sequentially (Day 1 → 2 → 3 → 4 → 5). Work at your own pace within each day.
 
 ---
 
-### Day 2: Methodology Introduction
+## The Journey
 
-**Session 03:** [Strategic Orchestration Foundations](day-2/01-morning-methodology.md)
-Understand systematic patterns through hands-on practice
+### Day 1: Foundation & Core CRM
 
-**Session 04:** [Apply Methodology](day-2/02-afternoon-apply.md)
-Refactor yesterday's code with proven patterns
+**Session 01 of 5**
 
----
+[Tool Foundations & Build Complete CRM](day-1-foundation.md)
 
-### Day 3: AI Intelligence Layer
+**What you'll build:**
 
-**Session 05:** [AI Lead Analysis](day-3/01-morning-ai-analysis.md)
-LLM integration patterns - activity scoring and summaries
+- Claude Code + MCP servers setup
+- NestJS + Sequelize + GraphQL infrastructure
+- Complete CRUD dashboard
 
-**Session 06:** [AI Task Management Recommendations](day-3/02-afternoon-ai-recommendations.md)
-Build AI-assisted task management features
+**Stretch goals:** AI summaries, AI scoring, polish
 
 ---
 
-### Day 4: Strategic Orchestration + Mobile
+### Day 2: Methodology + AI Intelligence Layer
 
-**Session 07:** [Authentication](day-4/01-morning-auth.md)
-Sequential execution patterns - JWT + Google OAuth
+**Session 02 of 5**
 
-**Session 08:** [Mobile Foundation](day-4/02-afternoon-mobile.md)
-React Native + Expo - start mobile app
+[Methodology Introduction & AI Features](day-2-ai-intelligence.md)
+
+**Morning:** Methodology introduction (9-11am, optional to adopt)
+**Rest of day:** Build AI intelligence layer
+
+**Required:** 3 AI features
+
+1. AI lead summaries (with persistence)
+2. AI activity scoring (with persistence)
+3. AI task recommendations (with persistence)
+
+**Stretch:** Product Manager Agent (unlimited feature generation)
 
 ---
 
-### Day 5: Polish & Extension
+### Day 3: Advanced Backend Features
 
-**Session 09:** [Optional Advanced Features & Catch-Up](day-5/01-morning-optional-catchup.md)
-Complete unfinished work, add polish
+**Session 03 of 5**
 
-**Session 10:** [Demos & Brownfield Extension](day-5/02-afternoon-demos.md)
-Present your work, extend methodology to company codebases
+[Authentication + Real-Time Notifications](day-3-advanced-features.md)
+
+**Required:** 2 advanced features
+
+1. JWT authentication (sequential execution)
+2. Real-time WebSocket notifications (with persistent storage)
+
+**Worktrees introduced:** Perfect for parallel development (auth + notifications)
+
+**Stretch:** Google OAuth, notification sync
+
+---
+
+### Day 4: Mobile Application
+
+**Session 04 of 5**
+
+[React Native Mobile App](day-4-mobile-app.md)
+
+**Required:** Mobile app foundation
+
+- React Native + Expo
+- Lead list + detail screens
+- Backend connection from mobile
+
+**Continue building:** Add features throughout the day
+
+**Stretch:** Mobile CRUD, offline mode, push notifications
+
+---
+
+### Day 5: Polish & Completion
+
+**Session 05 of 5**
+
+[Final Push + Demos + Brownfield](day-5-polish-demos.md)
+
+**Morning:** Choose your path
+
+- Complete missing work OR
+- Stretch goals OR
+- Polish existing features
+
+**Afternoon (Everyone):**
+
+- 1:00-3:00pm: Individual demos
+- 3:00-5:00pm: Brownfield extension (required)
+
+**Time:** Morning self-paced, afternoon structured
+
+---
+
+## Bonus Modules (Optional Stretch Goals)
+
+**Finished required work early? Choose from:**
+
+- 🔐 [Google OAuth](../bonus-modules/google-oauth.md) - "Sign in with Google"
+- 📱 [Advanced Mobile](../bonus-modules/advanced-mobile-features.md) - Offline mode, push notifications
+- 📊 [Analytics Dashboard](../bonus-modules/analytics-dashboard.md) - Data visualization
+
+**See:** [Bonus Modules Overview](../bonus-modules/README.md)
 
 ---
 
 ## Daily Themes
 
-**Day 1:** Learn by doing - discover your own approach, experience challenges
-**Day 2:** Systematic methodology - see what could make it easier
-**Day 3:** AI intelligence - advanced MCP servers and complex features
-**Day 4:** Strategic orchestration - pre-execution validation and mobile
-**Day 5:** Polish and completion - demos and brownfield extension
+**Day 1:** Discovery - build with your own approach
+**Day 2:** AI Intelligence - methodology introduced as optional resource
+**Day 3:** Advanced Backend - authentication + real-time (parallel orchestration)
+**Day 4:** Mobile Platform - React Native + Expo
+**Day 5:** Polish & Completion - demos + brownfield extension
 
 ---
 
-## What's in Each Session
+## What's in Each Day
 
-**Every session file includes:**
+**Every day includes:**
 
-- ✅ Session goal and learning objective
-- ✅ Hands-on exercises and checklists
-- ✅ Feature requirements and deliverables
-- ✅ Technical guidance and gotchas
-- ✅ References to relevant protocols (when you need them)
+- ✅ Clear goal and required features
+- ✅ Work at your own pace guidance
+- ✅ Stretch goals for fast engineers
+- ✅ Technical guidance and implementation details
+- ✅ References to methodology resources (optional)
 
-**Each session is self-contained** - no bouncing between multiple documents during the session.
-
----
-
-## Philosophy
-
-**This companion is:**
-
-- ✅ **Practical** - Hands-on exercises, not just reading
-- ✅ **Self-contained** - Everything you need per session in one file
-- ✅ **Sequential** - Follow the numbers (01 → 02 → 03...)
-- ✅ **Evidence-based** - References proven patterns from real feature development
-
-**This companion is NOT:**
-
-- ❌ **Comprehensive reference** - Use [playbook](../../../playbook/) and [methodology](../../methodology/) for deep protocols
-- ❌ **Prescriptive rulebook** - You make decisions, companion guides you
-- ❌ **Theory-heavy** - Quick reads with focus on building
+**Each day is self-contained** - everything you need in one file.
 
 ---
 
 ## After the Course
 
-**Keep this companion for:**
+**You'll have built:**
 
-- Quick pattern refreshers when building similar features
-- Reference during brownfield application
-- Sharing with teammates learning orchestration
+- Complete CRM with AI intelligence
+- Mobile application
+- Real-time features
+- Authentication system
+- (Optional) PM-suggested features
+- (Optional) Advanced features based on interests
 
-**For deeper dives:**
+**You'll know how to:**
 
-- [Playbook](../../../playbook/) - Operational protocols you'll use daily
-- [Methodology](../../methodology/) - Deep pattern details and implementation
-- [Chapters](../chapters/) - Comprehensive theory (optional reading)
+- Orchestrate AI agents effectively
+- Build production features systematically
+- Test AI-powered features
+- Coordinate backend + frontend + mobile
+- Apply methodology to company codebases
 
 ---
 
-**Ready to start?** → [Session 01: Tool Foundations](day-1/01-morning-tools.md)
+**Ready to start?** → [Day 1: Foundation & Core CRM](day-1-foundation.md)
 
 **Lost?** → [Back to guidebook overview](../README.md)

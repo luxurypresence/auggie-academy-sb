@@ -243,7 +243,7 @@ Each feature builds on previous features:
 
 **Starting course?** → [guidebook/README.md](guidebook/README.md)
 
-**Day 1 session?** → [guidebook/companion/day-1/](guidebook/companion/day-1/)
+**Day 1 session?** → [guidebook/companion/day-1-foundation.md](guidebook/companion/day-1-foundation.md)
 
 **Creating agent prompt?** → [playbook/prompt-creation.md](playbook/prompt-creation.md)
 

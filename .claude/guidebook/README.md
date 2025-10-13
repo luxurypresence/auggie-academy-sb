@@ -7,11 +7,13 @@ Welcome to the complete curriculum for systematic AI agent orchestration. This g
 ## Quick Start
 
 **Starting the course?**
+
 1. Read this overview
-2. Begin with [Day 1 companion guide](companion/day-1/)
-3. Follow daily sessions sequentially
+2. Begin with [Day 1 companion guide](companion/day-1-foundation.md)
+3. Follow days sequentially
 
 **Looking for specific content?**
+
 - **Chapters:** See [chapters/README.md](chapters/README.md) for complete 13-chapter table of contents
 - **Daily sessions:** See [companion/README.md](companion/README.md) for hands-on guides
 - **Quick reference:** See [reference/](reference/) for lookup resources
@@ -25,6 +27,7 @@ Welcome to the complete curriculum for systematic AI agent orchestration. This g
 ### 📖 Core Learning Path
 
 **[Chapters](chapters/)** - 13 comprehensive chapters covering:
+
 - Part 1: Strategic Orchestration Foundations (Days 1-2)
 - Part 2: Coordination Mastery (Day 3)
 - Part 3: Advanced Patterns (Days 4-5)
@@ -35,22 +38,24 @@ Each chapter includes theory, evidence, protocols, practice exercises, and NestJ
 
 ---
 
-**[Companion Guides](companion/)** - Daily session-by-session guides:
-- Day 1: Discovery mode (learn tools, experience challenges)
-- Day 2: Methodology introduction (systematic patterns)
-- Day 3: AI intelligence layer (complex features)
-- Day 4: Strategic orchestration (pre-execution validation)
-- Day 5: Completion & brownfield extension
+**[Companion Guides](companion/)** - Daily guides for the 5-day course:
 
-Each session is self-contained with checklists, exercises, and hands-on activities.
+- Day 1: Foundation & Core CRM (tools, CRUD dashboard)
+- Day 2: Methodology + AI Intelligence Layer (optional patterns, 3 AI features)
+- Day 3: Advanced Backend Features (authentication + real-time notifications)
+- Day 4: Mobile Application (React Native + Expo)
+- Day 5: Polish & Completion (demos + brownfield extension)
 
-**See [companion/README.md](companion/README.md) for daily themes and session structure.**
+Each day is self-contained with everything you need in one file. Work at your own pace within each day.
+
+**See [companion/README.md](companion/README.md) for complete daily breakdown.**
 
 ---
 
 ### 📚 Supporting Resources
 
 **[Reference Guide](reference/)** - Quick lookup resources:
+
 - Coordination decision tree
 - NestJS + Sequelize + GraphQL patterns
 - Common workflows and checklists
@@ -60,6 +65,7 @@ Use for fast protocol lookup during feature development.
 ---
 
 **[Troubleshooting](troubleshooting/)** - Known issues and solutions:
+
 - Gotcha library with proven fixes
 - Common pitfalls and prevention strategies
 
@@ -68,6 +74,7 @@ Use when debugging or encountering friction.
 ---
 
 **[Appendices](appendices/)** - Advanced workflows:
+
 - Git worktrees for parallel work
 - Stacked PRs with git-town
 - Brownfield extension strategies
@@ -81,6 +88,7 @@ Use after mastering core patterns.
 ### During the 5-Day Course
 
 **Daily workflow:**
+
 1. Open the relevant [companion session](companion/)
 2. Follow checklists and exercises
 3. Reference [chapters](chapters/) for deep theory
@@ -94,6 +102,7 @@ Use after mastering core patterns.
 ### After the Course
 
 **Use as reference:**
+
 - **Quick lookups:** [Reference sections](reference/) for fast protocol access
 - **Deep dives:** Return to [chapters](chapters/) when need theory refresher
 - **Troubleshooting:** [Gotcha library](troubleshooting/) for known issues
@@ -120,12 +129,14 @@ This guidebook is built on **proven patterns** validated through systematic expe
 ## Content Status
 
 **Completed:**
+
 - ✅ Companion guides (Days 1-5 session-by-session)
 - ✅ Chapters 1-4 (Strategic Orchestration Foundations)
 - ✅ Playbook integration (operational protocols)
 - ✅ Methodology integration (deep-dive patterns)
 
 **In Progress:**
+
 - 🔄 Chapters 5-13 (detailed content)
 - 🔄 Reference guide (quick lookup resources)
 - 🔄 Troubleshooting guide (gotcha library)
@@ -135,7 +146,7 @@ This guidebook is built on **proven patterns** validated through systematic expe
 
 ## Quick Navigation
 
-**Starting course?** → [companion/day-1/](companion/day-1/)
+**Starting course?** → [companion/day-1-foundation.md](companion/day-1-foundation.md)
 
 **Need chapter details?** → [chapters/README.md](chapters/README.md)
 
