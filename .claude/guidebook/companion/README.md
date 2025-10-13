@@ -28,8 +28,8 @@
 
 [Methodology Introduction & AI Features](day-2-ai-intelligence.md)
 
-**Morning:** Methodology introduction (9-11am, optional to adopt)
-**Rest of day:** Build AI intelligence layer
+- Methodology introduction
+- Build AI intelligence layer
 
 **Required:** 3 AI features
 
@@ -90,10 +90,8 @@
 
 **Afternoon (Everyone):**
 
-- 1:00-3:00pm: Individual demos
-- 3:00-5:00pm: Brownfield extension (required)
-
-**Time:** Morning self-paced, afternoon structured
+- Demos
+- Brownfield extension discussion
 
 ---
 

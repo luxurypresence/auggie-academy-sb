@@ -10,6 +10,7 @@
 
 ## Files
 
+**Workflows & Checklists:**
 - `strategic-orchestration.md` - Pre-execution validation checklist
 - `agent-coordination.md` - Coordination protocols
 - `prompt-creation.md` - Prompt creation workflow
@@ -17,6 +18,11 @@
 - `testing-standards.md` - Testing requirements
 - `session-continuity.md` - Session handoffs
 - `sub-agent-usage.md` - Sub-agent quick reference
+
+**Quick References:**
+- `coordination-decision-tree.md` - Visual flowchart for coordination decisions
+- `nestjs-patterns.md` - Common code patterns and snippets
+- `gotcha-library.md` - Known issues with proven fixes
 
 ---
 

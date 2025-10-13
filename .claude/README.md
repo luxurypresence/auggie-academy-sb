@@ -42,7 +42,11 @@ Your complete methodology for building production software with AI agents.
 
 **Purpose:** Fast lookup during work (keep open)
 
-**What's inside:** Operational checklists and workflows
+**What's inside:**
+- Operational checklists and workflows
+- Visual decision trees (coordination flowchart)
+- Code pattern references (NestJS, GraphQL)
+- Known issues library (gotchas with fixes)
 
 **Use when:** Creating prompts, planning features, active work
 

@@ -140,7 +140,7 @@ cp .env.local.template .env.local
 
 **Complete methodology documentation in `.claude/` directory:**
 
-- 📚 **Guidebook** - Sequential learning (13 chapters + 5-day companion)
+- 📚 **Guidebook** - Sequential learning (Deep dive chapters + 5-day companion)
 - ⚡ **Playbook** - Daily operational protocols
 - 🔧 **Methodology** - Deep-dive patterns and protocols
 - 📋 **Templates** - Copy-paste agent prompts

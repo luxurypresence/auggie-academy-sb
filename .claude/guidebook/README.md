@@ -14,10 +14,9 @@ Welcome to the complete curriculum for systematic AI agent orchestration. This g
 
 **Looking for specific content?**
 
-- **Chapters:** See [chapters/README.md](chapters/README.md) for complete 13-chapter table of contents
 - **Daily sessions:** See [companion/README.md](companion/README.md) for hands-on guides
-- **Quick reference:** See [reference/](reference/) for lookup resources
-- **Troubleshooting:** See [troubleshooting/](troubleshooting/) for known issues and fixes
+- **Chapters:** See [chapters/README.md](chapters/README.md) for deep dive chapters table of contents
+- **Troubleshooting:** See [../playbook/gotcha-library.md](../playbook/gotcha-library.md) for known issues and fixes
 - **Advanced topics:** See [appendices/](appendices/) for git workflows and brownfield patterns
 
 ---
@@ -26,7 +25,7 @@ Welcome to the complete curriculum for systematic AI agent orchestration. This g
 
 ### 📖 Core Learning Path
 
-**[Chapters](chapters/)** - 13 comprehensive chapters covering:
+**[Chapters](chapters/)** - Comprehensive chapters covering:
 
 - Part 1: Strategic Orchestration Foundations (Days 1-2)
 - Part 2: Coordination Mastery (Day 3)
@@ -54,30 +53,23 @@ Each day is self-contained with everything you need in one file. Work at your ow
 
 ### 📚 Supporting Resources
 
-**[Reference Guide](reference/)** - Quick lookup resources:
+**Quick Reference (in [playbook](../playbook/))**
 
-- Coordination decision tree
-- NestJS + Sequelize + GraphQL patterns
-- Common workflows and checklists
+Need quick operational references during feature development?
 
-Use for fast protocol lookup during feature development.
+- [Coordination decision tree](../playbook/coordination-decision-tree.md) - Visual decision flowchart
+- [NestJS + Sequelize + GraphQL patterns](../playbook/nestjs-patterns.md) - Code snippet library
+- [Gotcha library](../playbook/gotcha-library.md) - Known issues with proven fixes
 
----
-
-**[Troubleshooting](troubleshooting/)** - Known issues and solutions:
-
-- Gotcha library with proven fixes
-- Common pitfalls and prevention strategies
-
-Use when debugging or encountering friction.
+These are operational references used during work - see [playbook/README.md](../playbook/README.md) for all quick references.
 
 ---
 
 **[Appendices](appendices/)** - Advanced workflows:
 
-- Git worktrees for parallel work
-- Stacked PRs with git-town
-- Brownfield extension strategies
+- [Git worktrees](appendices/git-worktrees/git-worktrees.md) for parallel work
+- [Stacked PRs](appendices/stacked-prs.md) workflows
+- [Brownfield extension](appendices/brownfield-extension.md) strategies
 
 Use after mastering core patterns.
 
@@ -92,8 +84,8 @@ Use after mastering core patterns.
 1. Open the relevant [companion session](companion/)
 2. Follow checklists and exercises
 3. Reference [chapters](chapters/) for deep theory
-4. Use [reference guide](reference/) for quick lookups
-5. Check [troubleshooting](troubleshooting/) if stuck
+4. Use [playbook](../playbook/) for quick operational references
+5. Check [gotcha library](../playbook/gotcha-library.md) if stuck
 
 **The companion guides you through chapters sequentially - follow them day by day.**
 
@@ -103,9 +95,9 @@ Use after mastering core patterns.
 
 **Use as reference:**
 
-- **Quick lookups:** [Reference sections](reference/) for fast protocol access
+- **Quick lookups:** [Playbook](../playbook/) for fast operational references
 - **Deep dives:** Return to [chapters](chapters/) when need theory refresher
-- **Troubleshooting:** [Gotcha library](troubleshooting/) for known issues
+- **Troubleshooting:** [Gotcha library](../playbook/gotcha-library.md) for known issues
 - **Advanced patterns:** [Appendices](appendices/) for git workflows, brownfield work
 
 **Keep this guidebook open during real feature development.**
@@ -138,9 +130,7 @@ This guidebook is built on **proven patterns** validated through systematic expe
 **In Progress:**
 
 - 🔄 Chapters 5-13 (detailed content)
-- 🔄 Reference guide (quick lookup resources)
-- 🔄 Troubleshooting guide (gotcha library)
-- 🔄 Appendices (advanced workflows)
+- 🔄 Additional appendices (advanced workflows)
 
 ---
 

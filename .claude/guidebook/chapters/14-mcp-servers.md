@@ -874,7 +874,7 @@ claude mcp remove <server-name>
 
 **Related Content:**
 
-- [Day 1 Morning: Tool Foundations](../../companion/day-1/01-morning-tools.md) - Hands-on MCP setup
+- [Day 1: Foundation & Core CRM](../companion/day-1-foundation.md) - Hands-on MCP setup
 
 ---
 
