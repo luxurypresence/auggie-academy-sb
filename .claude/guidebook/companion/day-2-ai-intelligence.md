@@ -46,7 +46,7 @@ Unlike regular Claude Code sessions that start fresh each time, the orchestratio
 
 **What it recovers:**
 
-- ✅ What's already built (reads workspace/, checks codebase)
+- ✅ What's already built (reads workspace/ - a structured directory storing execution plans, agent prompts, session logs, and retrospectives for each feature, checks codebase)
 - ✅ Conventions used (camelCase, field naming, patterns)
 - ✅ What worked (reads retrospectives from completed features)
 - ✅ What failed (reads session logs, identifies anti-patterns)
@@ -90,7 +90,7 @@ Orchestration Partner: "I see you use camelCase, Docker on port 5433, NestJS + G
 
 **The compound learning effect:**
 
-As you build features, orchestration partner learns:
+As you build features, the orchestration partner learns:
 
 - Feature 1: Creates dashboard → Documents patterns in retrospective
 - Feature 2: Creates widgets → Reads Feature 1 retrospective, applies learnings
@@ -150,6 +150,13 @@ This command tells Claude Code to read a prompt file at `.claude/commands/init-o
 - Load proven patterns from `.claude/playbook/` directory
 - Read coordination protocols and validation gates
 - Apply systematic methodology when creating agent prompts
+- **Manage `.claude/workspace/`** - reading accumulated knowledge AND writing new feature documentation:
+  - **Reads** retrospectives from completed features to apply lessons learned
+  - **Writes** new feature directories (`.claude/workspace/{feature-slug}/`)
+  - **Creates** execution plans documenting feature strategy and task breakdown
+  - **Saves** agent prompts as files for engineers to copy and execute
+  - **Tracks** agent logs capturing decisions and challenges during execution
+  - **Compiles** retrospectives distilling lessons learned after completion
 
 **You can view the actual prompt:** [.claude/commands/init-orchestration-partner.md](../../../commands/init-orchestration-partner.md)
 
@@ -199,6 +206,35 @@ You: "Agents succeeded but my manual QA failed - what went wrong?"
 ```
 
 **Key point:** The partner has access to `.claude/playbook/` and `.claude/methodology/` - it knows proven patterns and common gotchas.
+
+### What Happens When You Request a Feature
+
+**When you ask:** "Create agent prompt for AI lead summaries feature"
+
+**The orchestration partner will:**
+
+1. **Create workspace structure:**
+   ```
+   .claude/workspace/ai-lead-summaries/
+     agent-prompts/
+     agent-logs/
+   ```
+
+2. **Generate execution plan:**
+   - Writes `.claude/workspace/ai-lead-summaries/execution-plan.md`
+   - Documents feature requirements, coordination analysis, task breakdown
+   - Defines success criteria, integration strategy, timeline estimates
+
+3. **Create agent prompts:**
+   - Saves complete prompts to `.claude/workspace/ai-lead-summaries/agent-prompts/{task-name}.md`
+   - You copy these prompts and spawn new Claude Code agents to execute them
+   - Each agent writes its session log to `agent-logs/{task-name}-session.md` during execution
+
+4. **Guide validation:**
+   - After agents complete, partner helps verify all 5 validation gates
+   - Creates retrospective capturing lessons learned (optional)
+
+**The result:** Structured workflow with persistent documentation that future sessions can learn from.
 
 ---
 
