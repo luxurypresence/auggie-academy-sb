@@ -214,6 +214,7 @@ You: "Agents succeeded but my manual QA failed - what went wrong?"
 **The orchestration partner will:**
 
 1. **Create workspace structure:**
+
    ```
    .claude/workspace/ai-lead-summaries/
      agent-prompts/
@@ -221,11 +222,13 @@ You: "Agents succeeded but my manual QA failed - what went wrong?"
    ```
 
 2. **Generate execution plan:**
+
    - Writes `.claude/workspace/ai-lead-summaries/execution-plan.md`
    - Documents feature requirements, coordination analysis, task breakdown
    - Defines success criteria, integration strategy, timeline estimates
 
 3. **Create agent prompts:**
+
    - Saves complete prompts to `.claude/workspace/ai-lead-summaries/agent-prompts/{task-name}.md`
    - You copy these prompts and spawn new Claude Code agents to execute them
    - Each agent writes its session log to `agent-logs/{task-name}-session.md` during execution
@@ -235,6 +238,65 @@ You: "Agents succeeded but my manual QA failed - what went wrong?"
    - Creates retrospective capturing lessons learned (optional)
 
 **The result:** Structured workflow with persistent documentation that future sessions can learn from.
+
+### Staying Productive While Agents Work
+
+**The "boredom problem":** Waiting for agents to finish feels unproductive.
+
+You've kicked off an agent to build a feature. It's working. Now what?
+
+- **5-15 minutes of waiting** - Agent is writing code, running tests, fixing errors
+- **Nothing for you to do** - Can't review code that doesn't exist yet
+- **Context switching temptation** - Check email, browse docs, make a chai latte (but how many chai latte's can one really have in a day anyway?)
+- **Anxiety about what's being built** - Is the agent making good decisions? Writing quality code?
+- **Loss of flow state** - You were engaged, now you're idle, hard to regain momentum
+
+**Common reaction:** Combat boredom by haphazardly spawning agents without coordination - losing track of what's running where. This creates:
+
+- Merge conflicts between parallel agents
+- Cognitive overload tracking multiple simultaneous changes
+- Code you haven't reviewed before opening PRs
+- Accumulation of unnoticed bugs and tech debt
+
+**Orchestration partner solution:** While agents execute, stay engaged with the orchestration partner:
+
+**Plan the next feature:**
+
+```
+You: "While the AI summary agent works, help me plan the activity scoring feature"
+Partner: Creates execution plan for next feature while current agents run
+```
+
+**Review codebase quality:**
+
+```
+You: "What parts of our codebase are tech debt vs solid?"
+Partner: Analyzes patterns, identifies improvement opportunities
+```
+
+**Discuss architectural decisions:**
+
+```
+You: "Should we extract the LLM integration into a shared service?"
+Partner: Evaluates trade-offs, recommends approach based on your patterns
+```
+
+**Prepare validation strategy:**
+
+```
+You: "What integration tests should I write for the AI features?"
+Partner: Suggests test scenarios based on execution plan
+```
+
+**Why this matters:**
+
+- ✅ **Maintain code ownership** - You stay engaged with what's being built
+- ✅ **Catch issues early** - Discuss architecture while agents work, not after
+- ✅ **Sequential clarity** - Plan next feature, execute when ready (not parallel chaos)
+- ✅ **Quality awareness** - Review and understand changes before they become PRs
+- ✅ **Prevent tech debt** - Active oversight vs. blindly accepting AI output
+
+**The result:** You write 5% of the code but maintain 100% understanding and ownership.
 
 ---
 
