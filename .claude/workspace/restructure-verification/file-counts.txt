@@ -1,0 +1,13 @@
+=== BEFORE COUNTS ===
+Guidebook:       34
+Playbook:       11
+Methodology:       17
+Templates:        6
+Meta:        3
+
+=== AFTER COUNTS ===
+Guidebook:       34
+Playbook:       11
+Methodology:       17
+Templates:        6
+Meta:        3

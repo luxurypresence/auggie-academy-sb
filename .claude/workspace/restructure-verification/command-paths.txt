@@ -1,0 +1,39 @@
+.claude/commands/init-orchestration-partner.md:16:### `.claude/playbook/` - Quick Operational Checklists
+.claude/commands/init-orchestration-partner.md:22:### `.claude/methodology/` - Canonical Technical Specifications
+.claude/commands/init-orchestration-partner.md:51:0. @.claude/meta/orchestration-partner-handoff.md - **Quick role recovery reference** (behavioral traits, patterns)
+.claude/commands/init-orchestration-partner.md:52:1. @.claude/meta/project-mission.md - **Project context** (what we're building and why)
+.claude/commands/init-orchestration-partner.md:53:2. @.claude/meta/working-relationship.md - **Collaboration patterns** (how engineer and orchestration partner work together)
+.claude/commands/init-orchestration-partner.md:56:3. @.claude/playbook/strategic-orchestration.md - Pre-execution validation workflow
+.claude/commands/init-orchestration-partner.md:57:4. @.claude/playbook/agent-coordination.md - Coordination protocol workflows
+.claude/commands/init-orchestration-partner.md:58:5. @.claude/playbook/prompt-creation.md - Prompt creation operational steps
+.claude/commands/init-orchestration-partner.md:59:6. @.claude/playbook/workspace-management.md - **CRITICAL:** Feature organization workflow
+.claude/commands/init-orchestration-partner.md:62:7. @.claude/methodology/pattern-library.md - Proven orchestration patterns
+.claude/commands/init-orchestration-partner.md:63:8. @.claude/methodology/validation-gates.md - Complete 5 gates specification
+.claude/commands/init-orchestration-partner.md:64:9. @.claude/methodology/success-criteria.md - Specific vs generic success criteria guide
+.claude/commands/init-orchestration-partner.md:65:10. @.claude/methodology/investigation-workflow.md - Investigate-first approach
+.claude/commands/init-orchestration-partner.md:66:11. @.claude/methodology/environment-validation.md - Environment variable protocol
+.claude/commands/init-orchestration-partner.md:69:12. @.claude/templates/agent-prompts/ - Available prompt templates
+.claude/commands/init-orchestration-partner.md:152:3. **Select appropriate template** from `.claude/templates/agent-prompts/`
+.claude/commands/init-orchestration-partner.md:258:**Full investigation workflow:** @.claude/methodology/investigation-workflow.md
+.claude/commands/init-orchestration-partner.md:259:**Environment validation protocol:** @.claude/methodology/environment-validation.md
+.claude/commands/init-orchestration-partner.md:409:  - Full gate specifications: @.claude/methodology/validation-gates.md
+.claude/commands/init-orchestration-partner.md:411:  - Full protocol: @.claude/methodology/environment-validation.md
+.claude/commands/init-orchestration-partner.md:416:- ✅ **Specific success criteria** (not "feature works" - see @.claude/methodology/success-criteria.md)
+.claude/commands/init-orchestration-partner.md:452:**Full guide with frontend/backend examples & templates:** @.claude/methodology/success-criteria.md
+.claude/commands/init-orchestration-partner.md:693:- [ ] **5 validation gates (MANDATORY):** See @.claude/methodology/validation-gates.md
+.claude/commands/init-orchestration-partner.md:694:- [ ] **Environment variable validation:** See @.claude/methodology/environment-validation.md
+.claude/commands/init-orchestration-partner.md:704:- [ ] **Specific success criteria:** See @.claude/methodology/success-criteria.md
+.claude/commands/validate-agents.md:354:`.claude/templates/retrospective-template.md`
+.claude/commands/create-session-handoff.md:18:- ❌ Edit any files outside .claude/meta/session-handoffs/
+.claude/commands/create-session-handoff.md:28:- Feature ID (e.g., "f04", "f05-auth") - determines filename: `.claude/meta/session-handoffs/YYYY-MM-DD-{feature-id}-handoff.md`
+.claude/commands/create-session-handoff.md:163:   /init-orchestration-partner .claude/meta/session-handoffs/{this-file.md}
+.claude/commands/create-session-handoff.md:240:   - Filename format: `.claude/meta/session-handoffs/YYYY-MM-DD-{feature-id}-handoff.md`
+.claude/commands/create-session-handoff.md:242:   - Example: `.claude/meta/session-handoffs/2025-10-01-f04-validation-complete.md`
+.claude/commands/create-session-handoff.md:253:   ✅ Session handoff file created: `.claude/meta/session-handoffs/{filename}.md`
+.claude/commands/create-session-handoff.md:260:   Run: `/init-orchestration-partner .claude/meta/session-handoffs/{filename}.md`
+.claude/commands/create-session-handoff.md:335:`.claude/meta/session-handoffs/YYYY-MM-DD-{feature-id}-handoff.md`
+.claude/commands/create-session-handoff.md:338:`/init-orchestration-partner .claude/meta/session-handoffs/{filename}.md`
+.claude/commands/README.md:20:/init-orchestration-partner .claude/meta/session-handoffs/2025-10-01-feature-handoff.md
+.claude/commands/README.md:53:# Creates: .claude/meta/session-handoffs/2025-10-01-f04-handoff.md
+.claude/commands/README.md:145:/init-orchestration-partner .claude/meta/session-handoffs/{date}-{feature}-handoff.md
+.claude/commands/README.md:187:.claude/meta/session-handoffs/

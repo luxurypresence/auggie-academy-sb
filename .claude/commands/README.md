@@ -17,7 +17,7 @@ Custom slash commands for AI Orchestration Mastery course workflow.
 /init-orchestration-partner
 
 # With handoff file for session continuation
-/init-orchestration-partner .claude/meta/session-handoffs/2025-10-01-feature-handoff.md
+/init-orchestration-partner .claude/orchestration-partner/meta/session-handoffs/2025-10-01-feature-handoff.md
 ```
 
 **What It Does:**
@@ -50,7 +50,7 @@ Custom slash commands for AI Orchestration Mastery course workflow.
 # When closing current session
 /create-session-handoff f04
 
-# Creates: .claude/meta/session-handoffs/2025-10-01-f04-handoff.md
+# Creates: .claude/orchestration-partner/meta/session-handoffs/2025-10-01-f04-handoff.md
 ```
 
 **What It Does:**
@@ -142,7 +142,7 @@ Custom slash commands for AI Orchestration Mastery course workflow.
 /create-session-handoff {feature-id}
 
 # 7. New session - resume with handoff
-/init-orchestration-partner .claude/meta/session-handoffs/{date}-{feature}-handoff.md
+/init-orchestration-partner .claude/orchestration-partner/meta/session-handoffs/{date}-{feature}-handoff.md
 ```
 
 ---
@@ -184,7 +184,7 @@ Commands automate repetitive validation and documentation tasks that would other
 **Session Handoffs:**
 
 ```
-.claude/meta/session-handoffs/
+.claude/orchestration-partner/meta/session-handoffs/
 ├── 2025-10-01-f04-validation-complete.md
 ├── 2025-10-02-f05-auth-planning.md
 └── ...
