@@ -71,28 +71,28 @@ Use this checklist to systematically review the entire curriculum without missin
 ## Phase 4: Operational References (Quick Skim)
 
 **Playbook (Quick References):**
-- [ ] [.claude/playbook/README.md](../playbook/README.md)
-- [ ] [.claude/playbook/coordination-decision-tree.md](../playbook/coordination-decision-tree.md)
-- [ ] [.claude/playbook/gotcha-library.md](../playbook/gotcha-library.md)
-- [ ] [.claude/playbook/nestjs-patterns.md](../playbook/nestjs-patterns.md)
+- [ ] [.claude/playbook/README.md](../.claude/orchestration-partner/playbook/README.md)
+- [ ] [.claude/playbook/coordination-decision-tree.md](../.claude/orchestration-partner/playbook/coordination-decision-tree.md)
+- [ ] [.claude/playbook/gotcha-library.md](../.claude/orchestration-partner/playbook/gotcha-library.md)
+- [ ] [.claude/playbook/nestjs-patterns.md](../.claude/orchestration-partner/playbook/nestjs-patterns.md)
 - [ ] Other playbook files (skim titles)
 
 **Methodology (Complete Specs):**
-- [ ] [.claude/methodology/README.md](../methodology/README.md)
-- [ ] [.claude/methodology/validation-gates.md](../methodology/validation-gates.md)
-- [ ] [.claude/methodology/coordination-protocols.md](../methodology/coordination-protocols.md)
+- [ ] [.claude/methodology/README.md](../.claude/orchestration-partner/methodology/README.md)
+- [ ] [.claude/methodology/validation-gates.md](../.claude/orchestration-partner/methodology/validation-gates.md)
+- [ ] [.claude/methodology/coordination-protocols.md](../.claude/orchestration-partner/methodology/coordination-protocols.md)
 - [ ] Other methodology files (skim titles)
 
 **Commands:**
 - [ ] [.claude/commands/README.md](../commands/README.md)
 
 **Templates:**
-- [ ] [.claude/templates/](../templates/) (skim what's available)
+- [ ] [.claude/templates/](../.claude/orchestration-partner/templates/) (skim what's available)
 
 **Meta:**
-- [ ] [.claude/meta/project-mission.md](../meta/project-mission.md)
-- [ ] [.claude/meta/working-relationship.md](../meta/working-relationship.md)
-- [ ] [.claude/meta/orchestration-partner-handoff.md](../meta/orchestration-partner-handoff.md)
+- [ ] [.claude/meta/project-mission.md](../.claude/orchestration-partner/meta/project-mission.md)
+- [ ] [.claude/meta/working-relationship.md](../.claude/orchestration-partner/meta/working-relationship.md)
+- [ ] [.claude/meta/orchestration-partner-handoff.md](../.claude/orchestration-partner/meta/orchestration-partner-handoff.md)
 
 ---
 
