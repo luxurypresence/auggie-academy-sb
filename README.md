@@ -2,6 +2,30 @@
 
 Welcome! You're about to learn systematic AI agent orchestration by building a production CRM from scratch.
 
+## Getting Started
+
+**→ Start here:** [Day 1: Foundation](/course/guidebook/companion/day-1-foundation.md)
+
+This is a 5-day course teaching AI orchestration patterns:
+- **Day 1:** Foundation - Understanding Claude Code and AI coordination
+- **Day 2:** AI Intelligence - Introducing the orchestration partner pattern
+- **Day 3:** Advanced Features - Validation gates and systematic delivery
+- **Day 4:** Mobile Application - Multi-platform coordination
+- **Day 5:** Polish & Demos - Professional presentation and deployment
+
+### Course Structure
+
+- **`/course/`** - Your learning path (start here)
+- **`.claude/`** - Orchestration tooling and reference materials (introduced on Day 2)
+
+### Orchestration Partner
+
+On Day 2, you'll be introduced to the **orchestration partner pattern** - a systematic approach to applying proven patterns and methodologies. The partner loads assets from `.claude/orchestration-partner/` to coordinate complex features.
+
+**Browsing `.claude/` directly?** See [Manual Usage Guide](/course/appendix/manual-usage.md) for standalone usage.
+
+---
+
 ## What You'll Build
 
 Through this course, you'll orchestrate AI agents to build a complete CRM application with:
@@ -126,26 +150,30 @@ cp .env.local.template .env.local
 
 ### 6. Start Day 1
 
-**👉 Begin:** [Day 1 - Foundation](.claude/guidebook/companion/day-1-foundation.md)
+**👉 Begin:** [Day 1 - Foundation](course/guidebook/companion/day-1-foundation.md)
 
 **The companion guides are your trail** - follow sessions sequentially (01 → 02 → 03...).
 
-**See full 5-day trail:** [Companion overview](.claude/guidebook/companion/README.md)
+**See full 5-day trail:** [Companion overview](course/guidebook/companion/README.md)
 
 ---
 
 ## What's in This Repository
 
-**Everything you need is in `.claude/` directory:**
+**Course materials (your primary path):**
 
-- 📚 **Guidebook** - Day-by-day learning path + deep-dive chapters
-- ⚡ **Playbook** - Quick operational references during work
-- 🔧 **Methodology** - Complete technical specifications
-- 📋 **Templates** - Copy-paste agent prompts and session handoff templates
-- 🤖 **Commands** - Custom slash commands
-- ⚙️ **Meta** - Orchestration partner context files (project mission, working relationship)
+- 📚 **`course/guidebook/`** - Day-by-day learning path + deep-dive chapters
+- 📖 **`course/appendix/`** - Manual usage guides and reference materials
 
-**→ See [.claude/README.md](.claude/README.md) for complete organization guide**
+**Orchestration tooling (introduced on Day 2):**
+
+- ⚡ **`.claude/orchestration-partner/playbook/`** - Quick operational references
+- 🔧 **`.claude/orchestration-partner/methodology/`** - Complete technical specifications
+- 📋 **`.claude/orchestration-partner/templates/`** - Agent prompts and handoff templates
+- ⚙️ **`.claude/orchestration-partner/meta/`** - Project context files
+- 🤖 **`.claude/commands/`** - Custom slash commands
+
+**→ See [.claude/README.md](.claude/README.md) for orchestration tooling guide**
 
 ---
 

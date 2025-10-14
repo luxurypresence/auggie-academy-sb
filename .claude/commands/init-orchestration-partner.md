@@ -13,19 +13,19 @@ If handoff file path provided as argument, read and analyze it FIRST to understa
 
 **Before reading files, understand where content lives and WHY:**
 
-### `.claude/playbook/` - Quick Operational Checklists
+### `.claude/orchestration-partner/playbook/` - Quick Operational Checklists
 - **Purpose:** Fast lookup during work (checklists, workflows)
 - **You read:** For operational steps (what to include in prompts)
 - **Content:** Brief summaries + links to methodology
 - **Think:** Cheat sheet kept open during work
 
-### `.claude/methodology/` - Canonical Technical Specifications
+### `.claude/orchestration-partner/methodology/` - Canonical Technical Specifications
 - **Purpose:** Single source of truth (authoritative definitions)
 - **You read:** When need complete technical details
 - **Content:** Full specifications, all examples, all scenarios
 - **Think:** Technical manual (complete reference)
 
-### `.claude/guidebook/chapters/` - Sequential Learning Material
+### `course/guidebook/chapters/` - Sequential Learning Material
 - **Purpose:** Educational content (theory + practice)
 - **You DON'T read:** These are for engineers learning concepts
 - **Content:** Theory → Evidence → Practice exercises
@@ -37,9 +37,9 @@ If handoff file path provided as argument, read and analyze it FIRST to understa
 - You NEVER reference guidebook/chapters (that's for human learning)
 
 **When creating content:**
-- **Add to playbook/** if creating operational checklist (brief workflow)
-- **Add to methodology/** if creating authoritative specification (complete technical details)
-- **NEVER add to guidebook/chapters/** (that's for human curriculum development only)
+- **Add to orchestration-partner/playbook/** if creating operational checklist (brief workflow)
+- **Add to orchestration-partner/methodology/** if creating authoritative specification (complete technical details)
+- **NEVER add to course/guidebook/chapters/** (that's for human curriculum development only)
 
 ---
 
@@ -48,25 +48,25 @@ If handoff file path provided as argument, read and analyze it FIRST to understa
 Read these files to understand complete orchestration methodology:
 
 **Session Continuity & Role Recovery:**
-0. @.claude/meta/orchestration-partner-handoff.md - **Quick role recovery reference** (behavioral traits, patterns)
-1. @.claude/meta/project-mission.md - **Project context** (what we're building and why)
-2. @.claude/meta/working-relationship.md - **Collaboration patterns** (how engineer and orchestration partner work together)
+0. @.claude/orchestration-partner/meta/orchestration-partner-handoff.md - **Quick role recovery reference** (behavioral traits, patterns)
+1. @.claude/orchestration-partner/meta/project-mission.md - **Project context** (what we're building and why)
+2. @.claude/orchestration-partner/meta/working-relationship.md - **Collaboration patterns** (how engineer and orchestration partner work together)
 
 **Orchestration Workflows (playbook/ - operational):**
-3. @.claude/playbook/strategic-orchestration.md - Pre-execution validation workflow
-4. @.claude/playbook/agent-coordination.md - Coordination protocol workflows
-5. @.claude/playbook/prompt-creation.md - Prompt creation operational steps
-6. @.claude/playbook/workspace-management.md - **CRITICAL:** Feature organization workflow
+3. @.claude/orchestration-partner/playbook/strategic-orchestration.md - Pre-execution validation workflow
+4. @.claude/orchestration-partner/playbook/agent-coordination.md - Coordination protocol workflows
+5. @.claude/orchestration-partner/playbook/prompt-creation.md - Prompt creation operational steps
+6. @.claude/orchestration-partner/playbook/workspace-management.md - **CRITICAL:** Feature organization workflow
 
 **Canonical Specifications (methodology/ - reference when need complete details):**
-7. @.claude/methodology/pattern-library.md - Proven orchestration patterns
-8. @.claude/methodology/validation-gates.md - Complete 5 gates specification
-9. @.claude/methodology/success-criteria.md - Specific vs generic success criteria guide
-10. @.claude/methodology/investigation-workflow.md - Investigate-first approach
-11. @.claude/methodology/environment-validation.md - Environment variable protocol
+7. @.claude/orchestration-partner/methodology/pattern-library.md - Proven orchestration patterns
+8. @.claude/orchestration-partner/methodology/validation-gates.md - Complete 5 gates specification
+9. @.claude/orchestration-partner/methodology/success-criteria.md - Specific vs generic success criteria guide
+10. @.claude/orchestration-partner/methodology/investigation-workflow.md - Investigate-first approach
+11. @.claude/orchestration-partner/methodology/environment-validation.md - Environment variable protocol
 
 **Templates:**
-12. @.claude/templates/agent-prompts/ - Available prompt templates
+12. @.claude/orchestration-partner/templates/agent-prompts/ - Available prompt templates
 
 ## YOUR ROLE: Proactive Feature Strategist (NOT Reactive Prompt Generator)
 
@@ -149,7 +149,7 @@ When engineer describes a feature, you:
 
 1. **Analyze coordination requirements** (low vs high coordination)
 2. **Analyze import dependencies** (sequential vs parallel execution)
-3. **Select appropriate template** from `.claude/templates/agent-prompts/`
+3. **Select appropriate template** from `.claude/orchestration-partner/templates/agent-prompts/`
 4. **Generate complete agent prompt** with all protocols included
 5. **Explain reasoning** (why this template? why sequential/parallel?)
 
@@ -255,8 +255,8 @@ When engineer says: "I need [feature description]"
 
 **Don't ask questions you can answer through codebase investigation. Don't ask questions to hit a quota.**
 
-**Full investigation workflow:** @.claude/methodology/investigation-workflow.md
-**Environment validation protocol:** @.claude/methodology/environment-validation.md
+**Full investigation workflow:** @.claude/orchestration-partner/methodology/investigation-workflow.md
+**Environment validation protocol:** @.claude/orchestration-partner/methodology/environment-validation.md
 
 **Example (Dashboard-Analytics-Widgets):**
 
@@ -406,14 +406,14 @@ NOT: Widget agents create files, separate agent integrates all.
 
 - ✅ Session logging requirement
 - ✅ **5 validation gates (MANDATORY):** TypeScript (0 errors), ESLint (0 warnings), Tests (all passing), Process cleanup (no hanging servers), Manual testing (browser OR curl)
-  - Full gate specifications: @.claude/methodology/validation-gates.md
+  - Full gate specifications: @.claude/orchestration-partner/methodology/validation-gates.md
 - ✅ **Environment variable validation:** Auto-update .env.example if introducing new variables, alert engineer
-  - Full protocol: @.claude/methodology/environment-validation.md
+  - Full protocol: @.claude/orchestration-partner/methodology/environment-validation.md
 - ✅ Testing requirements (unit WITH mocks + integration WITHOUT mocks)
 - ✅ Dependency validation (if has imports)
 - ✅ Coordination protocols (if high coordination)
 - ✅ Quality standards (A+ code)
-- ✅ **Specific success criteria** (not "feature works" - see @.claude/methodology/success-criteria.md)
+- ✅ **Specific success criteria** (not "feature works" - see @.claude/orchestration-partner/methodology/success-criteria.md)
 - ✅ Manual testing (frontend: Playwright browser verification; backend: curl/API testing)
 
 ### Step 4.5: Proven Pattern Application Checkpoint (2-3 minutes)
@@ -449,7 +449,7 @@ NOT: Widget agents create files, separate agent integrates all.
 
 **Key principle:** NOT "feature works" - but "user sees X when they do Y" AND "API returns X when called with Y"
 
-**Full guide with frontend/backend examples & templates:** @.claude/methodology/success-criteria.md
+**Full guide with frontend/backend examples & templates:** @.claude/orchestration-partner/methodology/success-criteria.md
 
 ### Step 6: Post-Prompt Self-Validation (1-2 minutes)
 
@@ -690,8 +690,8 @@ Me (optional): "Creates retrospective.md for future learning"
 **Every prompt you create MUST include:**
 
 - [ ] Session logging requirement
-- [ ] **5 validation gates (MANDATORY):** See @.claude/methodology/validation-gates.md
-- [ ] **Environment variable validation:** See @.claude/methodology/environment-validation.md
+- [ ] **5 validation gates (MANDATORY):** See @.claude/orchestration-partner/methodology/validation-gates.md
+- [ ] **Environment variable validation:** See @.claude/orchestration-partner/methodology/environment-validation.md
   - Agent must auto-update .env.example if introducing new variables
   - Agent must alert engineer about new variables in session log
   - Agent must validate required variables have clear error messages
@@ -701,7 +701,7 @@ Me (optional): "Creates retrospective.md for future learning"
 - [ ] Dependency validation (if has imports)
 - [ ] Technology stack specifications
 - [ ] Quality standards (A+ code)
-- [ ] **Specific success criteria:** See @.claude/methodology/success-criteria.md
+- [ ] **Specific success criteria:** See @.claude/orchestration-partner/methodology/success-criteria.md
 
 **If ANY missing → Prompt incomplete (go back and add)**
 
