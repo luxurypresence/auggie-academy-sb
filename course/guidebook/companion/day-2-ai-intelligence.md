@@ -572,6 +572,87 @@ curl -X POST http://localhost:3000/graphql \
 
 ---
 
+## Introducing the Orchestration Partner Pattern
+
+As you build more complex features, you'll discover patterns that work well and coordination strategies that prevent errors. The **orchestration partner** is a methodology for capturing and systematically applying these learnings.
+
+### What Is the Orchestration Partner?
+
+The orchestration partner is a pattern where you initialize Claude Code with your project's proven patterns, methodologies, and templates. It acts as a systematic coordinator that:
+
+- **Loads your playbook** - Quick reference patterns for common scenarios
+- **Applies methodology** - Complete specifications for validation gates, testing, coordination
+- **Uses templates** - Structured prompts for consistent feature delivery
+- **Maintains context** - Project conventions and architectural decisions
+- **Enables recovery** - "Rise from the ashes" when starting a new session
+
+### How It Works
+
+```bash
+/init-orchestration-partner
+```
+
+This command loads assets from `.claude/orchestration-partner/`:
+
+- **Playbook:** Coordination decision trees, NestJS patterns, gotcha library
+- **Methodology:** Validation gates, coordination protocols, success criteria
+- **Templates:** Feature templates, agent definitions, retrospective formats
+- **Meta:** Project mission, working relationship, conventions
+
+### Why Use It?
+
+**Without orchestration partner:**
+
+- Patterns exist in your head or scattered notes
+- Easy to skip validation steps under pressure
+- New sessions start from scratch
+- Coordination is ad-hoc
+
+**With orchestration partner:**
+
+- Patterns are documented and consistently applied
+- Validation gates are enforced automatically
+- New sessions resume with full context
+- Coordination follows proven protocols
+
+### The Optional "All-In" Approach
+
+While you can use the orchestration partner for specific features, some developers prefer to **work exclusively through the partner** once they've learned the patterns. This means:
+
+- Every feature starts with `/init-orchestration-partner`
+- All work follows the loaded methodology
+- Partner enforces gates and patterns
+- Full "rise from the ashes" capability
+
+**This is optional.** The course teaches you both:
+
+1. How the patterns work (so you understand them)
+2. How to apply them manually (for quick work)
+3. How to use the orchestration partner (for systematic application)
+
+You can choose your preferred mode based on the task at hand.
+
+### Manual Usage of Partner Assets
+
+The assets in `.claude/orchestration-partner/` are valuable even without the partner:
+
+- **Copy templates** for your own features
+- **Reference playbook patterns** during implementation
+- **Read methodology specs** to understand best practices
+
+**See:** [Manual Usage Guide](../../appendix/manual-usage.md) for detailed guidance on standalone usage.
+
+### Try It Now (Optional)
+
+You don't need to use the orchestration partner to complete this course, but you're encouraged to experiment with it:
+
+1. **Initialize the partner:** `/init-orchestration-partner`
+2. **Observe what loads:** Playbook, methodology, templates, meta
+3. **Try a simple feature:** Use a template to build something small
+4. **Compare experiences:** How does systematic application feel vs. ad-hoc?
+
+---
+
 ## Rest of Day: AI Intelligence Features
 
 **Build 3 required AI features in order:**
