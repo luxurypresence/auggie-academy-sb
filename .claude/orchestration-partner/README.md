@@ -16,6 +16,7 @@ This directory houses the knowledge base that powers the orchestration partner p
 ## How It Works
 
 When you run `/init-orchestration-partner`, the partner loads all assets from this directory to:
+
 - Apply proven patterns systematically
 - Enforce validation gates
 - Coordinate multi-agent workflows
@@ -25,7 +26,7 @@ When you run `/init-orchestration-partner`, the partner loads all assets from th
 
 While these files are optimized for machine consumption by the orchestration partner, they can also be used manually:
 
-**See:** [/course/appendix/manual-usage.md](/course/appendix/manual-usage.md) for guidance on standalone usage.
+**See:** [/.claude/orchestration-partner/manual-usage.md](/.claude/orchestration-partner/manual-usage.md) for guidance on standalone usage.
 
 ## Important Notes
 
@@ -47,6 +48,7 @@ orchestration-partner/
 ---
 
 **Next Steps:**
+
 1. Complete Day 2 of the course to understand these assets in context
 2. Run `/init-orchestration-partner` to see them in action
-3. Reference `/course/appendix/manual-usage.md` for standalone usage patterns
+3. Reference `/.claude/orchestration-partner/manual-usage.md` for standalone usage patterns

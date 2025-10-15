@@ -24,9 +24,10 @@ This directory supports the course but is not the course itself. Follow the 5-da
 ## Orchestration Partner
 
 The `orchestration-partner/` subdirectory contains the knowledge base loaded by `/init-orchestration-partner`. These assets are:
+
 - Introduced and explained in **Day 2** of the course
 - Designed for systematic application of proven patterns
-- Usable standalone (see [Manual Usage Guide](/course/appendix/manual-usage.md))
+- Usable standalone (see [Manual Usage Guide](/.claude/orchestration-partner/manual-usage.md))
 
 **Learn more:** [/course/guidebook/companion/day-2-ai-intelligence.md](/course/guidebook/companion/day-2-ai-intelligence.md)
 
@@ -43,6 +44,7 @@ The `workspace/` directory tracks feature execution, retrospectives, and session
 ---
 
 **Next Steps:**
+
 1. Complete the 5-day course starting from [Day 1](/course/guidebook/companion/day-1-foundation.md)
 2. Learn about the orchestration partner on [Day 2](/course/guidebook/companion/day-2-ai-intelligence.md)
-3. Experiment with manual usage following the [Manual Usage Guide](/course/appendix/manual-usage.md)
+3. Experiment with manual usage following the [Manual Usage Guide](/.claude/orchestration-partner/manual-usage.md)

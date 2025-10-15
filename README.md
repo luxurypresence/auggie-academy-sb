@@ -7,9 +7,10 @@ Welcome! You're about to learn systematic AI agent orchestration by building a p
 **→ Start here:** [Day 1: Foundation](/course/guidebook/companion/day-1-foundation.md)
 
 This is a 5-day course teaching AI orchestration patterns:
+
 - **Day 1:** Foundation - Understanding Claude Code and AI coordination
 - **Day 2:** AI Intelligence - Introducing the orchestration partner pattern
-- **Day 3:** Advanced Features - Validation gates and systematic delivery
+- **Day 3:** Authentication, Real-Time & Git Worktrees - Secure features and parallel development
 - **Day 4:** Mobile Application - Multi-platform coordination
 - **Day 5:** Polish & Demos - Professional presentation and deployment
 
@@ -17,14 +18,6 @@ This is a 5-day course teaching AI orchestration patterns:
 
 - **`/course/`** - Your learning path (start here)
 - **`.claude/`** - Orchestration tooling and reference materials (introduced on Day 2)
-
-### Orchestration Partner
-
-On Day 2, you'll be introduced to the **orchestration partner pattern** - a systematic approach to applying proven patterns and methodologies. The partner loads assets from `.claude/orchestration-partner/` to coordinate complex features.
-
-**Browsing `.claude/` directly?** See [Manual Usage Guide](/course/appendix/manual-usage.md) for standalone usage.
-
----
 
 ## What You'll Build
 
@@ -57,7 +50,6 @@ Through this course, you'll orchestrate AI agents to build a complete CRM applic
 - React Native mobile app with Expo
 - Lead list and detail screens
 - Display AI summaries and scores on mobile
-- Network configuration for physical device testing
 
 **Day 5: Polish, Demos & Brownfield Extension**
 
