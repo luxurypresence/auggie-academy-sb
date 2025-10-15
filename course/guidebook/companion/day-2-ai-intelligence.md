@@ -1092,6 +1092,107 @@ See what comprehensive validation looks like.
 
 ---
 
+## Advanced Patterns (Optional Deeper Dive)
+
+### Sub-Agents for Large Codebase Exploration
+
+When agents work with large codebases, they can spawn **sub-agents** for focused exploration without bloating their main context.
+
+**The concept:**
+
+An agent (like your tactical agent) can launch the Task tool to spawn a **sub-agent** for focused exploration or research:
+
+- Agent launches sub-agent: "Explore existing auth patterns in this codebase"
+- Sub-agent reads multiple files, discovers patterns, synthesizes findings
+- Sub-agent returns summary to main agent
+- Main agent implements using the summary
+
+**Why this helps:**
+
+- **Keeps context lean:** Main agent doesn't load 15K tokens of exploration
+- **Better pattern discovery:** Sub-agent focuses solely on understanding existing code
+- **Cleaner implementation:** Agent implements with summary, not buried in research
+
+**When this is valuable:**
+
+- Large brownfield codebases (Day 5 brownfield hackathon)
+- Research-heavy tasks (comparing approaches, best practices)
+- Complex pattern discovery
+
+**The trade-off:**
+
+- Slower execution (sub-agent spawn overhead: 1-3 minutes)
+- Higher quality (better discoveries, cleaner context)
+
+**You can request this explicitly:**
+
+```
+You: "Use a sub-agent to explore how interactions are currently implemented,
+then add email integration following the same patterns."
+```
+
+**Or let Claude decide autonomously** - it may use sub-agents when warranted.
+
+**Learn more:** [Chapter 15: Sub-Agents and the Task Tool](../chapters/15-sub-agents.md)
+
+**Day 5 application:** Sub-agents excel at brownfield exploration (large company codebases)
+
+---
+
+### Custom Slash Commands
+
+You've been using `/init-orchestration-partner` - this is a **custom slash command**.
+
+**What they are:**
+
+Slash commands are custom prompts stored as markdown files that get triggered by typing `/command-name`:
+
+- Stored in `.claude/commands/` directory
+- Contain the full prompt you want executed
+- Reusable across all sessions
+- Can accept arguments
+
+**Examples in this repository:**
+
+- `/init-orchestration-partner` - Load orchestration methodology and project context
+- `/validate-agents {feature-id}` - Comprehensive validation of completed agent work
+- `/create-session-handoff` - Create session continuity document
+
+**How they work:**
+
+When you type `/init-orchestration-partner`, Claude Code:
+1. Reads `.claude/commands/init-orchestration-partner.md`
+2. Executes the prompt in that file
+3. Returns the result
+
+**It's that simple.** Slash commands are just reusable prompts in files.
+
+**Creating your own:**
+
+1. Create markdown file in `.claude/commands/your-command.md`
+2. Write the prompt you want triggered
+3. Add front matter with description and arguments (optional)
+4. Use it: `/your-command` in any Claude Code session
+
+**Example structure:**
+
+```markdown
+---
+description: Brief description of what this command does
+argument-hint: '[optional-argument]'
+---
+
+Your prompt content here. This gets executed when someone types /your-command.
+
+You can reference arguments, load files, execute workflows, etc.
+```
+
+**Day 5 application:** Create brownfield-specific commands for your company repos (e.g., `/init-payment-service` loads payment service patterns)
+
+**Learn more:** [Chapter X: Custom Slash Commands](../chapters/X-slash-commands.md) (coming soon)
+
+---
+
 ## Patterns Available (Use What's Helpful)
 
 ### Pattern 1: Infrastructure-First

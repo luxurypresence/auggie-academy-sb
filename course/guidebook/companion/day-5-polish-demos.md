@@ -116,6 +116,19 @@ This is YOUR hackathon. Pick something meaningful to you:
 
 **Investigation is the skill.** Brownfield = discovery-first, building second.
 
+**Advanced: Using sub-agents for large codebase exploration**
+
+If your company codebase is large (50K+ lines), agents can spawn **sub-agents** for focused exploration:
+
+```
+You: "Use a sub-agent to explore how our payment processing currently works,
+then plan the webhook feature following those patterns."
+```
+
+Sub-agent explores, synthesizes patterns, returns summary. Main agent plans/implements with clean context.
+
+**Learn more:** [Chapter 15: Sub-Agents](../chapters/15-sub-agents.md) - Introduced on Day 2
+
 ---
 
 #### Phase 2: Planning
@@ -278,6 +291,33 @@ Consider creating `.claude/` documentation in your company repo:
 - Orchestration partner adapts to any repo
 
 **You practiced on real code** - this isn't theoretical. You explored your actual company codebase and made real progress on a feature you care about.
+
+---
+
+### Bonus: Create Brownfield Slash Commands (Optional)
+
+**If you'll work in this company repo regularly:**
+
+Consider creating a custom slash command for instant repo context loading.
+
+**Example:** Create `/init-payment-service` that loads payment service patterns
+
+**How to create:**
+1. Create file in your company repo: `.claude/commands/init-{your-repo}.md`
+2. Write prompt that loads:
+   - Tech stack and architecture (from your investigation)
+   - Common patterns (what you discovered)
+   - Critical gotchas (what you found)
+   - Team conventions (review, testing)
+3. Check into git (team collaboration)
+4. Use in future sessions: `/init-{your-repo}`
+
+**Value:**
+- Instant context loading (no rediscovering)
+- Team knowledge sharing
+- Compound learning (improves over time)
+
+**Learn more:** [Chapter 16: Custom Slash Commands](../chapters/16-custom-slash-commands.md)
 
 ---
 
