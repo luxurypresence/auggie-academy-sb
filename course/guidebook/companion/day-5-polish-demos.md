@@ -127,7 +127,7 @@ then plan the webhook feature following those patterns."
 
 Sub-agent explores, synthesizes patterns, returns summary. Main agent plans/implements with clean context.
 
-**Learn more:** [Chapter 15: Sub-Agents](../chapters/15-sub-agents.md) - Introduced on Day 2
+**Learn more:** [Chapter 05: Sub-Agents](../chapters/05-sub-agents.md) - Introduced on Day 2
 
 ---
 
@@ -317,7 +317,7 @@ Consider creating a custom slash command for instant repo context loading.
 - Team knowledge sharing
 - Compound learning (improves over time)
 
-**Learn more:** [Chapter 16: Custom Slash Commands](../chapters/16-custom-slash-commands.md)
+**Learn more:** [Chapter 06: Custom Slash Commands](../chapters/06-custom-slash-commands.md)
 
 ---
 

@@ -442,7 +442,7 @@ Voice is usually 2-3x faster for detailed context.
 
 Think of them as **plugins that give Claude Code superpowers** for specific tasks.
 
-**📖 For comprehensive details:** See [Chapter 14: MCP Server Configuration](../chapters/14-mcp-servers.md) for in-depth coverage of global vs project-specific configuration, installation methods, and best practices.
+**📖 For comprehensive details:** See [Chapter 04: MCP Server Configuration](../chapters/04-mcp-servers.md) for in-depth coverage of global vs project-specific configuration, installation methods, and best practices.
 
 ---
 
@@ -635,7 +635,7 @@ Shows how much context your current session has used
 
 **Troubleshooting:** If any server isn't responding, run `/mcp` to check status, then ask instructor.
 
-**📖 Learn more:** For detailed information about MCP server configuration, troubleshooting, and advanced topics, see [Chapter 14: MCP Server Configuration](../chapters/14-mcp-servers.md).
+**📖 Learn more:** For detailed information about MCP server configuration, troubleshooting, and advanced topics, see [Chapter 04: MCP Server Configuration](../chapters/04-mcp-servers.md).
 
 ---
 

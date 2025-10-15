@@ -1,6 +1,6 @@
-# Chapter 16: Context Management Through Prompt Design
+# Chapter 07: Context Management Through Prompt Design
 
-**Part 3: Advanced Patterns**
+**Part 2: Advanced Patterns**
 **When to read:** When working with large tasks or complex features
 
 ---
@@ -193,7 +193,7 @@ Day 3: New session, load handoff, implement OAuth
 
 **Each session:** Fresh context, focused work
 
-**See:** Chapter 10 (Session Handoffs) for complete protocol
+**Covered in Day 2:** Session handoffs using `/create-session-handoff` command
 
 ### Technique 6: Sub-Agents (Agent Uses This)
 
@@ -209,7 +209,7 @@ Agent: Implements using summary (context stayed lean)
 
 **When agent uses this:** Automatically when beneficial (large exploration, research synthesis)
 
-**See:** Chapter 15 (Sub-Agents) for complete patterns
+**See:** Chapter 05 (Sub-Agents) for complete patterns
 
 ---
 
@@ -352,7 +352,7 @@ Use .env.example for DATABASE_URL template."
 4. **Use session handoffs**
    - Fresh sessions for large features
    - Context reset between phases
-   - Maintain continuity through handoffs
+   - Maintain continuity through handoffs (covered in Day 2)
 
 ### Agent Controls (Agent-Level)
 
@@ -360,6 +360,7 @@ Use .env.example for DATABASE_URL template."
    - Agent decides to isolate exploration
    - Automatic optimization
    - You see slower execution, higher quality
+   - See Chapter 05 for complete sub-agent patterns
 
 ---
 
@@ -373,10 +374,10 @@ Use .env.example for DATABASE_URL template."
 - Prompt specificity (biggest lever)
 - Task breakdown (second biggest)
 - Pointing to specific files
-- Session handoffs
+- Session handoffs (Day 2 orchestration partner)
 
 **Agents manage context through:**
-- Sub-agents (when exploration heavy)
+- Sub-agents (when exploration heavy - Chapter 05)
 - Focused file reading
 - Strategic research
 
@@ -390,12 +391,13 @@ Use .env.example for DATABASE_URL template."
 - [ ] Specific prompts use 80-90% less context than vague prompts
 - [ ] Breaking tasks down enables fresh context per task
 - [ ] Pointing to specific files prevents broad exploration
-- [ ] Session handoffs reset context for large features
-- [ ] Sub-agents are what agents use (you use focused prompts)
+- [ ] Session handoffs reset context (see Day 2 orchestration partner)
+- [ ] Sub-agents are what agents use (you use focused prompts - see Chapter 05)
 - [ ] Context management = ALL techniques (sub-agents is just one)
 
 ---
 
-**Previous Chapter:** Sub-Agents and the Task Tool
-
-**Related:** playbook/sub-agent-usage.md (quick operational guide)
+**Related Chapters:**
+- Chapter 05: Sub-Agents and the Task Tool
+- Chapter 06: Custom Slash Commands
+- Day 2: Session Handoffs and Orchestration Partner

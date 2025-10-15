@@ -1,7 +1,7 @@
-# Chapter 15: Sub-Agents and the Task Tool
+# Chapter 05: Sub-Agents and the Task Tool
 
-**Part 3: Advanced Patterns**
-**When to read:** After understanding basic agent orchestration
+**Part 2: Advanced Patterns**
+**When to read:** After understanding basic agent orchestration (Day 2+)
 
 ---
 
@@ -317,7 +317,7 @@ Then implement OAuth using those same patterns.
    - Agent spawns focused exploration tasks
    - Keeps agent's main context lean
 
-**See Chapter 16: Context Management** for complete context strategies.
+**See Chapter 07: Context Management** for complete context strategies.
 
 ---
 

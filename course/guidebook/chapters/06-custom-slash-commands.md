@@ -1,6 +1,6 @@
-# Chapter 16: Custom Slash Commands
+# Chapter 06: Custom Slash Commands
 
-**Part 3: Advanced Patterns**
+**Part 2: Advanced Patterns**
 **When to read:** After understanding orchestration partner basics (Day 2)
 
 ---
@@ -439,7 +439,7 @@ Audit code quality of recent work:
 
 ---
 
-**Next Chapter:** Context Management Through Prompt Design
+**Next Chapter:** Chapter 07 - Context Management Through Prompt Design
 
 **Related:**
 - Day 2: Introduction to slash commands (orchestration partner)

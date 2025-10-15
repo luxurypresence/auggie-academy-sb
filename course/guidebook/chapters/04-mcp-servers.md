@@ -1,7 +1,7 @@
-# Chapter 14: MCP Server Configuration
+# Chapter 04: MCP Server Configuration
 
-**Part 4: Tool Foundations**
-**When to read:** Day 1 Morning (reference material)
+**Part 1: Tool Foundations**
+**When to read:** Day 1 (reference material)
 
 ---
 

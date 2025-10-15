@@ -62,4 +62,4 @@ Review PR in one worktree, continue development in another
 
 ---
 
-**Related:** Chapter 13 (Brownfield Extension)
+**Related:** Day 3 (Git Worktrees with Dependencies) and Day 5 (Brownfield Hackathon)

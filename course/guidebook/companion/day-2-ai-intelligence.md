@@ -1133,7 +1133,7 @@ then add email integration following the same patterns."
 
 **Or let Claude decide autonomously** - it may use sub-agents when warranted.
 
-**Learn more:** [Chapter 15: Sub-Agents and the Task Tool](../chapters/15-sub-agents.md)
+**Learn more:** [Chapter 05: Sub-Agents and the Task Tool](../chapters/05-sub-agents.md)
 
 **Day 5 application:** Sub-agents excel at brownfield exploration (large company codebases)
 
@@ -1189,7 +1189,7 @@ You can reference arguments, load files, execute workflows, etc.
 
 **Day 5 application:** Create brownfield-specific commands for your company repos (e.g., `/init-payment-service` loads payment service patterns)
 
-**Learn more:** [Chapter X: Custom Slash Commands](../chapters/X-slash-commands.md) (coming soon)
+**Learn more:** [Chapter 06: Custom Slash Commands](../chapters/06-custom-slash-commands.md)
 
 ---
 

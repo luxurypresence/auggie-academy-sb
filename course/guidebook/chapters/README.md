@@ -1,41 +1,73 @@
-# Chapters: Sequential Learning Material
+# Chapters: Deep-Dive Learning Material
 
-**What:** Educational chapters for learning orchestration
+**What:** Educational chapters for understanding orchestration concepts deeply
 
-**When:** During course, understanding concepts deeply
+**When:** Referenced from companion guides for deeper exploration
 
-**Think:** Textbook (read sequentially)
-
----
-
-## Structure
-
-**Each chapter has:**
-1. Theory (what and why)
-2. Evidence (proof it works)
-3. Protocol (how to apply)
-4. Practice (hands-on exercises)
-5. Examples (code patterns)
-
-**3 parts:**
-- Part 1: Foundations (Chapters 1-4)
-- Part 2: Coordination (Chapters 5-7)
-- Part 3: Advanced (Chapters 8-13)
+**Think:** Reference manual (read as needed, not necessarily sequential)
 
 ---
 
-## Quick Navigation
+## Available Chapters (7 Total)
 
-**Core concepts:**
-- Validation gates → Chapter 4
-- Infrastructure-first → Chapter 2
-- Testing strategy → Chapter 3
+### Core Concepts
 
-**Advanced topics:**
-- GraphQL coordination → Chapter 5
-- Pre-execution validation → Chapter 9
-- Brownfield work → Chapter 13
+**01. Orchestration Mindset**
+- Why systematic orchestration matters
+- Strategic vs tactical thinking
+- Discovery-first approach
+
+**02. Two-Tier Testing**
+- Unit tests WITH mocks (isolation)
+- Integration tests WITHOUT mocks (cross-layer)
+- Why both are critical
+
+**03. Validation Gates**
+- The 5 mandatory gates
+- TypeScript, ESLint, Tests, Processes, Manual testing
+- When feature is truly complete
+
+**04. MCP Servers**
+- What MCP servers are
+- When to use which servers
+- Installation and configuration
+
+### Advanced Patterns
+
+**05. Sub-Agents**
+- What sub-agents are (agent-level optimization)
+- When they help (large codebases, research)
+- How to use them effectively
+- Trade-offs (slower but higher quality)
+
+**06. Custom Slash Commands**
+- Creating reusable workflow automation
+- Slash command structure
+- Brownfield repo-specific commands
+- Team collaboration through commands
+
+**07. Context Management**
+- Managing agent context effectively
+- Preventing context bloat
+- Session handoff strategies
+- Prompt design for clarity
 
 ---
 
-**See:** [../../../README.md](../../../README.md) for complete .claude/ organization
+## How to Use These Chapters
+
+**Referenced in companion guides:**
+- Day 2: Links to Sub-Agents, Slash Commands
+- Day 5: Links to Sub-Agents (brownfield exploration)
+
+**Read when:**
+- Companion guide references a chapter
+- Want deeper understanding of a concept
+- Troubleshooting specific issues
+- Building company-specific adaptations
+
+**Not required to complete course** - companion guides teach core concepts. Chapters provide optional deeper dives.
+
+---
+
+**See:** [Companion Guide Overview](../companion/README.md) for day-by-day learning path
