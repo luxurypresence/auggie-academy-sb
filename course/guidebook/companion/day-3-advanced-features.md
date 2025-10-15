@@ -2,9 +2,9 @@
 
 **Session 03 of 5**
 
-**Today's Goal:** Build authentication system + real-time notifications using parallel development
+**Today's Goal:** Build authentication system + real-time notifications while learning git worktrees
 
-**Two required features that are completely independent - perfect for git worktrees**
+**Learn worktrees with realistic features that have interdependencies - preparing you for professional development patterns**
 
 ---
 
@@ -65,306 +65,163 @@ You: "Use Serena MCP to find:
 
 ---
 
-## Understanding Feature-Level Parallelization with Git Worktrees
+## Git Worktrees: Managing Feature Work in Real-World Scenarios
 
-**This is different from task-level parallelization** (covered in Day 2):
+### What Are Git Worktrees?
 
-- **Day 2:** Parallel tasks within ONE feature (dashboard widgets A, B, C running together)
-- **Day 3:** Parallel FEATURES (Authentication + Notifications, completely separate features)
+Git worktrees allow you to check out multiple branches from the same repository into different directories. Each worktree operates as an independent working directory while sharing the repository's git history.
 
-**The key question:** Can these two FEATURES be built at the same time in separate worktrees?
+See the [/course/guidebook/appendices/git-worktrees](/course/guidebook/appendices/git-worktrees) chapter for even more detail.
 
-**It depends on:** Whether the features are completely independent
+**Primary uses:**
 
----
+- **Context switching** - Work on different features without constant branch switching
+- **Feature isolation** - Keep each feature's changes in a dedicated workspace
+- **Parallel development** - Build independent features simultaneously
+- **Code review** - Check out a PR branch without disrupting your current work
 
-### Example: Tasks Within Authentication Feature (Sequential)
+**Examples of truly independent features** (ideal for parallel worktrees):
 
-**Even though we're using worktrees for features, tasks WITHIN a feature may still need to be sequential:**
+- Dashboard analytics widgets + CSV export functionality
+- Email templates system + Calendar integration
+- Admin reporting panel + User profile settings
 
-**Authentication has an import dependency chain:**
+### Today's Realistic Challenge: Features with Dependencies
 
-```typescript
-// Task A: Backend Auth Service
-// Exports: LOGIN_MUTATION, REGISTER_MUTATION, User type
+**Authentication + WebSocket Notifications**
 
-// Task B: Frontend Auth Context
-import { LOGIN_MUTATION } from "@/graphql/operations/auth"; // ← Imports from Task A
-// Exports: useAuth hook
+These features represent a common real-world scenario: features that have interdependencies.
 
-// Task C: Protected Routes
-import { useAuth } from "@/hooks/useAuth"; // ← Imports from Task B
-```
+**The dependencies:**
 
-**Result:** Within the auth feature, tasks MUST be sequential (A → B → C)
+Authentication provides foundational infrastructure:
 
-**The rule:** If Task B imports from Task A, they CANNOT run in parallel.
+- User model and JWT validation service
+- Auth context and token management
+- Protected route framework
 
-**This is task-level orchestration (from Day 2)** - not related to worktrees.
+WebSocket notifications integrate with this infrastructure:
 
----
+- Backend WebSocket gateway authenticates connections using JWT
+- Frontend establishes connections using auth tokens
+- Notifications associate with authenticated users
 
-### Example: Two Independent Features (Parallel with Worktrees)
+**This is intentionally realistic.** Most professional development involves features with some level of interdependency. Learning to manage these dependencies is valuable.
 
-**Authentication and WebSocket notifications are completely independent:**
+### Managing Dependencies with Contract-First Development
 
-```typescript
-// Authentication files:
-// - auth.service.ts
-// - auth.resolver.ts
-// - auth.context.tsx
-// - login.tsx
+When features have interdependencies, professional teams use **contract-first development** to enable parallel work while managing the dependencies.
 
-// WebSocket notification files:
-// - notification.service.ts
-// - notification.gateway.ts
-// - notification.model.ts
-// - NotificationCenter.tsx
+**The pattern:**
 
-// Zero overlap ✅
-// No shared imports between features ✅
-// Can be built simultaneously ✅
-```
+Define the interface contract before implementation:
 
-**The 5-condition test for parallel FEATURE execution (worktrees):**
+- What will authentication export? (User type, JWT validation, auth hooks)
+- What will WebSocket import? (same types and services)
+- Agree on the contract upfront between both feature teams
 
-1. Feature 1 does NOT import from Feature 2 ✅
-2. Feature 2 does NOT import from Feature 1 ✅
-3. Features work on different files (no merge conflicts) ✅
-4. No shared state during execution ✅
-5. Features truly independent in scope ✅
+**Using mocks to work in parallel:**
 
-**Result:** These two FEATURES can be built simultaneously in separate worktrees ✅
+While authentication is being built, WebSocket development can proceed by:
 
-**This is perfect for worktrees** - each feature gets its own directory and branch, developed in parallel.
+- Mocking the expected authentication interfaces based on the contract
+- Building and testing the WebSocket feature against mocked dependencies
+- Validating that the feature works with the mocked interfaces
 
----
+Once authentication completes and merges:
 
-## Git Worktrees: Parallel Development Strategy
+- WebSocket work integrates the real authentication imports
+- Mocks are replaced with actual implementations
+- Features are re-validated with true integration
 
-### What Are Worktrees?
+**Why this matters:**
 
-**Multiple working directories from same repository:**
+This teaches professional collaboration patterns:
 
-- Each on different branch
-- Share git history, separate working files
-- Perfect for parallel independent features
+- Interface-driven development
+- Working despite dependencies
+- Clear integration path (mocks → real)
+- Reducing integration surprises
 
-**Traditional workflow (sequential):**
+### Creating Worktrees
 
-```bash
-cd ~/auggie-academy-<your-name>
-git checkout -b feature/auth
-# Build authentication (3-4h)
-git checkout main
-git merge feature/auth
-
-git checkout -b feature/notifications
-# Build notifications (3-4h)
-git checkout main
-git merge feature/notifications
-
-# Total: 6-8 hours
-```
-
-**Worktree workflow (parallel):**
-
-```bash
-# Main worktree: Build authentication
-cd ~/auggie-academy-<your-name>
-git checkout -b feature/auth
-# Agent 1 builds auth (3-4h)
-
-# Create worktree for notifications
-git worktree add ../auggie-academy-<your-name>-notifications -b feature/notifications
-
-# Navigate to worktree
-cd ../auggie-academy-<your-name>-notifications
-# Agent 2 builds notifications (3-4h)
-
-# Both agents work simultaneously
-# Total: 3-4 hours (parallel)
-```
-
----
-
-### When to Use Worktrees
-
-**✅ Good for:**
-
-- Features are completely independent (no shared files)
-- No import dependencies between features
-- Want to work on multiple features simultaneously
-- Can orchestrate multiple agents in parallel
-
-**❌ Not good for:**
-
-- Features have import dependencies (use sequential)
-- Features modify same files (merge conflicts)
-- You prefer sequential (worktrees are optional)
-
-**For today:** Authentication and notifications are perfect worktree candidates.
-
----
-
-### Worktree Management: Helper Scripts vs Raw Git Commands
-
-**Two ways to manage worktrees:**
-
-#### Option 1: Helper Scripts (Recommended)
-
-This repository includes automation scripts that handle worktree creation and cleanup:
-
-**Create worktree with automatic setup:**
+**Using the helper script:**
 
 ```bash
 ./worktree.sh notifications
-# Creates worktree directory: ../gw-notifications
-# Creates branch: gw-notifications
-# Copies .env files automatically
-# Installs dependencies (pnpm install)
-# Opens in your editor (Cursor/VS Code)
 ```
 
-**Benefits:**
+The script automates worktree setup: creates directory, copies environment files, installs dependencies, and opens your editor.
 
-- Automatically copies .env and configuration files
-- Runs package installation
-- Opens in editor
-- Handles branch naming conventions
-- Customizable via `.worktree-config`
-
-**List / Cleanup completed worktrees:**
+**Using git commands directly:**
 
 ```bash
-./worktree-cleanup.sh
-# Interactive UI showing all worktrees
-# Shows PR status (merged/open/no PR)
-# Select multiple worktrees to delete
-# Auto-detects merged PRs for safe cleanup
+git worktree add ../auggie-academy-<name>-notifications -b feature/notifications
+cd ../auggie-academy-<name>-notifications
+# Manual setup: copy .env files, run pnpm install
 ```
 
-**Benefits:**
-
-- Visual interface with PR status
-- Prevents deletion of protected branches
-- Batch deletion of merged features
-- Runs cleanup commands before deletion
-
-**Script Configuration (Optional):**
-
-Both scripts work immediately with sensible defaults. No configuration required.
-
-**Customize if needed:**
+**Managing worktrees:**
 
 ```bash
-# Initialize configuration files (optional)
-./worktree.sh --init                 # Creates .worktree-config
-./worktree-cleanup.sh --init         # Creates .worktree-cleanup-config
+./worktree-cleanup.sh    # Interactive cleanup interface
+git worktree list        # View all active worktrees
+git worktree remove <path>   # Remove specific worktree
 ```
 
-**`.worktree-config` customization options:**
+### Why Worktrees Are Valuable Here
+
+Even with dependencies between authentication and WebSocket notifications, worktrees provide real benefits:
+
+**Feature isolation:**
+
+- Each feature has dedicated workspace
+- Changes stay organized and separated
+- Easier to review individual features
+
+**Context switching:**
+
+- Work on WebSocket while auth builds (with mocking)
+- Jump between features without branch switching in same directory
+- Maintain separate mental contexts per feature
+
+**Learning the tool:**
+
+- Practice worktree mechanics on realistic scenario
+- Prepare for future truly independent features
+- Understand dependency management patterns
+
+**Professional workflow:**
+
+- Contract-first development (define interfaces upfront)
+- Mocking strategy (work despite dependencies)
+- Integration patterns (mocks → real implementations)
+
+### Worktree Helper Scripts
+
+This repository includes scripts to simplify worktree management:
+
+**Creating worktrees:**
 
 ```bash
-BRANCH_PREFIX="gw-"              # Branch naming (gw-feature, gw-auth)
-COPY_FILES=(".env" ".env.local") # Auto-copy to new worktrees
-PACKAGE_MANAGER="pnpm"           # Or "npm", "yarn", "auto"
-EDITOR="cursor"                  # Or "code", "vim", "auto"
-POST_CREATE_COMMANDS=(           # Run after creation
-    "pnpm run db:migrate"
-)
+./worktree.sh notifications
+# Handles: directory creation, .env copy, dependency install, editor launch
 ```
 
-**`.worktree-cleanup-config` customization options:**
+**Cleanup and management:**
 
 ```bash
-CHECK_PR_STATUS=true             # Show PR merge status
-PROTECTED_PATTERNS=(             # Never delete
-    "main" "develop" "release/.*"
-)
-AUTO_SELECT_MERGED=true          # Auto-select merged PRs
+./worktree-cleanup.sh    # Interactive UI for removing completed worktrees
+git worktree list        # See all active worktrees
 ```
 
-**When to configure:** Team conventions, additional files to copy, auto-setup commands
-
-**When to skip:** Defaults work fine (recommended for first use)
-
-#### Option 2: Raw Git Commands (Manual)
-
-**Create worktree:**
+**Raw git commands** also work if you prefer manual control:
 
 ```bash
-git worktree add <path> -b <branch-name>
-
-# Example:
-git worktree add ../starter-repo-notifications -b feature/notifications
-
-# Then manually:
-cd ../starter-repo-notifications
-cp ../<main-repo>/.env .
-pnpm install
+git worktree add ../repo-notifications -b feature/notifications
 ```
 
-**List worktrees:**
-
-```bash
-git worktree list
-# Output:
-# /Users/you/starter-repo  abc123 [feature/auth]
-# /Users/you/starter-repo-notifications  def456 [feature/notifications]
-```
-
-**Remove worktree:**
-
-```bash
-# First, merge feature to main
-cd ~/starter-repo
-git merge feature/notifications
-
-# Remove worktree
-git worktree remove ../starter-repo-notifications
-
-# Delete branch
-git branch -D feature/notifications
-
-# Or if directory already deleted:
-git worktree prune
-```
-
-**Use helper scripts to save time** - they handle the tedious setup automatically.
-
----
-
-### Worktrees Are Optional (But Powerful)
-
-**Remember, you can parallelize agents WITHOUT worktrees:**
-
-**Three valid approaches for today:**
-
-1. **Sequential (no worktrees):** Build auth → then notifications (6-8h total)
-2. **Parallel agents (no worktrees):** Both features in same directory, careful file coordination (3-4h)
-3. **Parallel with worktrees:** Complete isolation, safest parallel approach (3-4h)
-
-**All are valid.** Worktrees demonstrate advanced orchestration and provide the safest parallel development experience.
-
-### Worktree Best Practices
-
-**Do:**
-
-- ✅ Use worktrees for completely independent features
-- ✅ Verify no file overlap before starting
-- ✅ Keep both worktrees in sync with main (regular pulls)
-- ✅ Run separate Claude Code sessions for each worktree
-- ✅ Merge frequently to avoid divergence
-
-**Don't:**
-
-- ❌ Use worktrees for features with import dependencies
-- ❌ Modify same files in both worktrees (merge conflicts)
-- ❌ Forget to remove worktrees after merging
-- ❌ Use worktrees if you prefer sequential (totally fine!)
-
----
+Helper scripts automate the tedious setup steps but aren't required.
 
 ---
 
@@ -414,7 +271,13 @@ A complete authentication system with user registration, login, and protected ro
 
 A complete notification system with database persistence, real-time delivery, and user interface.
 
-**Key requirement:** Notifications are PERSISTENT (stored in database), not just ephemeral toasts.
+**⚠️ Dependencies on Authentication:**
+
+This feature integrates with the authentication system:
+
+- Backend WebSocket gateway authenticates connections using JWT validation
+- Frontend WebSocket connection requires auth token
+- Notifications associate with authenticated users via User model
 
 **Backend requirements:**
 
@@ -494,6 +357,12 @@ A complete notification system with database persistence, real-time delivery, an
 - [ ] TypeScript: 0 errors
 - [ ] Tests passing
 - [ ] Browser testing: Both features work end-to-end
+
+**If you used mocks during parallel development:**
+
+- [ ] All mocked interfaces replaced with real authentication imports
+- [ ] Re-ran all validation gates after integration
+- [ ] Verified real authentication works (not just mocked version)
 
 ---
 
