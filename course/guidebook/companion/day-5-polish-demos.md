@@ -1,559 +1,215 @@
-# Day 5: Polish, Demos & Brownfield Extension
+# Day 5: Brownfield Mini-Hackathon
 
 **Session 05 of 5**
 
-**Today's Goal:** Complete any missing work, polish your CRM, demo your work, and prepare for company application
+**Today's Goal:** Apply orchestration methodology to YOUR company codebase - build something real
+
+**Hackathon format:** Investigate → Plan → Build → Showcase
 
 ---
 
-## Morning (9:00am-12:00pm): Choose Your Path
+## If You're Behind on Course Features (Catch Up First)
 
-**Pick the path that matches where you are:**
+**Before the hackathon, ensure core features are working:**
 
----
+Check what's missing from Days 1-4:
 
-### Path A: Complete Required Features (If Behind)
+- [ ] Infrastructure + CRUD (Day 1)
+- [ ] AI summaries, scoring, recommendations (Day 2)
+- [ ] JWT authentication (Day 3)
+- [ ] WebSocket notifications (Day 3)
+- [ ] Mobile app foundation (Day 4)
 
-**Focus on getting core curriculum complete:**
+**If missing critical features:**
 
-**Check what's missing:**
-- [ ] Infrastructure + CRUD (Day 1 required)
-- [ ] AI summaries with persistent storage (Day 2 required)
-- [ ] AI activity scoring with persistent storage (Day 2 required)
-- [ ] AI task recommendations with persistent storage (Day 2 required)
-- [ ] JWT authentication (Day 3 required)
-- [ ] Real-time WebSocket notifications with persistence (Day 3 required)
-- [ ] Mobile app foundation (Day 4 required)
+- Spend morning completing them
+- Join hackathon after core complete
+- OR participate in hackathon anyway (investigation is valuable even without building)
 
-**Goal:** Get all required features working by noon
+**If all core features complete:**
 
-**Support available:**
-- Instructors for troubleshooting
-- Office hours for methodology help
-- Peer collaboration encouraged
-
-**Run all 5 validation gates:**
-```bash
-cd ~/auggie-academy-<your-name>
-pnpm run type-check  # 0 errors
-pnpm run lint        # 0 warnings
-pnpm test            # All passing
-# Check for hanging processes
-# Browser/mobile testing: Features work
-```
+- Jump straight into hackathon
+- Full day to work on company code
 
 ---
 
-### Path B: Polish & Refinement (If Core Complete)
+## Brownfield Mini-Hackathon: Build Something You Care About
 
-**If core complete, improve what you have:**
+### The Challenge: Build Something Real in Your Company Codebase
 
-#### Code Quality Improvements
+**This week:** You mastered orchestration in greenfield (fresh CRM, clean slate, you made all the decisions)
 
-- [ ] Refactor messy code from Day 1
-- [ ] Add error handling edge cases
-- [ ] Improve test coverage (more integration tests)
-- [ ] Add loading states and better UX
-- [ ] Clean up console logs and debug code
+**Today:** Apply what you learned to brownfield (real company code, existing patterns, other engineers' conventions)
 
-**Focus areas:**
-- Identify messy code sections from early days
-- Add comprehensive error handling
-- Increase integration test coverage
-- Improve user experience with better loading states
-- Remove debugging artifacts
+**Your mission:** Pick a small feature you've been wanting to build in your company codebase and make real progress on it.
 
 ---
 
-#### Documentation
+#### Choose Your Hackathon Challenge
 
-- [ ] Write comprehensive README with setup instructions
-- [ ] Document API endpoints (request/response formats)
-- [ ] Add code comments for complex logic
-- [ ] Create troubleshooting guide for common issues
+**Pick your target repository:**
 
-**Focus areas:**
-- Clear setup instructions for new engineers
-- API documentation (endpoints, params, responses)
-- Comments explaining non-obvious logic
-- Common errors and how to fix them
+Choose a company codebase you contribute to:
 
----
+- One you work in regularly (familiar enough to navigate)
+- Has some mystery (not code you wrote yesterday)
+- Mid-sized preferred (not tiny, not overwhelming)
 
-#### Performance
+**Identify your feature:**
 
-- [ ] Add caching for LLM results (avoid recalculating scores)
-- [ ] Optimize database queries (reduce N+1 problems)
-- [ ] Add pagination for large lead lists
-- [ ] Improve loading states and UX
+This is YOUR hackathon. Pick something meaningful to you:
 
-**Focus areas:**
-- Cache AI-generated summaries/scores (don't regenerate unnecessarily)
-- Identify and fix N+1 query problems
-- Add pagination to prevent slow page loads
-- Better loading indicators for async operations
+**Keep it small** (completable in 2-3 hours):
 
----
+- API endpoint you've been meaning to add
+- UI component or enhancement you've wanted
+- Small refactoring you've thought about
+- Test coverage improvement
+- Bug fix you've been putting off
+- Form validation addition
+- Error handling enhancement
 
-**Goal:** Production-quality polish
+**The only requirement:** Must integrate with existing code (this is brownfield practice, not greenfield)
+
+**Scope matters:** Pick something completable today. Goal is to experience the full cycle (investigate → plan → build → ship), not get stuck in complex implementation.
+
+**Pick something you'd be excited to ship tomorrow**
 
 ---
 
-### Path C: Stretch Goals (If Core Complete + Want Challenge)
+#### Phase 1: Investigation
 
-**Choose based on interest:**
+**Don't code yet. Discover first.**
 
----
+**Use Serena MCP and code reading to understand the codebase:**
 
-#### Option 1: Continue PM-Suggested Features (If Built PM Agent)
+**Pattern discovery questions:**
 
-**Unlimited features available from your PM agent:**
+- What patterns does this repo follow for similar features?
+- How is the architecture structured? (monolith, microservices, modules)
+- What testing approach is standard?
+- What conventions are consistent? (naming, file organization, code style)
 
-- [ ] Implement additional features from PM roadmap
-- [ ] Apply full methodology for each feature
-- [ ] Run 5 validation gates for each implementation
-- [ ] Document learnings in `.claude/experiments/`
+**Integration discovery questions:**
 
-**What you'll learn:**
-- Sustained orchestration over multiple features
-- Building product roadmap systematically
-- Accumulating implementation patterns
+- Where would your feature hook into existing code?
+- What existing services, modules, or components would you use?
+- What files would you modify vs create new?
+- What dependencies exist?
 
-**Complexity:** Varies by feature
-**Time:** 2-4 hours per feature
+**Gotcha discovery questions:**
 
----
+- What breaks easily in this codebase?
+- Are there performance considerations?
+- Security patterns to follow?
+- Multi-tenancy or data isolation concerns?
+- Known technical debt affecting this area?
 
-#### Option 2: Google OAuth 2.0
+**Team discovery questions:**
 
-**What you'll build:**
+- How does your team add features currently?
+- What's the review process?
+- What testing is required?
+- What documentation is expected?
 
-- [ ] Passport.js Google strategy
-- [ ] OAuth callback handling
-- [ ] "Sign in with Google" button
-- [ ] Link existing accounts to Google
-- [ ] Environment-specific redirect URIs
+**Track your discoveries** - write them down as you investigate.
 
-**What you'll learn:**
-- External service integration
-- OAuth 2.0 flows
-- Managing redirect URIs
-- Environment-specific configuration
-
-**Implementation considerations:**
-- Google Cloud Console setup (OAuth credentials)
-- Redirect URI configuration (dev vs production)
-- User account linking strategy
-- Session management with OAuth tokens
-
-**Complexity:** Medium
-**Time:** 2-3 hours
+**Investigation is the skill.** Brownfield = discovery-first, building second.
 
 ---
 
-#### Option 3: Advanced Mobile Features
+#### Phase 2: Planning
 
-**What you'll add to mobile:**
+**Create your execution strategy based on what you discovered:**
 
-- [ ] Edit lead functionality
-- [ ] Create/complete tasks on mobile
-- [ ] Add new interactions
-- [ ] Full CRUD on mobile (not just read-only)
-- [ ] Offline mode with data sync
-- [ ] Push notifications
-- [ ] Geolocation for check-ins
+**Using orchestration partner (optional):**
 
-**What you'll learn:**
-- React Native forms
-- Mobile-specific UX patterns
-- Keeping web and mobile feature parity
-- Offline-first architecture
-- Push notification setup
+- Borrow from the [/.claude/orchestration-partner](/.claude/orchestration-partner/) and begin to create your own orchestration partner, custom to your repo
+- Initialize in your company repo: `/init-orchestration-partner`
+- Describe the feature you want to build
+- Let partner analyze coordination requirements
+- Get execution plan following the repo's discovered patterns
 
-**Implementation considerations:**
-- Form handling in React Native
-- Optimistic UI updates
-- Sync strategy for offline changes
-- Push notification permissions
+**Or plan manually:**
 
-**Complexity:** Medium
-**Time:** 2-3 hours
+- Sketch task breakdown
+- Identify integration points
+- Note which existing patterns to follow
+- Flag gotchas to avoid
 
----
+**Planning questions:**
 
-#### Option 4: Analytics Dashboard
+- How will you break this feature into tasks?
+- What order makes sense? (sequential vs parallel)
+- What existing code will you modify?
+- What new code will you create?
+- How will you test? (match repo's approach)
 
-**What you'll build:**
-
-- [ ] Data visualization (charts, graphs)
-- [ ] Lead pipeline funnel
-- [ ] Activity trends over time
-- [ ] Conversion metrics
-
-**What you'll learn:**
-- Data aggregation queries
-- Chart library integration (Recharts, Chart.js)
-- Real-time dashboard updates
-- Performance optimization for analytics
-
-**Implementation considerations:**
-- Database queries for aggregation
-- Chart library selection
-- Real-time updates vs periodic refresh
-- Caching strategy for expensive queries
-
-**Complexity:** Medium-High
-**Time:** 3-4 hours
+**Deliverable:** Execution plan (can be formal or just notes)
 
 ---
 
-#### Option 5: Enhanced Real-Time Features
+#### Phase 3: Build
 
-**What you'll build:**
+- Implement the feature following discovered patterns
+- Use orchestration methodology (agents if helpful)
+- Test against repo's existing test suite
+- Follow repo's validation requirements
 
-- [ ] Multi-user presence ("User X is viewing Lead Y")
-- [ ] Collaborative editing awareness
-- [ ] Team activity feed
-- [ ] Notification preferences
-
-**What you'll learn:**
-- Advanced WebSocket patterns
-- Presence tracking
-- Multi-user coordination
-- User preference management
-
-**Implementation considerations:**
-- WebSocket room management
-- Presence state tracking
-- Throttling activity updates
-- User notification settings UI
-
-**Complexity:** Medium-High
-**Time:** 2-3 hours
+**The goal isn't completion** - it's practicing brownfield discovery and applying orchestration methodology to real work.
 
 ---
 
-#### Option 6: Explore Brownfield Preparation
+#### Hackathon Showcase (End of Day)
 
-**Practice applying methodology to existing codebases:**
+**Share your hackathon journey:**
 
-**What you'll do:**
-- [ ] Use Serena MCP on a complex codebase (your company repo or sample)
-- [ ] Create `.claude/` structure for the repo
-- [ ] Document: tech stack, common patterns, critical gotchas
-- [ ] Try orchestrating a small feature
+- What company codebase did you explore?
+- What feature did you investigate/plan/build?
+- What interesting patterns did you discover?
+- What gotchas did you uncover?
+- How far did you get? (investigation? planning? building? complete?)
 
-**What you'll learn:**
-- Applying methodology to real company work
-- Using Serena to understand existing code
-- Creating per-repo documentation
-- Preparing for Monday
+**Demo (if you built something):**
 
-**This prepares you for afternoon brownfield session**
+- Quick 2-minute demo of what you implemented
+- Show it running (if complete enough)
+- OR show your execution plan (if still in planning phase)
 
-**Complexity:** Medium
-**Time:** 2-3 hours
+**Share your CRM work (optional):**
 
----
-
-## Afternoon (1:00pm-5:00pm): Demos + Brownfield Extension
-
-**Everyone participates in afternoon sessions (required)**
+- Show 1-2 impressive features from the week
+- AI summaries, scoring, WebSockets, mobile - pick your favorite
+- Keep it brief (1-2 minutes max)
 
 ---
 
-### Part 1: Individual Demos (1:00pm-3:00pm)
+#### Optional: Document for Your Team
 
-#### Demo Preparation (1:00-2:00 PM)
+**If you discovered valuable patterns:**
 
-**Polish Your Application:**
+Consider creating `.claude/` documentation in your company repo:
 
-**Final touches before demos:**
+**What to document:**
 
-- [ ] Fix any critical bugs
-- [ ] Ensure all validation gates pass
-- [ ] Test complete user flow in browser
-- [ ] Clean up obvious UI issues
-- [ ] Prepare demo narrative
+- `.claude/meta/repo-identity.md` - Tech stack, architecture, critical systems
+- `.claude/meta/common-patterns.md` - How features are built here
+- `.claude/meta/critical-gotchas.md` - Known issues to avoid
+- etc.
 
-**Not required:**
-- Perfect styling
-- Every edge case handled
-- Complete feature set
+**Value for team:**
 
-**Demo-ready = core features work reliably**
+- New engineers onboard faster
+- Teammates learn from your discoveries
+- AI orchestration partner can use this context
+- Prevents rediscovering same patterns
 
----
+**Questions to consider:**
 
-#### Prepare Your Demo Story (3 minutes)
-
-**What to prepare:**
-
-**1. Quick demo (2 minutes):**
-
-- Show 2-3 key features working
-- Lead list → detail page → AI features
-- One impressive moment (AI summary, scoring, recommendations)
-
-**Suggested flow:**
-- Start with lead dashboard
-- Click into a lead detail page
-- Show AI-generated summary
-- Show activity scoring
-- Show task recommendations
-- Demonstrate one special feature (WebSocket, mobile, etc.)
-
-**2. One key insight (1 minute):**
-
-- What's your biggest learning about AI orchestration?
-- What surprised you most this week?
-- What will you apply on Monday?
-
-**Keep it brief** - you'll have 3 minutes total
-
----
-
-#### Demo Format (2:00-3:00 PM)
-
-**Demo structure:**
-- 3-5 minutes per engineer
-- Show what you built (wherever you got)
-- Share one key learning or insight
-- No judgment on completion level
-
-**Minimum to demo:**
-- Working CRM dashboard (CRUD)
-- At least one AI feature
-- Mobile app (if complete)
-
-**Celebrate what you built** - no matter how far you got
-
----
-
-### Part 2: Brownfield Extension (3:00pm-5:00pm)
-
-**⚠️ This session is REQUIRED for everyone**
-
-**Instructor-led demonstration of applying methodology to company codebases**
-
----
-
-#### Why Methodology Matters for Company Work
-
-**You've learned orchestration in greenfield (fresh start):**
-
-- Clean slate
-- No existing patterns to follow
-- You define all conventions
-- Everything is new
-
-**Monday you return to brownfield (complex existing codebases):**
-
-- 10K+ lines of code
-- Established tech stack
-- Existing patterns and conventions
-- Integration points to respect
-- Known gotchas and issues
-- Multiple engineers coordinating
-
-**Challenge:** How does methodology transfer to complex existing codebases?
-
-**Answer:** Systematic discovery + per-repo documentation
-
----
-
-#### The Solution: Per-Repo Methodology Partner
-
-**Live demonstration using Serena MCP:**
-
----
-
-##### Step 1: Understand Existing Codebase
-
-```
-Instructor: "Let's look at a complex company repo (auth-service).
-First, use Serena MCP to understand what exists:"
-
-Serena queries:
-- "What tech stack is used?" → NestJS, TypeORM, Redis
-- "Find all authentication-related code" → Services, guards, strategies
-- "What patterns exist?" → Repository pattern, Guards, DTOs, Event emitters
-```
-
-**Serena helps you understand BEFORE building**
-
-**Key insight:** In brownfield, you must discover patterns first (can't invent new ones)
-
----
-
-##### Step 2: Document Patterns in `.claude/`
-
-**Create per-repo documentation:**
-
-```
-auth-service/
-  .claude/
-    meta/
-      repo-identity.md
-        # Tech stack: NestJS 10.x, TypeORM, Redis
-        # Architecture: Microservice, event-driven
-        # Critical systems: Multi-tenant, session management
-
-      common-patterns.md
-        # Repository pattern (not direct TypeORM)
-        # Guards for auth (not middleware)
-        # Event emitters (not direct service calls)
-
-      critical-gotchas.md
-        # MUST filter by tenantId (multi-tenant data isolation)
-        # Token rotation requires Redis AND database update
-        # No hard-coded URLs (environment-specific)
-```
-
-**This documentation:**
-
-- Created by first engineer in repo
-- Shared with entire team (checked into git)
-- Grows over time (each feature adds learnings)
-- Prevents rediscovering same patterns/gotchas
-
----
-
-##### Step 3: Initialize Partner for This Repo
-
-```bash
-cd ~/your-company-repo
-/init-orchestration-partner
-```
-
-**Partner loads:**
-
-- Repo identity (tech stack, architecture)
-- Common patterns (how things are done here)
-- Critical gotchas (known issues to avoid)
-- Same orchestration methodology (proven patterns)
-
-**Partner now knows THIS repo's context**
-
----
-
-##### Step 4: Orchestrate Feature in Brownfield
-
-```
-You: "Create agent prompt for: Add email notifications to auth service"
-
-Partner: "I'll create prompt following this repo's patterns:
-- NestJS Guards (repo uses Guards, not middleware)
-- Event emitters (repo pattern for cross-service communication)
-- Repository pattern (repo doesn't use direct TypeORM)
-- Multi-tenant filtering (MUST include tenantId - critical gotcha)
-- Existing EmailService (repo already has it - don't recreate)
-
-Here's the complete prompt following auth-service conventions..."
-```
-
-**Agent builds feature:**
-
-- ✅ Follows established patterns
-- ✅ Avoids known gotchas
-- ✅ Integrates with existing code
-- ✅ No reinventing what exists
-
----
-
-#### The Compound Knowledge Effect
-
-**Repository intelligence accumulates:**
-
-**First engineer:**
-
-- Documents 3 patterns, 2 gotchas
-- Baseline established
-
-**Fifth engineer:**
-
-- Knows 6 patterns, 4 gotchas (accumulated knowledge)
-- Builds faster (doesn't rediscover)
-
-**Tenth engineer:**
-
-- Knows 12+ patterns, 8+ gotchas
-- **Faster than engineer #1** (compound learning)
-
-**Knowledge sharing at scale** - every engineer improves repo documentation
-
----
-
-#### Your Monday Action Plan
-
-**This methodology works in your company repos:**
-
-**Step 1: Pick a repo to start with**
-
-- Choose one you work in regularly
-- Complexity doesn't matter (methodology scales)
-
-**Step 2: Use Serena to understand patterns**
-
-- What tech stack?
-- What conventions exist?
-- What gotchas are known?
-
-**Step 3: Create `.claude/` structure**
-
-- Document what Serena helped you discover
-- Write down patterns to follow
-- Note gotchas to avoid
-
-**Step 4: Orchestrate a small feature**
-
-- Use `/init-orchestration-partner`
-- Apply systematic methodology
-- Document learnings in `.claude/experiments/`
-
-**Step 5: Share with team**
-
-- Check in `.claude/` directory
-- Next engineer benefits from your documentation
-- Knowledge compounds over time
-
----
-
-## Individual Reflection (Optional)
-
-### Reflection Questions
-
-**Write down your answers:**
-
-**1. Mindset shift:**
-
-- How has your approach to AI development changed this week?
-- What did you think AI could do on Monday vs Friday?
-- What surprised you most?
-
-**2. Key learnings:**
-
-- What's your biggest takeaway from this week?
-- Which pattern/protocol was most valuable?
-- What do you still feel uncertain about?
-
-**3. Successes:**
-
-- What are you most proud of building?
-- What worked better than expected?
-- What feature impressed you most?
-
-**4. Challenges:**
-
-- What was harder than expected?
-- Where did you struggle?
-- What would you do differently if starting over?
-
-**5. Monday planning:**
-
-- Which company repo will you apply this to?
-- What feature will you orchestrate first?
-- What do you need to prepare over the weekend?
+- Would this have helped you when you joined?
+- Would teammates find it useful?
+- Does your team culture support this?
+- Do you have authority to add it?
 
 ---
 
@@ -567,8 +223,6 @@ Here's the complete prompt following auth-service conventions..."
 - ✅ Authentication with protected routes
 - ✅ Real-time WebSocket notifications with persistence
 - ✅ Mobile application (React Native)
-- ✅ (Optional) PM agent + PM-suggested features
-- ✅ (Optional) Advanced features based on your interests
 
 **Technical accomplishments:**
 
@@ -583,6 +237,7 @@ Here's the complete prompt following auth-service conventions..."
 **You've learned:**
 
 **Core methodology:**
+
 - ✅ Infrastructure-first pattern
 - ✅ Coordination through convention (field naming locks, schema as contract)
 - ✅ 5 validation gates (comprehensive quality standard)
@@ -592,49 +247,37 @@ Here's the complete prompt following auth-service conventions..."
 - ✅ Strategic orchestration with partner
 
 **Transferable skills:**
+
 - ✅ AI agent orchestration strategies
 - ✅ Multi-platform development (web + mobile)
 - ✅ Complex feature coordination
 - ✅ Testing strategies for AI features
 - ✅ Real-time systems implementation
 - ✅ Strategic vs tactical execution
-- ✅ Brownfield application (Serena + per-repo `.claude/`)
+- ✅ Brownfield discovery patterns (investigation-first)
+- ✅ Pattern matching in existing codebases
+- ✅ Real company codebase application
 
 ---
 
-**Monday: Take This Back to Your Real Work**
+**You're ready to apply this to real work:**
 
-**The methodology transfers because:**
+**From brownfield hackathon:**
 
-- Same strategic thinking (pre-execution validation)
+- Investigation of company codebase complete
+- Execution plan ready (or partially built)
+- Patterns discovered and documented
+- Can ship tomorrow with confidence
+
+**The methodology transfers:**
+
+- Same strategic thinking (discovery before building)
 - Same quality standards (5 validation gates)
-- Same coordination patterns (adapt to repo conventions)
-- Serena MCP helps navigate existing code
-- `.claude/` structure works in any repo
+- Same coordination patterns (but match repo conventions)
+- Serena MCP navigates existing code
+- Orchestration partner adapts to any repo
 
-**Knowledge sharing:**
-
-- First engineer documents patterns
-- Team benefits from shared knowledge
-- Repository intelligence accumulates
-
-**This isn't just a greenfield exercise** - it's company-wide AI orchestration mastery
-
----
-
-**Ongoing support:**
-
-- `.claude/playbook/` files in your repos
-- `/init-orchestration-partner` for ongoing methodology
-- Peer network (other engineers from this cohort)
-- Instructor office hours (if available)
-
-**Continue learning:**
-
-- Apply to different types of features
-- Refine patterns based on your needs
-- Contribute to `.claude/discoveries/` in your repos
-- Share learnings with team
+**You practiced on real code** - this isn't theoretical. You explored your actual company codebase and made real progress on a feature you care about.
 
 ---
 
