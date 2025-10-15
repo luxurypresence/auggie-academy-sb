@@ -80,7 +80,7 @@ After foundation working, add more mobile features:
 
 **Same strategic thinking, different context.**
 
-**For complete protocol:** [playbook/strategic-orchestration.md](../../../playbook/strategic-orchestration.md)
+**For complete protocol:** [playbook/strategic-orchestration.md](../../../.claude/orchestration-partner/playbook/strategic-orchestration.md)
 
 ---
 
