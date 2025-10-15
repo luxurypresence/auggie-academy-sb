@@ -38,4 +38,4 @@
 
 ---
 
-**See:** [../../README.md](../../README.md) for complete .claude/ organization
+**See:** [../../../README.md](../../../README.md) for complete .claude/ organization

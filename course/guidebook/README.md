@@ -14,7 +14,7 @@ Welcome to the complete curriculum for systematic AI agent orchestration. This g
 - **Deep theory:** [chapters/README.md](chapters/README.md) - Comprehensive chapters
 - **Advanced workflows:** [appendices/](appendices/) - Git worktrees, stacked PRs, brownfield
 
-**Need operational references?** → See [../README.md](../README.md) for playbook/methodology organization
+**Need operational references?** → See [../../README.md](../../README.md) for playbook/methodology organization
 
 ---
 
@@ -66,7 +66,7 @@ Each day is self-contained with everything you need in one file. Work at your ow
 
 **After the course:** Keep guidebook open as reference during real feature development.
 
-**Need operational checklists?** → See [playbook](../playbook/) and [methodology](../methodology/) in [.claude/README.md](../README.md)
+**Need operational checklists?** → See [playbook](../../.claude/orchestration-partner/playbook/) and [methodology](../../.claude/orchestration-partner/methodology/) in [.claude/README.md](../../.claude/README.md)
 
 ---
 

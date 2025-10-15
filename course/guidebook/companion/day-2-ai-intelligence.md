@@ -158,7 +158,7 @@ This command tells Claude Code to read a prompt file at `.claude/commands/init-o
   - **Tracks** agent logs capturing decisions and challenges during execution
   - **Compiles** retrospectives distilling lessons learned after completion
 
-**You can view the actual prompt:** [.claude/commands/init-orchestration-partner.md](../../../commands/init-orchestration-partner.md)
+**You can view the actual prompt:** [.claude/commands/init-orchestration-partner.md](../../../.claude/commands/init-orchestration-partner.md)
 
 **It's completely transparent:**
 
