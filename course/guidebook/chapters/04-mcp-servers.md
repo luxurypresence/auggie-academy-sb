@@ -1,10 +1,5 @@
 # Chapter 04: MCP Server Configuration
 
-**Part 1: Tool Foundations**
-**When to read:** Day 1 (reference material)
-
----
-
 ## Overview
 
 This chapter provides comprehensive details about MCP (Model Context Protocol) servers: how to configure them, the difference between global and project-specific installations, and the various methods for adding them to your Claude Code environment.
@@ -331,25 +326,6 @@ claude # then type: /mcp
 
 ---
 
-### Method 3: Using `npx` Directly (Quick Testing)
-
-**For testing** an MCP server before committing to configuration:
-
-```bash
-# Start Claude Code with temporary MCP server
-npx @modelcontextprotocol/server-filesystem
-```
-
-**Limitations:**
-
-- Server only available for this session
-- Configuration not saved
-- Must restart manually each time
-
-**Use case:** Testing a new MCP server before adding it permanently
-
----
-
 ## 4. Common MCP Servers for This Course
 
 ### Essential Servers (Install Globally)
@@ -432,24 +408,18 @@ Expected: Browser opens, screenshot saved and displayed
 claude mcp add @upstash/context7
 ```
 
-**Manual config (requires API keys):**
+**Manual config:**
 
 ```json
 {
   "mcpServers": {
     "context7": {
       "command": "npx",
-      "args": ["-y", "@upstash/context7"],
-      "env": {
-        "UPSTASH_REDIS_REST_URL": "your-redis-url",
-        "UPSTASH_REDIS_REST_TOKEN": "your-redis-token"
-      }
+      "args": ["-y", "@upstash/context7"]
     }
   }
 }
 ```
-
-**Get API keys:** [Upstash Console](https://console.upstash.com/)
 
 **Verify:**
 
@@ -747,12 +717,6 @@ claude mcp add @oraios/serena --project
 ```
 ````
 
-### Environment Variables
-
-(None required for this project)
-
-````
-
 ---
 
 ## 7. Advanced: Custom MCP Servers
@@ -760,11 +724,13 @@ claude mcp add @oraios/serena --project
 ### When to Build Custom MCP Server
 
 **Consider building custom MCP server when:**
+
 - Need project-specific integrations (internal APIs, tools)
 - Want to extend Claude Code with domain-specific knowledge
 - Require custom data sources or processing
 
 **Don't build when:**
+
 - Existing MCP server already does it
 - Simple bash script would suffice
 - Overhead not justified by use frequency
@@ -777,24 +743,24 @@ claude mcp add @oraios/serena --project
 
 ```javascript
 // custom-mcp-server.js
-const { Server } = require('@modelcontextprotocol/sdk');
+const { Server } = require("@modelcontextprotocol/sdk");
 
 const server = new Server({
-  name: 'custom-project-server',
-  version: '1.0.0'
+  name: "custom-project-server",
+  version: "1.0.0",
 });
 
 // Define tools the server provides
-server.tool('get-project-info', async () => {
+server.tool("get-project-info", async () => {
   return {
-    name: 'My Project',
-    version: '1.0.0',
+    name: "My Project",
+    version: "1.0.0",
     // Custom project data
   };
 });
 
 server.start();
-````
+```
 
 **Configuration:**
 
