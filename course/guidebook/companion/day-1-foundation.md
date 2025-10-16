@@ -8,11 +8,7 @@
 
 ---
 
-## Part 1: Tool Setup (Start Here)
-
-Complete this section before moving to Part 2. These tools are essential for building effectively with AI agents.
-
----
+## Part 1: Tool Setup
 
 ### 1. Claude Code Fundamentals
 
@@ -72,228 +68,6 @@ This confirms the action worked (or shows errors).
 
 ---
 
-#### When to Intervene vs Let It Work
-
-##### ✅ Let Claude Code Work Autonomously
-
-**When you see:**
-
-- Multiple sequential tool calls (it has a plan)
-- File edits that make sense
-- Test runs with expected failures (it's debugging)
-- Git operations with clear intent
-
-**Example (let it work):**
-
-```
-Claude: "I'll fix the TypeScript errors..."
-Tool: Edit user.model.ts (fix import)
-Tool: Edit user.service.ts (fix type)
-Tool: Bash pnpm run type-check
-Result: ✔ No TypeScript errors
-
-You: 👍 (Don't interrupt, it's working)
-```
-
-##### 🛑 Intervene When You See
-
-**Red flags:**
-
-- Same error repeating 3+ times (it's stuck)
-- Editing wrong files (misunderstood your intent)
-- Running dangerous commands (rm -rf, force push)
-- Creating duplicate code (misunderstood existing structure)
-
-**Example (intervene):**
-
-```
-Claude tries Fix #1: Result: Error X
-Claude tries Fix #2: Result: Error X
-Claude tries Fix #3: Result: Error X
-
-You: "Stop. The issue is [explanation]. Try [approach]."
-```
-
-**Rule of thumb:** 3 failed attempts = time to redirect
-
----
-
-#### Understanding Errors
-
-##### Error Type 1: Tool Execution Failed
-
-**What you see:**
-
-```
-Error: File not found at /backend/models/user.js
-```
-
-**What it means:** Claude tried to edit a file that doesn't exist
-
-**How to respond:**
-
-```
-You: "The file is at /src/backend/models/user.js (note the /src prefix)"
-```
-
-##### Error Type 2: Command Failed
-
-**What you see:**
-
-```
-Bash command failed with exit code 1:
-pnpm run type-check
-Error: Cannot find module 'sequelize'
-```
-
-**What it means:** Missing dependency
-
-**How to respond:**
-
-```
-You: "Install dependencies first: pnpm install"
-```
-
-(Claude will run it)
-
-##### Error Type 3: Claude Is Confused
-
-**What you see:**
-
-```
-Claude: "I'm not sure which approach to take..."
-```
-
-**What it means:** Ambiguous requirements
-
-**How to respond:**
-
-```
-You: "Use Sequelize for the ORM (not TypeORM). Follow NestJS patterns."
-```
-
-(Be specific, not vague)
-
----
-
-#### Hands-On Practice
-
-**Verify Claude Code is working:**
-
-##### Test 1: File Operations
-
-```
-You: "Create a file test.txt with content 'Hello World'"
-
-Expected:
-- Tool: Write test.txt
-- Result: File created successfully
-- You can see test.txt in your editor
-```
-
-##### Test 2: Command Execution
-
-```
-You: "List files in the current directory"
-
-Expected:
-- Tool: Bash ls
-- Result: [list of files]
-```
-
-##### Test 3: Error Handling
-
-```
-You: "Read the contents of fake-file.txt"
-
-Expected:
-- Tool: Read fake-file.txt
-- Result: Error: File not found
-- Claude: "The file doesn't exist. Would you like me to create it?"
-```
-
-**If all 3 work:** ✅ Claude Code is ready
-
----
-
-#### Common Gotchas
-
-##### Gotcha #1: "Claude is slow today"
-
-**Symptom:** Tool calls taking forever
-
-**Likely cause:**
-
-- MCP server not responding (Playwright, Context7)
-- Command running but not completing (pnpm install, long test)
-
-**Fix:**
-
-```bash
-# Check running processes
-ps aux | grep node
-
-# Kill stuck process if needed
-pkill -f "pnpm test"
-```
-
-##### Gotcha #2: "Claude isn't following my instructions"
-
-**Symptom:** Code doesn't match what you asked for
-
-**Likely cause:**
-
-- Ambiguous instructions ("make it better")
-- Missing context (didn't explain existing architecture)
-
-**Fix:**
-
-```
-Bad:  "Add authentication"
-Good: "Add JWT authentication using Passport.js.
-       Follow the pattern in auth.service.ts.
-       Store tokens in localStorage."
-```
-
-##### Gotcha #3: "Claude keeps making the same mistake"
-
-**Symptom:** Same error 3+ times
-
-**Likely cause:**
-
-- Claude is stuck in wrong mental model
-
-**Fix:**
-
-```
-You: "Stop. Let me explain the architecture:
-     - Backend uses NestJS (not Express)
-     - Database is Sequelize (not TypeORM)
-     - GraphQL uses Apollo Federation
-
-     Try again with this context."
-```
-
-##### Gotcha #4: "I can't see what Claude is doing"
-
-**Symptom:** Tool calls happening but no visible changes
-
-**Likely cause:**
-
-- Editor not refreshing
-- Working in wrong directory
-
-**Fix:**
-
-```bash
-# Verify working directory
-pwd
-
-# Force editor refresh
-```
-
----
-
 #### Quick Reference: Claude Code Best Practices
 
 **Do:**
@@ -347,21 +121,6 @@ Edit your global settings file at `~/.claude/settings.json`:
 - No need to use `--dangerously-skip-permissions` flag every time
 - Persists across all projects and sessions
 
-**How to set it up:**
-
-```bash
-# Create or edit your
-# - global settings file: ~/.claude/settings.json
-# - project settings file: <your_repo>/.claude/settings.local.json
-
-# Add the permissionMode setting
-{
-  "permissions": {
-    "defaultMode": "bypassPermissions"
-  }
-}
-```
-
 ---
 
 #### Pro Tip: Talk, Don't Type (Wispr Flow)
@@ -387,15 +146,6 @@ Edit your global settings file at `~/.claude/settings.json`:
 - Describing what you want the agent to build
 - Giving feedback on what Claude just did
 - Any time typing feels like it's slowing you down
-
-**Quick test:**
-
-```
-Try: Explain your project architecture out loud
-vs:  Type the same explanation
-
-Voice is usually 2-3x faster for detailed context.
-```
 
 **Not required** - but if you find yourself typing long explanations, consider talking instead.
 
@@ -426,7 +176,7 @@ Voice is usually 2-3x faster for detailed context.
 
 **Use `/help` when:** You want to see what Claude Code can do
 
-**Use `/clear` when:** Conversation getting long and you want to start fresh (keeps your project context)
+**Use `/clear` when:** You want to start a session with fresh context
 
 ---
 
@@ -633,7 +383,7 @@ Shows how much context your current session has used
 
 **Be aware:** More MCP servers = more context per operation. Don't overload with unnecessary servers.
 
-**Troubleshooting:** If any server isn't responding, run `/mcp` to check status, then ask instructor.
+**Troubleshooting:** If any server isn't responding, run `/mcp` to check status.
 
 **📖 Learn more:** For detailed information about MCP server configuration, troubleshooting, and advanced topics, see [Chapter 04: MCP Server Configuration](../chapters/04-mcp-servers.md).
 
@@ -760,7 +510,7 @@ My line 2 looks like -
 - Claude can see which files you have open
 - Better coordination between terminal and editor workflows
 
-**Pro tip:** Even when using `/ide`, still run Claude Code in a standalone terminal (not VS Code's integrated terminal) for better stability and scrollback.
+**Pro tip:** Even when using `/ide`, you can still run Claude Code in a standalone terminal (not VS Code's integrated terminal) for better stability and infinite scrollback.
 
 ---
 
@@ -851,7 +601,7 @@ Change the sound name to your preference:
 
 - See all available sounds: `ls /System/Library/Sounds/`
 
-**This is the most reliable method** - works consistently unlike terminal bell configurations.
+This is the most reliable method I've Found
 
 ---
 
@@ -899,7 +649,7 @@ Now that your tools are set up, it's time to build. You'll be working at your ow
 
 **Stretch Goals (in order, if time remains):**
 
-1. **AI Lead Summaries** (2-3h)
+1. **AI Lead Summaries**
 
    - LLM generates 2-3 sentence summary of lead
    - Input: Lead data + all interactions
@@ -908,7 +658,7 @@ Now that your tools are set up, it's time to build. You'll be working at your ow
    - Display on lead detail page
    - Optional: "Regenerate Summary" button to update when interactions change
 
-2. **AI Activity Scoring** (2-3h)
+2. **AI Activity Scoring**
 
    - 0-100 score based on engagement, recency, budget
    - **Persistent storage:** Add `activityScore` field to Lead model (INTEGER type)
@@ -917,7 +667,7 @@ Now that your tools are set up, it's time to build. You'll be working at your ow
    - Sort dashboard by score (highest first)
    - Optional: "Recalculate Score" button to update
 
-3. **Polish Frontend** (1-2h)
+3. **Polish Frontend**
    - Better styling and UX
    - Loading states
    - Error handling
@@ -943,8 +693,9 @@ Now that your tools are set up, it's time to build. You'll be working at your ow
 
 **Backend:**
 
-- NestJS 10.x (Node.js framework)
-- Sequelize (PostgreSQL ORM)
+- NestJS
+- PostgreSQL
+- Sequelize
 - GraphQL with Apollo Server
 
 **Frontend:**
@@ -1091,7 +842,7 @@ Now that your tools are set up, it's time to build. You'll be working at your ow
 - [ ] AI scoring with persistent storage
 - [ ] Polished UI
 
-š**Tomorrow:** Methodology introduction + AI intelligence focus
+**Tomorrow:** Methodology introduction + AI intelligence focus
 
 ---
 
