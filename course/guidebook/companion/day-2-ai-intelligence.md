@@ -519,6 +519,8 @@ You: "Agents succeeded but my manual QA failed - what went wrong?"
 
 ### Complete Workflow with Orchestration Partner
 
+Loom [here](https://www.loom.com/share/f2f71fbc139b4780a867bd92c444cdc1)
+
 This is the **full 10-step workflow** from requesting a feature to validated completion with iterative refinement.
 
 #### Step 1: Initialize the Orchestration Partner

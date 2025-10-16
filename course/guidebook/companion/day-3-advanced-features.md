@@ -260,6 +260,8 @@ This teaches professional collaboration patterns:
 
 ### Creating Worktrees
 
+Loom [here](https://www.loom.com/share/5263012c06b2494b9d5788d3100f8907)
+
 **Using the helper script:**
 
 ```bash
