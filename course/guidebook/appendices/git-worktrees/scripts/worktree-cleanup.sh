@@ -323,23 +323,30 @@ display_table() {
         
         # Color coding
         local color=""
+        local bg_color=""
         if [[ "${pr_statuses[$i]}" == "PROTECTED" ]]; then
             color=$MAGENTA
+            bg_color='\033[45m'  # Magenta background
         elif [ "${pr_merged[$i]}" = "true" ]; then
             color=$GREEN
+            bg_color='\033[42m'  # Green background
         elif [[ "${pr_statuses[$i]}" == "NO PR" ]]; then
             color=$YELLOW
+            bg_color='\033[43m'  # Yellow background
         elif [[ "${pr_statuses[$i]}" =~ OPEN ]]; then
             color=$CYAN
+            bg_color='\033[46m'  # Cyan background
+        else
+            bg_color='\033[47m'  # White background for default
         fi
-        
+
         # Truncate long names for display
         local display_worktree="${worktrees[$i]:0:33}"
         local display_branch="${branches[$i]:0:28}"
         local display_status="${pr_statuses[$i]:0:23}"
-        
+
         if [ "$i" -eq "$current_row" ]; then
-            echo -e "${REVERSE}${color}$(printf "%-3s %-35s %-30s %-25s %s" "$checkbox" "$display_worktree" "$display_branch" "$display_status" "${pr_merged[$i]}")${RESET}"
+            echo -e "${bg_color}\033[30m$(printf "%-3s %-35s %-30s %-25s %s" "$checkbox" "$display_worktree" "$display_branch" "$display_status" "${pr_merged[$i]}")${RESET}"
         else
             echo -e "${color}$(printf "%-3s %-35s %-30s %-25s %s" "$checkbox" "$display_worktree" "$display_branch" "$display_status" "${pr_merged[$i]}")${RESET}"
         fi
