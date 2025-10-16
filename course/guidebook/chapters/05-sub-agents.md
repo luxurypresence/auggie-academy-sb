@@ -1,10 +1,5 @@
 # Chapter 05: Sub-Agents and the Task Tool
 
-**Part 2: Advanced Patterns**
-**When to read:** After understanding basic agent orchestration (Day 2+)
-
----
-
 ## Overview
 
 How agents use the Task tool to spawn sub-agents for focused exploration and research.
@@ -16,6 +11,7 @@ How agents use the Task tool to spawn sub-agents for focused exploration and res
 ### The Distinction
 
 **What you do (Engineer-level orchestration):**
+
 ```
 You launch multiple agents for a feature:
 ├── Backend agent (separate Claude session)
@@ -26,6 +22,7 @@ You coordinate: "Backend agent, then frontend agent"
 ```
 
 **What agents do internally (Agent-level optimization):**
+
 ```
 Single agent execution:
 ├── Main agent (your Claude session)
@@ -37,11 +34,13 @@ Single agent execution:
 ### Key Difference
 
 **Parallel agents (Engineer orchestrates):**
+
 - You launch separate Claude sessions
 - Each works on different features/layers
 - You coordinate the handoffs
 
 **Sub-agents (Agent optimizes itself):**
+
 - Agent launches Task tool within its own session
 - Isolates exploration/research tasks
 - Agent coordinates its own work
@@ -55,6 +54,7 @@ Single agent execution:
 ### Scenario 1: Large Codebase Exploration
 
 **Without sub-agent:**
+
 ```
 Agent task: Implement authentication
 
@@ -71,6 +71,7 @@ Risk: Context-heavy, slower responses, less focus
 ```
 
 **With sub-agent:**
+
 ```
 Agent task: Implement authentication
 
@@ -81,11 +82,12 @@ Agent implements: With 800-token summary
 Benefit: Context lean, focused, faster implementation
 ```
 
-**Result:** Sub-agent approach ~30% slower (sub-agent launch overhead) but higher quality (found existing patterns to reuse).
+**Result:** Sub-agent approach is slower (sub-agent launch overhead) but higher quality (found existing patterns to reuse).
 
 ### Scenario 2: Research-Heavy Task
 
 **Without sub-agent:**
+
 ```
 Agent task: Implement GraphQL Federation
 
@@ -98,9 +100,10 @@ Agent implements: Buried in research context
 ```
 
 **With sub-agent:**
+
 ```
 Agent launches sub-agent: "Research Apollo Federation best practices for NestJS"
-Sub-agent synthesizes research, returns recommendation (1.2K tokens)
+Sub-agent synthesizes research, returns recommendation
 
 Agent implements: With actionable recommendation
 ```
@@ -125,6 +128,7 @@ Claude decides:
 ```
 
 **Claude's internal decision:**
+
 - Small codebase (<10K lines) → No sub-agent needed
 - Large codebase (>50K lines) → May use sub-agent for exploration
 - Complex research → May use sub-agent for synthesis
@@ -146,6 +150,7 @@ Claude:
 ```
 
 **When to do this:**
+
 - You know codebase is large
 - You want focused exploration separate from implementation
 - You're managing context strategically
@@ -159,6 +164,7 @@ Claude:
 ```
 
 **Shows:**
+
 ```
 Running agents:
 - Main session (this conversation)
@@ -167,6 +173,7 @@ Running agents:
 ```
 
 **You can:**
+
 - See what sub-agents are running
 - Monitor progress
 - Understand what's taking time
@@ -178,11 +185,13 @@ Running agents:
 ### The Trade-Off
 
 **Slower execution:**
+
 - Each sub-agent launch: 1-3 minutes overhead
 - Simple task: 5 min → 10 min (with sub-agent)
 - Complex task: 30 min → 40 min (with sub-agent)
 
 **Higher quality:**
+
 - Better codebase pattern discovery
 - More thorough research synthesis
 - Cleaner agent context (focused on implementation)
@@ -190,12 +199,14 @@ Running agents:
 ### When Sub-Agents Are Worth It
 
 **✅ Good uses:**
+
 - Large brownfield codebases (pattern discovery valuable)
 - Research-heavy tasks (synthesis needed)
 - Agent's context getting heavy (isolation helps)
 - Complex features with exploration phase
 
 **❌ Poor uses:**
+
 - Small greenfield codebases (no patterns to discover)
 - Simple straightforward tasks (overhead > benefit)
 - Tight deadlines (can't afford slowdown)
@@ -204,6 +215,7 @@ Running agents:
 ### Example Decision
 
 **Greenfield Day 1 (5K line codebase):**
+
 ```
 Task: Add login form
 Claude decision: NO sub-agents (codebase small, task simple)
@@ -211,6 +223,7 @@ Execution: 15 minutes, good quality
 ```
 
 **Brownfield production (80K line codebase):**
+
 ```
 Task: Add login form
 Claude decision: YES, use sub-agent for auth pattern exploration
@@ -225,11 +238,13 @@ Benefit: Saved hours of duplicate work, consistent with codebase
 ### Example 1: Codebase Exploration
 
 **Your request:**
+
 ```
 Implement user profile editing feature in this large Rails app
 ```
 
 **Agent's approach:**
+
 ```
 Agent: "This is a large codebase. I'll launch a sub-agent to explore
 existing user model patterns before implementing."
@@ -249,11 +264,13 @@ Agent implements:
 ### Example 2: Research Synthesis
 
 **Your request:**
+
 ```
 Add real-time notifications using best practices
 ```
 
 **Agent's approach:**
+
 ```
 Agent: "I'll research WebSocket vs Server-Sent Events approaches."
 
@@ -270,6 +287,7 @@ Agent implements:
 ### Example 3: Explicit Request
 
 **You direct:**
+
 ```
 Use the Task tool to launch a sub-agent that explores our existing
 authentication code and returns a summary of the patterns used.
@@ -277,6 +295,7 @@ Then implement OAuth using those same patterns.
 ```
 
 **Agent executes:**
+
 ```
 1. Launches sub-agent explicitly (as directed)
 2. Sub-agent explores auth code
@@ -291,25 +310,30 @@ Then implement OAuth using those same patterns.
 ### These Are Related But Different Concepts
 
 **Sub-agents = A context management technique**
+
 - HOW: Agent spawns focused sub-tasks
 - WHEN: During execution (agent decides)
 - WHO: Agent manages its own context
 
 **Context management = Broader concept**
+
 - Includes: Sub-agents, focused prompts, session handoffs, breaking tasks down
 - Multiple techniques, sub-agents is one of them
 
 **Context management techniques:**
 
 1. **Focused prompts** (You do this)
+
    - Write specific prompts vs vague prompts
    - "Add login form to /register" vs "make auth work"
 
 2. **Breaking tasks down** (You do this)
+
    - One big task → Multiple smaller tasks
    - Reduces context per task
 
 3. **Session handoffs** (You do this)
+
    - Save context, start fresh session
    - Prevents context accumulation
 
@@ -329,9 +353,3 @@ Then implement OAuth using those same patterns.
 - [ ] You can explicitly request, or let Claude decide autonomously
 - [ ] Use `/agents` command to see running sub-agents
 - [ ] Sub-agents are ONE technique for context management (not the only one)
-
----
-
-**Next Chapter:** Context Management Through Prompt Design
-
-**Related:** playbook/sub-agent-usage.md (quick operational guide)
