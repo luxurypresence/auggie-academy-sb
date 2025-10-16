@@ -1102,7 +1102,7 @@ Orchestration Partner Session (One):
 
 ### Sub-Agents for Large Codebase Exploration
 
-When agents work with large codebases, they can spawn **sub-agents** which have their own context for focused exploration without bloating their main context.
+When agents work with large codebases, they can spawn **sub-agents** which have their own context for focused exploration without bloating the main context.
 
 **The concept:**
 
@@ -1121,14 +1121,9 @@ An agent (like your tactical agent) can launch the Task tool to spawn a **sub-ag
 
 **When this is valuable:**
 
-- Large brownfield codebases (Day 5 brownfield hackathon)
-- Research-heavy tasks (comparing approaches, best practices)
+- Large brownfield codebases
+- Research-heavy tasks
 - Complex pattern discovery
-
-**The trade-off:**
-
-- Slower execution (sub-agent spawn overhead: 1-3 minutes)
-- Higher quality (better discoveries, cleaner context)
 
 **You can request this explicitly:**
 
@@ -1478,125 +1473,6 @@ curl -X POST http://localhost:3000/graphql \
 3. AI Task Recommendations
 
 **If all 3 complete:** Move to Product Manager Agent stretch goal (unlimited work)
-
----
-
-## Advanced MCP Servers (Install When Needed)
-
-### When to Use Advanced Tools
-
-**Days 1-2:** Essential MCP servers (Filesystem, Playwright, Context7)
-**Day 2+:** Add advanced tools when complexity increases
-
-**Rule of thumb:**
-
-- **Simple features:** Essential MCP servers sufficient
-- **Complex debugging:** Add Sequential Thinking MCP
-- **Important decisions:** Add Zen MCP for multi-model consensus
-
-### The "Shiny Tool" Trap: Why More MCPs ≠ Better
-
-**Tempting mistake:** Install every interesting MCP server "just in case"
-
-**Why this backfires:**
-
-- **Context bloat** - Each MCP adds to Claude's system prompt, consuming valuable context tokens
-- **Tool confusion** - Too many options → Claude spends time deciding which tool to use → slower responses
-- **Cognitive overload** - You forget what tools are available and when to use them
-- **Maintenance burden** - More dependencies to keep updated and working
-- **Diminishing returns** - Most features need 3-5 core tools, not 20
-
-**The 80/20 rule for MCPs:**
-
-- **Essential 3** cover 80% of work: Filesystem, Playwright, Context7
-- **Advanced 2-3** handle remaining 20%: Sequential Thinking, Zen, specialized domain tools
-- **Beyond that** you're trading context for rarely-used functionality
-
-**Best practice:** Start minimal. Add tools only when you hit a specific need that existing tools can't solve. Remove tools you haven't used in weeks.
-
----
-
-### [Sequential Thinking MCP](https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking)
-
-**What it does:**
-
-**Structured problem decomposition for complex issues**
-
-Instead of Claude Code guessing, Sequential Thinking:
-
-- Breaks problem into logical steps
-- Documents thinking at each step
-- Identifies assumptions and validates them
-- Provides systematic debugging path
-
-**When to use it:**
-
-**Good for:**
-
-- "AI integration isn't working as expected" (multi-layer debugging)
-- "Tests pass but feature broken" (systematic investigation)
-- "Why is this query returning wrong data?" (trace through layers)
-
-**NOT needed for:**
-
-- Simple bugs (missing import, typo)
-- Straightforward features with clear path
-- Things you already understand
-
-**Example usage:**
-
-```
-You: "Use Sequential Thinking to debug:
-My GraphQL query returns null for lead.tasks, but the database has tasks.
-Walk through the entire data flow from database → GraphQL → frontend."
-```
-
-**What you'll see:**
-
-- Step-by-step analysis of data flow
-- Validation at each layer (database, resolver, schema, frontend)
-- Identification of where null is introduced
-- Systematic solution path
-
----
-
-### [Zen MCP](https://github.com/BeehiveInnovations/zen-mcp-server)
-
-**What it does:**
-
-**Multi-model consensus for architectural decisions**
-
-Ask multiple AI models (GPT-4, Claude, Gemini, etc.) the same question and get synthesized recommendations.
-
-**When to use it:**
-
-**Good for:**
-
-- "Should I use LangFuse tracing for all LLM calls or just complex ones?"
-- "What's the best prompt structure for LLM-based activity scoring?"
-- "How should I handle LLM errors in scoring to ensure reliability?"
-
-**NOT needed for:**
-
-- Following established patterns (use what's already working)
-- Questions with obvious answers
-- Time-sensitive decisions (consensus takes longer)
-
-**Example usage:**
-
-```
-You: "Use Zen MCP to get multi-model consensus:
-What's the best prompt structure for an LLM to calculate a lead activity score (0-100)?
-Consider: what lead data to include, how to handle missing data, ensuring consistent numeric output.
-The LLM should analyze: recent contact date, interaction count, budget range, engagement level."
-```
-
-**What you'll see:**
-
-- Multiple models analyze the question
-- Different prompt structures suggested
-- Trade-offs discussed (context length, accuracy, consistency)
-- Synthesized recommendation for best prompt design
 
 ---
 

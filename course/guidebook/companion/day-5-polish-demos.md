@@ -105,17 +105,6 @@ This is YOUR hackathon. Pick something meaningful to you:
 - Multi-tenancy or data isolation concerns?
 - Known technical debt affecting this area?
 
-**Team discovery questions:**
-
-- How does your team add features currently?
-- What's the review process?
-- What testing is required?
-- What documentation is expected?
-
-**Track your discoveries** - write them down as you investigate.
-
-**Investigation is the skill.** Brownfield = discovery-first, building second.
-
 **Advanced: Using sub-agents for large codebase exploration**
 
 If your company codebase is large (50K+ lines), agents can spawn **sub-agents** for focused exploration:
@@ -173,30 +162,6 @@ Sub-agent explores, synthesizes patterns, returns summary. Main agent plans/impl
 
 ---
 
-#### Hackathon Showcase (End of Day)
-
-**Share your hackathon journey:**
-
-- What company codebase did you explore?
-- What feature did you investigate/plan/build?
-- What interesting patterns did you discover?
-- What gotchas did you uncover?
-- How far did you get? (investigation? planning? building? complete?)
-
-**Demo (if you built something):**
-
-- Quick 2-minute demo of what you implemented
-- Show it running (if complete enough)
-- OR show your execution plan (if still in planning phase)
-
-**Share your CRM work (optional):**
-
-- Show 1-2 impressive features from the week
-- AI summaries, scoring, WebSockets, mobile - pick your favorite
-- Keep it brief (1-2 minutes max)
-
----
-
 #### Optional: Document for Your Team
 
 **If you discovered valuable patterns:**
@@ -223,6 +188,35 @@ Consider creating `.claude/` documentation in your company repo:
 - Would teammates find it useful?
 - Does your team culture support this?
 - Do you have authority to add it?
+
+---
+
+### Bonus: Create Brownfield Slash Commands (Optional)
+
+**If you'll work in this company repo regularly:**
+
+Consider creating a custom slash command for instant repo context loading.
+
+**Example:** Create `/init-payment-service` that loads payment service patterns
+
+**How to create:**
+
+1. Create file in your company repo: `.claude/commands/init-{your-repo}.md`
+2. Write prompt that loads:
+   - Tech stack and architecture (from your investigation)
+   - Common patterns (what you discovered)
+   - Critical gotchas (what you found)
+   - Team conventions (review, testing)
+3. Check into git (team collaboration)
+4. Use in future sessions: `/init-{your-repo}`
+
+**Value:**
+
+- Instant context loading (no rediscovering)
+- Team knowledge sharing
+- Compound learning (improves over time)
+
+**Learn more:** [Chapter 06: Custom Slash Commands](../chapters/06-custom-slash-commands.md)
 
 ---
 
@@ -291,33 +285,6 @@ Consider creating `.claude/` documentation in your company repo:
 - Orchestration partner adapts to any repo
 
 **You practiced on real code** - this isn't theoretical. You explored your actual company codebase and made real progress on a feature you care about.
-
----
-
-### Bonus: Create Brownfield Slash Commands (Optional)
-
-**If you'll work in this company repo regularly:**
-
-Consider creating a custom slash command for instant repo context loading.
-
-**Example:** Create `/init-payment-service` that loads payment service patterns
-
-**How to create:**
-1. Create file in your company repo: `.claude/commands/init-{your-repo}.md`
-2. Write prompt that loads:
-   - Tech stack and architecture (from your investigation)
-   - Common patterns (what you discovered)
-   - Critical gotchas (what you found)
-   - Team conventions (review, testing)
-3. Check into git (team collaboration)
-4. Use in future sessions: `/init-{your-repo}`
-
-**Value:**
-- Instant context loading (no rediscovering)
-- Team knowledge sharing
-- Compound learning (improves over time)
-
-**Learn more:** [Chapter 06: Custom Slash Commands](../chapters/06-custom-slash-commands.md)
 
 ---
 

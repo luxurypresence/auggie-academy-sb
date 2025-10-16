@@ -21,109 +21,6 @@ Build mobile app basics first:
 - [ ] Navigation between screens
 - [ ] Expo Go testing on physical device
 
-**Once foundation works, keep adding features below.**
-
----
-
-### Continue Building (Add Features Throughout Day)
-
-After foundation working, add more mobile features:
-
-- [ ] Display AI summaries on mobile
-- [ ] Display activity scores with color badges
-- [ ] View tasks for each lead
-- [ ] View interaction history
-- [ ] Mobile-optimized UI (pull-to-refresh, loading states)
-- [ ] Error handling and offline states
-- [ ] Polish UI
-
-**Keep building - no fixed end point. Add as many features as you can today.**
-
----
-
-### Stretch Goals
-
-**1. Mobile CRUD Operations**
-
-- Create new lead on mobile (form with validation)
-- Edit existing lead (update name, budget, etc.)
-- Log interaction on mobile (select type, add notes)
-- Delete lead (with confirmation)
-- Full feature parity with web app
-
-**2. Advanced Mobile Features**
-
-- Offline mode with local storage (AsyncStorage)
-- Push notifications when new leads added
-- Geolocation for check-ins ("I'm visiting this lead")
-- Mobile-specific UX patterns (swipe actions, long-press menus)
-- Camera integration (upload lead photos)
-
-**3. Continue PM-Suggested Features (if built PM agent)**
-
-- Implement mobile versions of PM features from Day 3
-- Mobile-optimized versions of any custom features
-
----
-
-## Mobile-Specific Gotchas to Watch For
-
-Mobile development has different challenges than web development. Here are the key gotchas:
-
-### Network Configuration: localhost Doesn't Work
-
-When testing on a physical device (iPhone/Android via Expo Go):
-
-**The challenge:**
-
-- `localhost` on your phone refers to the PHONE, not your computer
-- Your phone can't access "localhost:3000" running on your laptop
-- Must use your computer's network IP address instead
-
-**What you need:**
-
-- Your computer's local network IP (something like 192.168.1.X)
-- Configure Apollo Client with this IP instead of localhost
-- Both phone and laptop on the same WiFi network
-
-**Common issue:**
-
-- Backend configured with localhost → mobile app shows "Network Error"
-- Fix: Use network IP in mobile Apollo Client configuration
-
-### Same WiFi Network Requirement
-
-**Both devices must be on the same network:**
-
-- Phone and laptop on different WiFi networks can't communicate
-- Check WiFi settings on both devices
-- Verify network names match
-
-**Troubleshooting connection issues:**
-
-- Is backend running and accessible?
-- Is network IP correct in mobile configuration?
-- Are both devices on same WiFi?
-- Is firewall blocking connections?
-
-### Expo Go vs Simulator
-
-**Physical device (Expo Go):**
-
-- Requires network IP configuration (not localhost)
-- Must be on same WiFi
-- Faster to set up (no Xcode needed)
-- Shake device to access developer menu
-
-**iOS Simulator (if you have Xcode):**
-
-- `localhost` works (simulator shares Mac's network)
-- No WiFi coordination needed
-- Cmd+D for developer menu
-- Requires Xcode installation
-
-**Recommendation:** Physical device via Expo Go (simpler setup, more realistic testing)
-
 ---
 
 ## Mobile App Foundation
@@ -218,6 +115,66 @@ Display complete lead information:
 - Error handling for failed queries
 - Back navigation
 - Scrollable content for long interaction/task lists
+
+---
+
+## Mobile-Specific Gotchas to Watch For
+
+Mobile development has different challenges than web development. Here are the key gotchas:
+
+### Network Configuration: localhost Doesn't Work
+
+When testing on a physical device (iPhone/Android via Expo Go):
+
+**The challenge:**
+
+- `localhost` on your phone refers to the PHONE, not your computer
+- Your phone can't access "localhost:3000" running on your laptop
+- Must use your computer's network IP address instead
+
+**What you need:**
+
+- Your computer's local network IP (something like 192.168.1.X)
+- Configure Apollo Client with this IP instead of localhost
+- Both phone and laptop on the same WiFi network
+
+**Common issue:**
+
+- Backend configured with localhost → mobile app shows "Network Error"
+- Fix: Use network IP in mobile Apollo Client configuration
+
+### Same WiFi Network Requirement
+
+**Both devices must be on the same network:**
+
+- Phone and laptop on different WiFi networks can't communicate
+- Check WiFi settings on both devices
+- Verify network names match
+
+**Troubleshooting connection issues:**
+
+- Is backend running and accessible?
+- Is network IP correct in mobile configuration?
+- Are both devices on same WiFi?
+- Is firewall blocking connections?
+
+### Expo Go vs Simulator
+
+**Physical device (Expo Go):**
+
+- Requires network IP configuration (not localhost)
+- Must be on same WiFi
+- Faster to set up (no Xcode needed)
+- Shake device to access developer menu
+
+**iOS Simulator (if you have Xcode):**
+
+- `localhost` works (simulator shares Mac's network)
+- No WiFi coordination needed
+- Cmd+D for developer menu
+- Requires Xcode installation
+
+**Recommendation:** Physical device via Expo Go (simpler setup, more realistic testing)
 
 ---
 
@@ -342,17 +299,6 @@ Full create, read, update, delete operations on mobile:
 - [ ] Backend connection working (network IP configured correctly)
 - [ ] Can demonstrate app on physical device
 - [ ] Understanding of mobile-specific challenges (network config, testing)
-
----
-
-### Stretch goals
-
-**Additional features:**
-
-- [ ] Mobile CRUD operations (create/edit leads on mobile)
-- [ ] Advanced features (offline mode OR push notifications OR geolocation)
-- [ ] Mobile versions of PM-suggested features (from Day 3)
-- [ ] Polished UI (loading states, error handling, pull-to-refresh)
 
 ---
 
