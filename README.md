@@ -1,5 +1,7 @@
 # AI Orchestration Mastery - Course Repository
 
+HELLO WORLD
+
 Welcome! You're about to learn systematic AI agent orchestration by building a production CRM from scratch.
 
 ## Getting Started
