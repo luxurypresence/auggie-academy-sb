@@ -11,7 +11,7 @@
 **Session 01 of 5**
 
 **Part 1:** [Tools & Setup](day-1/tools-setup.md)
-**Part 2:** [Build Requirements](day-1/build-requirements.md)
+**Part 2:** [Build Requirements](day-1/day-1-build-requirements.md)
 
 **What you'll build:**
 

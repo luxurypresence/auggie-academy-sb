@@ -626,7 +626,7 @@ For now: Ignore it and focus on building
 
 ## Next Steps
 
-Once your tools are set up and verified, proceed to [Build Requirements](build-requirements.md) to start building your CRM.
+Once your tools are set up and verified, proceed to [Build Requirements](day-1-build-requirements.md) to start building your CRM.
 
 ---
 
