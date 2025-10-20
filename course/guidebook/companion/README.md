@@ -10,7 +10,8 @@
 
 **Session 01 of 5**
 
-[Tool Foundations & Build Complete CRM](day-1-foundation.md)
+**Part 1:** [Tools & Setup](day-1/tools-setup.md)
+**Part 2:** [Build Requirements](day-1/build-requirements.md)
 
 **What you'll build:**
 
@@ -152,6 +153,6 @@
 
 ---
 
-**Ready to start?** → [Day 1: Foundation & Core CRM](day-1-foundation.md)
+**Ready to start?** → [Day 1: Tools & Setup](day-1/tools-setup.md)
 
 **Lost?** → [Back to guidebook overview](../README.md)

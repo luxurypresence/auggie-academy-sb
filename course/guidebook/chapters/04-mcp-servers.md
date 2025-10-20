@@ -840,7 +840,7 @@ claude mcp remove <server-name>
 
 **Related Content:**
 
-- [Day 1: Foundation & Core CRM](../companion/day-1-foundation.md) - Hands-on MCP setup
+- [Day 1: Tools & Setup](../companion/day-1/tools-setup.md) - Hands-on MCP setup
 
 ---
 

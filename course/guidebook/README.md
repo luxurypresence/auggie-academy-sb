@@ -6,7 +6,7 @@ Welcome to the complete curriculum for systematic AI agent orchestration. This g
 
 ## Quick Start
 
-**Starting the course?** → [Day 1: Foundation](companion/day-1-foundation.md)
+**Starting the course?** → [Day 1: Tools & Setup](companion/day-1/tools-setup.md)
 
 **Looking for specific content?**
 

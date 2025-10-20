@@ -4,7 +4,7 @@ Welcome! You're about to learn systematic AI agent orchestration by building a p
 
 ## Getting Started
 
-**→ Start here:** [Day 1: Foundation](/course/guidebook/companion/day-1-foundation.md)
+**→ Start here:** [Day 1: Tools & Setup](/course/guidebook/companion/day-1/tools-setup.md)
 
 This is a 5-day course teaching AI orchestration patterns:
 
@@ -142,7 +142,7 @@ cp .env.local.template .env.local
 
 ### 6. Start Day 1
 
-**👉 Begin:** [Day 1 - Foundation](course/guidebook/companion/day-1-foundation.md)
+**👉 Begin:** [Day 1 - Tools & Setup](course/guidebook/companion/day-1/tools-setup.md)
 
 **The companion guides are your trail** - follow sessions sequentially (01 → 02 → 03...).
 

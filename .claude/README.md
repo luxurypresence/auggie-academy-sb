@@ -17,7 +17,7 @@ This directory contains orchestration tooling for the AI Orchestration Mastery c
 
 ## Primary Learning Path
 
-**Start here:** [/course/guidebook/companion/day-1-foundation.md](/course/guidebook/companion/day-1-foundation.md)
+**Start here:** [/course/guidebook/companion/day-1/tools-setup.md](/course/guidebook/companion/day-1/tools-setup.md)
 
 This directory supports the course but is not the course itself. Follow the 5-day curriculum in `/course/` to learn the patterns and methodology.
 
@@ -45,6 +45,6 @@ The `workspace/` directory tracks feature execution, retrospectives, and session
 
 **Next Steps:**
 
-1. Complete the 5-day course starting from [Day 1](/course/guidebook/companion/day-1-foundation.md)
+1. Complete the 5-day course starting from [Day 1](/course/guidebook/companion/day-1/tools-setup.md)
 2. Learn about the orchestration partner on [Day 2](/course/guidebook/companion/day-2-ai-intelligence.md)
 3. Experiment with manual usage following the [Manual Usage Guide](/.claude/orchestration-partner/manual-usage.md)
