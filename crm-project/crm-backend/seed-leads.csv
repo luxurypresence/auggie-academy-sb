@@ -1,0 +1,16 @@
+firstName,lastName,email,phone,budget,location,company,source,status
+John,Doe,john.doe@example.com,555-0101,50000.00,San Francisco CA,Acme Corporation,website,new
+Jane,Smith,jane.smith@example.com,555-0102,75000.00,New York NY,TechStart Inc,referral,contacted
+Robert,Johnson,robert.johnson@example.com,555-0103,100000.00,Los Angeles CA,Global Solutions,linkedin,qualified
+Emily,Williams,emily.williams@example.com,555-0104,45000.00,Chicago IL,Midwest Enterprises,email,new
+Michael,Brown,michael.brown@example.com,555-0105,60000.00,Houston TX,Energy Dynamics,tradeshow,contacted
+Sarah,Davis,sarah.davis@example.com,555-0106,85000.00,Phoenix AZ,Desert Innovations,webinar,qualified
+David,Miller,david.miller@example.com,555-0107,55000.00,Philadelphia PA,Heritage Corp,coldcall,new
+Jennifer,Wilson,jennifer.wilson@example.com,555-0108,90000.00,San Antonio TX,Lone Star Tech,website,contacted
+James,Moore,james.moore@example.com,555-0109,70000.00,San Diego CA,Pacific Systems,referral,qualified
+Linda,Taylor,linda.taylor@example.com,555-0110,65000.00,Dallas TX,Metro Group,linkedin,new
+William,Anderson,william.anderson@example.com,555-0111,95000.00,San Jose CA,Silicon Ventures,email,contacted
+Elizabeth,Thomas,elizabeth.thomas@example.com,555-0112,80000.00,Austin TX,Capital Holdings,tradeshow,qualified
+Richard,Jackson,richard.jackson@example.com,555-0113,52000.00,Jacksonville FL,Coastal Partners,webinar,new
+Mary,White,mary.white@example.com,555-0114,88000.00,Fort Worth TX,Horizon Industries,coldcall,contacted
+Charles,Harris,charles.harris@example.com,555-0115,72000.00,Columbus OH,Central Business Solutions,website,qualified
