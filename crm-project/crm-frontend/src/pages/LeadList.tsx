@@ -1,8 +1,8 @@
 import { useState, useMemo } from "react";
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import PageTransition from "@/components/PageTransition";
-import { Plus, Search, SlidersHorizontal, ArrowUpDown } from "lucide-react";
+import { Plus, Search, SlidersHorizontal, ArrowUpDown, TrendingUp, RefreshCw, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -10,9 +10,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import StatusBadge from "@/components/StatusBadge";
-import { GET_LEADS } from "@/graphql/leads";
+import { ActivityScoreBadge } from "@/components/ActivityScoreBadge";
+import { GET_LEADS, RECALCULATE_ALL_SCORES } from "@/graphql/leads";
 import type { Lead } from "../types/lead";
 import { format } from "date-fns";
+import { toast } from "sonner";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -24,6 +26,21 @@ export default function LeadList() {
   const [sourceFilter, setSourceFilter] = useState("all");
   const [stageFilter, setStageFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortByScore, setSortByScore] = useState(false);
+
+  // Mutation for recalculating all scores
+  const [recalculateScores, { loading: isRecalculating }] = useMutation(
+    RECALCULATE_ALL_SCORES,
+    {
+      onCompleted: (data) => {
+        toast.success(`${data.recalculateAllScores.count} leads recalculated`);
+      },
+      onError: (error) => {
+        toast.error(`Error recalculating scores: ${error.message}`);
+      },
+      refetchQueries: [{ query: GET_LEADS }],
+    }
+  );
 
   // Filter and search leads
   const filteredLeads = useMemo(() => {
@@ -59,11 +76,26 @@ export default function LeadList() {
     return filtered;
   }, [data?.leads, searchQuery, sourceFilter, stageFilter]);
 
+  // Sort by activity score
+  const sortedLeads = useMemo(() => {
+    const filtered = [...filteredLeads];
+
+    if (sortByScore) {
+      return filtered.sort((a, b) => {
+        const scoreA = a.activityScore ?? -1;
+        const scoreB = b.activityScore ?? -1;
+        return scoreB - scoreA; // Descending (highest first)
+      });
+    }
+
+    return filtered;
+  }, [filteredLeads, sortByScore]);
+
   // Pagination
-  const totalPages = Math.ceil(filteredLeads.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(sortedLeads.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
-  const paginatedLeads = filteredLeads.slice(startIndex, endIndex);
+  const paginatedLeads = sortedLeads.slice(startIndex, endIndex);
 
   const handleRowClick = (leadId: number) => {
     navigate(`/leads/${leadId}`);
@@ -96,10 +128,29 @@ export default function LeadList() {
           <h1 className="text-3xl font-bold">Leads</h1>
           <p className="text-muted-foreground">Efficiently manage and track your sales leads.</p>
         </div>
-        <Button onClick={() => navigate('/leads/new')} className="bg-primary">
-          <Plus className="mr-2 h-4 w-4" />
-          New Lead
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            onClick={() => recalculateScores()}
+            disabled={isRecalculating}
+          >
+            {isRecalculating ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Recalculating...
+              </>
+            ) : (
+              <>
+                <RefreshCw className="mr-2 h-4 w-4" />
+                Recalculate All Scores
+              </>
+            )}
+          </Button>
+          <Button onClick={() => navigate('/leads/new')} className="bg-primary">
+            <Plus className="mr-2 h-4 w-4" />
+            New Lead
+          </Button>
+        </div>
       </div>
 
       {/* Filters and Search */}
@@ -152,6 +203,14 @@ export default function LeadList() {
             </Select>
 
             {/* Sort and Filter Buttons */}
+            <Button
+              variant={sortByScore ? "default" : "outline"}
+              size="icon"
+              onClick={() => setSortByScore(!sortByScore)}
+              title="Sort by Activity Score"
+            >
+              <TrendingUp className="h-4 w-4" />
+            </Button>
             <Button variant="outline" size="icon">
               <ArrowUpDown className="h-4 w-4" />
             </Button>
@@ -171,6 +230,7 @@ export default function LeadList() {
                     <TableHead className="text-xs font-medium text-muted-foreground uppercase">Status</TableHead>
                     <TableHead className="text-xs font-medium text-muted-foreground uppercase">Source</TableHead>
                     <TableHead className="text-xs font-medium text-muted-foreground uppercase">Contact Date</TableHead>
+                    <TableHead className="text-xs font-medium text-muted-foreground uppercase">Activity Score</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -190,6 +250,9 @@ export default function LeadList() {
                       </TableCell>
                       <TableCell>
                         <Skeleton className="h-5 w-[100px]" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton className="h-6 w-[80px] rounded-full" />
                       </TableCell>
                     </TableRow>
                   ))}
@@ -217,6 +280,7 @@ export default function LeadList() {
                     <TableHead className="text-xs font-medium text-muted-foreground uppercase">Status</TableHead>
                     <TableHead className="text-xs font-medium text-muted-foreground uppercase">Source</TableHead>
                     <TableHead className="text-xs font-medium text-muted-foreground uppercase">Contact Date</TableHead>
+                    <TableHead className="text-xs font-medium text-muted-foreground uppercase">Activity Score</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -241,6 +305,9 @@ export default function LeadList() {
                       <TableCell className="text-muted-foreground">
                         {format(new Date(lead.createdAt), 'yyyy-MM-dd')}
                       </TableCell>
+                      <TableCell>
+                        <ActivityScoreBadge score={lead.activityScore} />
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -249,7 +316,7 @@ export default function LeadList() {
               {/* Pagination */}
               <div className="flex items-center justify-between mt-6">
                 <div className="text-sm text-muted-foreground">
-                  Showing {startIndex + 1} to {Math.min(endIndex, filteredLeads.length)} of {filteredLeads.length} results
+                  Showing {startIndex + 1} to {Math.min(endIndex, sortedLeads.length)} of {sortedLeads.length} results
                 </div>
                 <div className="flex items-center gap-2">
                   <Button

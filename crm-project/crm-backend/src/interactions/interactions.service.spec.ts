@@ -66,7 +66,9 @@ describe('InteractionsService', () => {
 
       const result = await service.create(mockCreateInteractionInput);
 
-      expect(mockInteractionModel.create).toHaveBeenCalledWith(mockCreateInteractionInput);
+      expect(mockInteractionModel.create).toHaveBeenCalledWith(
+        mockCreateInteractionInput,
+      );
       expect(result).toEqual(mockInteraction);
     });
   });
@@ -123,14 +125,19 @@ describe('InteractionsService', () => {
 
   describe('update', () => {
     it('should update an interaction', async () => {
-      const updatedInteraction = { ...mockInteraction, ...mockUpdateInteractionInput };
+      const updatedInteraction = {
+        ...mockInteraction,
+        ...mockUpdateInteractionInput,
+      };
       mockInteractionModel.findByPk.mockResolvedValue(mockInteraction);
       mockInteraction.update.mockResolvedValue(updatedInteraction);
 
       const result = await service.update(mockUpdateInteractionInput);
 
       expect(mockInteractionModel.findByPk).toHaveBeenCalledWith(1);
-      expect(mockInteraction.update).toHaveBeenCalledWith(mockUpdateInteractionInput);
+      expect(mockInteraction.update).toHaveBeenCalledWith(
+        mockUpdateInteractionInput,
+      );
       expect(result).toEqual(mockInteraction);
     });
 

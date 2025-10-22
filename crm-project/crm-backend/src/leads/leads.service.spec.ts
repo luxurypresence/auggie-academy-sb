@@ -1,13 +1,17 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/sequelize';
+import { Sequelize } from 'sequelize-typescript';
 import { LeadsService } from './leads.service';
 import { Lead } from '../models/lead.model';
 import { CreateLeadInput } from './dto/create-lead.input';
 import { UpdateLeadInput } from './dto/update-lead.input';
+import { AISummaryService } from './ai-summary.service';
 
 describe('LeadsService', () => {
   let service: LeadsService;
   let mockLeadModel: any;
+  let mockAISummaryService: any;
+  let mockSequelize: any;
 
   const mockLead = {
     id: 1,
@@ -15,15 +19,17 @@ describe('LeadsService', () => {
     lastName: 'Doe',
     email: 'john@example.com',
     phone: '555-1234',
-    budget: 50000.00,
+    budget: 50000.0,
     location: 'San Francisco, CA',
     company: 'Acme Corporation',
     source: 'website',
     status: 'new',
     createdAt: new Date(),
     updatedAt: new Date(),
+    interactions: [],
     update: jest.fn(),
     destroy: jest.fn(),
+    save: jest.fn(),
   };
 
   const mockLeadArray = [
@@ -34,7 +40,7 @@ describe('LeadsService', () => {
       lastName: 'Smith',
       email: 'jane@example.com',
       phone: '555-5678',
-      budget: 75000.00,
+      budget: 75000.0,
       location: 'New York, NY',
       company: 'TechStart Inc',
       source: 'referral',
@@ -52,12 +58,36 @@ describe('LeadsService', () => {
       findByPk: jest.fn(),
     };
 
+    // Create a mock AISummaryService
+    mockAISummaryService = {
+      generateSummary: jest.fn().mockResolvedValue({
+        summary: 'Test AI summary',
+        activityScore: 75,
+      }),
+    };
+
+    // Create a mock Sequelize instance with transaction support
+    mockSequelize = {
+      transaction: jest.fn().mockResolvedValue({
+        commit: jest.fn().mockResolvedValue(undefined),
+        rollback: jest.fn().mockResolvedValue(undefined),
+      }),
+    };
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         LeadsService,
         {
           provide: getModelToken(Lead),
           useValue: mockLeadModel,
+        },
+        {
+          provide: AISummaryService,
+          useValue: mockAISummaryService,
+        },
+        {
+          provide: Sequelize,
+          useValue: mockSequelize,
         },
       ],
     }).compile();
@@ -80,7 +110,7 @@ describe('LeadsService', () => {
         lastName: 'Doe',
         email: 'john@example.com',
         phone: '555-1234',
-        budget: 50000.00,
+        budget: 50000.0,
         location: 'San Francisco, CA',
       };
 
@@ -121,7 +151,7 @@ describe('LeadsService', () => {
         firstName: 'Jane',
         lastName: 'Smith',
         email: 'jane@example.com',
-        budget: 75000.00,
+        budget: 75000.0,
         location: 'New York, NY',
       };
 
@@ -135,7 +165,7 @@ describe('LeadsService', () => {
       const result = await service.create(createLeadInput);
 
       expect(mockLeadModel.create).toHaveBeenCalledWith(createLeadInput);
-      expect(result.budget).toEqual(75000.00);
+      expect(result.budget).toEqual(75000.0);
       expect(result.location).toEqual('New York, NY');
     });
 
@@ -190,7 +220,12 @@ describe('LeadsService', () => {
 
       const result = await service.findOne(1);
 
-      expect(mockLeadModel.findByPk).toHaveBeenCalledWith(1);
+      expect(mockLeadModel.findByPk).toHaveBeenCalledWith(
+        1,
+        expect.objectContaining({
+          include: expect.any(Array),
+        }),
+      );
       expect(result).toEqual(mockLead);
     });
 
@@ -199,7 +234,12 @@ describe('LeadsService', () => {
 
       const result = await service.findOne(999);
 
-      expect(mockLeadModel.findByPk).toHaveBeenCalledWith(999);
+      expect(mockLeadModel.findByPk).toHaveBeenCalledWith(
+        999,
+        expect.objectContaining({
+          include: expect.any(Array),
+        }),
+      );
       expect(result).toBeNull();
     });
 
@@ -255,13 +295,13 @@ describe('LeadsService', () => {
     it('should update budget and location', async () => {
       const updateLeadInput: UpdateLeadInput = {
         id: 1,
-        budget: 100000.00,
+        budget: 100000.0,
         location: 'Los Angeles, CA',
       };
 
       const updatedLead = {
         ...mockLead,
-        budget: 100000.00,
+        budget: 100000.0,
         location: 'Los Angeles, CA',
       };
 
@@ -331,9 +371,172 @@ describe('LeadsService', () => {
       const dbError = new Error('Database delete failed');
       mockLead.destroy.mockRejectedValue(dbError);
 
-      await expect(service.remove(1)).rejects.toThrow(
-        'Database delete failed',
+      await expect(service.remove(1)).rejects.toThrow('Database delete failed');
+    });
+  });
+
+  describe('recalculateAllScores', () => {
+    it('should recalculate scores for all leads', async () => {
+      const mockLeadWithInteractions = {
+        ...mockLead,
+        interactions: [
+          {
+            id: 1,
+            type: 'email',
+            notes: 'Initial contact',
+            date: new Date(),
+          },
+        ],
+        save: jest.fn().mockResolvedValue(undefined),
+      };
+
+      const mockLeadWithInteractions2 = {
+        id: 2,
+        firstName: 'Jane',
+        lastName: 'Smith',
+        email: 'jane@example.com',
+        interactions: [],
+        save: jest.fn().mockResolvedValue(undefined),
+      };
+
+      mockLeadModel.findAll.mockResolvedValue([
+        mockLeadWithInteractions,
+        mockLeadWithInteractions2,
+      ]);
+
+      mockAISummaryService.generateSummary
+        .mockResolvedValueOnce({
+          summary: 'John Doe summary',
+          activityScore: 75,
+        })
+        .mockResolvedValueOnce({
+          summary: 'Jane Smith summary',
+          activityScore: 50,
+        });
+
+      const result = await service.recalculateAllScores();
+
+      expect(mockSequelize.transaction).toHaveBeenCalled();
+      expect(mockLeadModel.findAll).toHaveBeenCalledWith(
+        expect.objectContaining({
+          include: expect.any(Array),
+        }),
       );
+      expect(mockAISummaryService.generateSummary).toHaveBeenCalledTimes(2);
+      expect(mockLeadWithInteractions.save).toHaveBeenCalledWith(
+        expect.objectContaining({
+          transaction: expect.anything(),
+        }),
+      );
+      expect(mockLeadWithInteractions2.save).toHaveBeenCalledWith(
+        expect.objectContaining({
+          transaction: expect.anything(),
+        }),
+      );
+      expect(result).toEqual({ count: 2 });
+    });
+
+    it('should set scoreCalculatedAt timestamp', async () => {
+      const mockLeadWithSave = {
+        ...mockLead,
+        interactions: [],
+        save: jest.fn().mockResolvedValue(undefined),
+      };
+
+      mockLeadModel.findAll.mockResolvedValue([mockLeadWithSave]);
+
+      await service.recalculateAllScores();
+
+      expect(mockLeadWithSave.scoreCalculatedAt).toBeDefined();
+      expect(mockLeadWithSave.scoreCalculatedAt).toBeInstanceOf(Date);
+    });
+
+    it('should handle errors gracefully and continue processing', async () => {
+      const mockLead1 = {
+        ...mockLead,
+        id: 1,
+        interactions: [],
+        save: jest.fn().mockResolvedValue(undefined),
+      };
+
+      const mockLead2 = {
+        ...mockLead,
+        id: 2,
+        interactions: [],
+        save: jest.fn().mockResolvedValue(undefined),
+      };
+
+      const mockLead3 = {
+        ...mockLead,
+        id: 3,
+        interactions: [],
+        save: jest.fn().mockResolvedValue(undefined),
+      };
+
+      mockLeadModel.findAll.mockResolvedValue([
+        mockLead1,
+        mockLead2,
+        mockLead3,
+      ]);
+
+      mockAISummaryService.generateSummary
+        .mockResolvedValueOnce({ summary: 'Summary 1', activityScore: 75 })
+        .mockRejectedValueOnce(new Error('AI service failed'))
+        .mockResolvedValueOnce({ summary: 'Summary 3', activityScore: 60 });
+
+      const result = await service.recalculateAllScores();
+
+      expect(result.count).toBe(2);
+      expect(mockLead1.save).toHaveBeenCalled();
+      expect(mockLead2.save).not.toHaveBeenCalled();
+      expect(mockLead3.save).toHaveBeenCalled();
+    });
+
+    it('should rollback transaction on fatal error', async () => {
+      const transaction = {
+        commit: jest.fn().mockResolvedValue(undefined),
+        rollback: jest.fn().mockResolvedValue(undefined),
+      };
+
+      mockSequelize.transaction.mockResolvedValue(transaction);
+      mockLeadModel.findAll.mockRejectedValue(new Error('Database error'));
+
+      await expect(service.recalculateAllScores()).rejects.toThrow(
+        'Database error',
+      );
+      expect(transaction.rollback).toHaveBeenCalled();
+      expect(transaction.commit).not.toHaveBeenCalled();
+    });
+
+    it('should commit transaction after successful processing', async () => {
+      const transaction = {
+        commit: jest.fn().mockResolvedValue(undefined),
+        rollback: jest.fn().mockResolvedValue(undefined),
+      };
+
+      mockSequelize.transaction.mockResolvedValue(transaction);
+
+      const mockLeadWithSave = {
+        ...mockLead,
+        interactions: [],
+        save: jest.fn().mockResolvedValue(undefined),
+      };
+
+      mockLeadModel.findAll.mockResolvedValue([mockLeadWithSave]);
+
+      await service.recalculateAllScores();
+
+      expect(transaction.commit).toHaveBeenCalled();
+      expect(transaction.rollback).not.toHaveBeenCalled();
+    });
+
+    it('should return zero count when no leads exist', async () => {
+      mockLeadModel.findAll.mockResolvedValue([]);
+
+      const result = await service.recalculateAllScores();
+
+      expect(result.count).toBe(0);
+      expect(mockAISummaryService.generateSummary).not.toHaveBeenCalled();
     });
   });
 });

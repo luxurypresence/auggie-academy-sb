@@ -1,4 +1,14 @@
-import { Table, Column, Model, DataType, PrimaryKey, AutoIncrement, CreatedAt, UpdatedAt, HasMany } from 'sequelize-typescript';
+import {
+  Table,
+  Column,
+  Model,
+  DataType,
+  PrimaryKey,
+  AutoIncrement,
+  CreatedAt,
+  UpdatedAt,
+  HasMany,
+} from 'sequelize-typescript';
 import { ObjectType, Field, ID, Int, Float } from '@nestjs/graphql';
 
 @ObjectType()
@@ -79,6 +89,34 @@ export class Lead extends Model<Lead> {
   })
   declare status: string;
 
+  @Field({ nullable: true })
+  @Column({
+    type: DataType.TEXT,
+    allowNull: true,
+  })
+  declare summary: string;
+
+  @Field({ nullable: true })
+  @Column({
+    type: DataType.DATE,
+    allowNull: true,
+  })
+  declare summaryGeneratedAt: Date;
+
+  @Field(() => Int, { nullable: true })
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: true,
+  })
+  declare activityScore: number;
+
+  @Field({ nullable: true })
+  @Column({
+    type: DataType.DATE,
+    allowNull: true,
+  })
+  declare scoreCalculatedAt: Date;
+
   @Field()
   @CreatedAt
   @Column(DataType.DATE)
@@ -92,7 +130,12 @@ export class Lead extends Model<Lead> {
   @Field(() => [Interaction], { nullable: true })
   @HasMany(() => Interaction, 'leadId')
   interactions: Interaction[];
+
+  @Field(() => [Task], { nullable: true })
+  @HasMany(() => Task, 'leadId')
+  tasks: Task[];
 }
 
 // Import at the top level to avoid circular dependency
 import { Interaction } from './interaction.model';
+import { Task } from './task.model';

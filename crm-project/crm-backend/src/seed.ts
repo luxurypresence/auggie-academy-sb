@@ -35,7 +35,11 @@ const sequelize = new Sequelize({
 
 // Helper function to get random interaction type
 function getRandomInteractionType(): InteractionType {
-  const types = [InteractionType.CALL, InteractionType.EMAIL, InteractionType.MEETING];
+  const types = [
+    InteractionType.CALL,
+    InteractionType.EMAIL,
+    InteractionType.MEETING,
+  ];
   return types[Math.floor(Math.random() * types.length)];
 }
 
@@ -69,7 +73,10 @@ async function generateInteractions(leadId: number): Promise<void> {
   for (let i = 0; i < numInteractions; i++) {
     const type = getRandomInteractionType();
     const date = getRandomDate();
-    const notes = interactionNotesTemplates[Math.floor(Math.random() * interactionNotesTemplates.length)];
+    const notes =
+      interactionNotesTemplates[
+        Math.floor(Math.random() * interactionNotesTemplates.length)
+      ];
 
     await Interaction.create({
       type,
@@ -132,7 +139,9 @@ async function seed() {
       } as any);
 
       leadCount++;
-      console.log(`✓ Created lead: ${lead.firstName} ${lead.lastName} (${lead.email})`);
+      console.log(
+        `✓ Created lead: ${lead.firstName} ${lead.lastName} (${lead.email})`,
+      );
 
       // Generate random interactions for this lead
       const beforeCount = await Interaction.count();

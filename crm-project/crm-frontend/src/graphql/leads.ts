@@ -16,11 +16,13 @@ export const GET_LEADS = gql`
       status
       createdAt
       updatedAt
+      activityScore
+      scoreCalculatedAt
     }
   }
 `;
 
-// Query to get a single lead with interactions
+// Query to get a single lead with interactions and tasks
 export const GET_LEAD = gql`
   query GetLead($id: Int!) {
     lead(id: $id) {
@@ -36,11 +38,25 @@ export const GET_LEAD = gql`
       status
       createdAt
       updatedAt
+      summary
+      summaryGeneratedAt
+      activityScore
+      scoreCalculatedAt
       interactions {
         id
         type
         date
         notes
+        createdAt
+      }
+      tasks {
+        id
+        title
+        description
+        aiReasoning
+        source
+        dueDate
+        completed
         createdAt
       }
     }
@@ -91,5 +107,26 @@ export const UPDATE_LEAD = gql`
 export const DELETE_LEAD = gql`
   mutation DeleteLead($id: Int!) {
     removeLead(id: $id)
+  }
+`;
+
+// Mutation to regenerate AI summary for a lead
+export const REGENERATE_SUMMARY = gql`
+  mutation RegenerateSummary($id: Int!) {
+    regenerateSummary(id: $id) {
+      id
+      summary
+      summaryGeneratedAt
+      activityScore
+    }
+  }
+`;
+
+// Mutation to recalculate all activity scores
+export const RECALCULATE_ALL_SCORES = gql`
+  mutation RecalculateAllScores {
+    recalculateAllScores {
+      count
+    }
   }
 `;

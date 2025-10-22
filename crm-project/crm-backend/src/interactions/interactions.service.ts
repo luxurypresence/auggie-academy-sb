@@ -12,7 +12,9 @@ export class InteractionsService {
     private interactionModel: typeof Interaction,
   ) {}
 
-  async create(createInteractionInput: CreateInteractionInput): Promise<Interaction> {
+  async create(
+    createInteractionInput: CreateInteractionInput,
+  ): Promise<Interaction> {
     return this.interactionModel.create(createInteractionInput as any);
   }
 
@@ -35,10 +37,16 @@ export class InteractionsService {
     });
   }
 
-  async update(updateInteractionInput: UpdateInteractionInput): Promise<Interaction> {
-    const interaction = await this.interactionModel.findByPk(updateInteractionInput.id);
+  async update(
+    updateInteractionInput: UpdateInteractionInput,
+  ): Promise<Interaction> {
+    const interaction = await this.interactionModel.findByPk(
+      updateInteractionInput.id,
+    );
     if (!interaction) {
-      throw new Error(`Interaction with ID ${updateInteractionInput.id} not found`);
+      throw new Error(
+        `Interaction with ID ${updateInteractionInput.id} not found`,
+      );
     }
     await interaction.update(updateInteractionInput);
     return interaction;
