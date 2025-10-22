@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import StatusBadge from "@/components/StatusBadge";
 import { ActivityScoreBadge } from "@/components/ActivityScoreBadge";
 import { GET_LEADS, RECALCULATE_ALL_SCORES } from "@/graphql/leads";
@@ -203,20 +204,44 @@ export default function LeadList() {
             </Select>
 
             {/* Sort and Filter Buttons */}
-            <Button
-              variant={sortByScore ? "default" : "outline"}
-              size="icon"
-              onClick={() => setSortByScore(!sortByScore)}
-              title="Sort by Activity Score"
-            >
-              <TrendingUp className="h-4 w-4" />
-            </Button>
-            <Button variant="outline" size="icon">
-              <ArrowUpDown className="h-4 w-4" />
-            </Button>
-            <Button variant="outline" size="icon">
-              <SlidersHorizontal className="h-4 w-4" />
-            </Button>
+            <TooltipProvider delayDuration={200}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant={sortByScore ? "default" : "outline"}
+                    size="icon"
+                    onClick={() => setSortByScore(!sortByScore)}
+                  >
+                    <TrendingUp className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Sort by Activity Score</p>
+                </TooltipContent>
+              </Tooltip>
+
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="outline" size="icon">
+                    <ArrowUpDown className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Sort Options</p>
+                </TooltipContent>
+              </Tooltip>
+
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="outline" size="icon">
+                    <SlidersHorizontal className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Advanced Filters</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
 
           {/* Table */}

@@ -406,6 +406,9 @@ export default function LeadDetail() {
             </CardContent>
           </Card>
 
+          {/* AI Task Suggestions */}
+          <AITaskSuggestions leadId={lead.id} tasks={lead.tasks} />
+
           {/* Quick Actions */}
           <Card>
             <CardHeader>
@@ -428,9 +431,6 @@ export default function LeadDetail() {
               )}
             </CardContent>
           </Card>
-
-          {/* AI Task Suggestions */}
-          <AITaskSuggestions leadId={lead.id} tasks={lead.tasks} />
         </div>
       </div>
     </div>

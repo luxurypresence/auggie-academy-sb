@@ -1,5 +1,4 @@
-import { Button } from "@/components/ui/button";
-import { Plus, Shapes } from "lucide-react";
+import { Shapes } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
@@ -53,15 +52,8 @@ export default function Header() {
             </nav>
           </div>
 
-          {/* Right Side - New Lead Button and Avatar */}
+          {/* Right Side - Avatar */}
           <div className="flex items-center gap-3">
-            <Button
-              onClick={() => navigate("/leads/new")}
-              className="bg-primary hover:bg-primary/90"
-            >
-              <Plus className="mr-2 h-4 w-4" />
-              New Lead
-            </Button>
             <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-pink-300 flex items-center justify-center text-white font-medium">
               U
             </div>

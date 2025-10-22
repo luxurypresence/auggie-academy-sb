@@ -3,6 +3,7 @@ import { getModelToken } from '@nestjs/sequelize';
 import { InteractionsService } from './interactions.service';
 import { Interaction, InteractionType } from '../models/interaction.model';
 import { Lead } from '../models/lead.model';
+import { LeadsService } from '../leads/leads.service';
 
 describe('InteractionsService', () => {
   let service: InteractionsService;
@@ -39,12 +40,20 @@ describe('InteractionsService', () => {
       findByPk: jest.fn(),
     };
 
+    const mockLeadsService = {
+      generateSummary: jest.fn().mockResolvedValue({}),
+    };
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         InteractionsService,
         {
           provide: getModelToken(Interaction),
           useValue: mockInteractionModel,
+        },
+        {
+          provide: LeadsService,
+          useValue: mockLeadsService,
         },
       ],
     }).compile();
