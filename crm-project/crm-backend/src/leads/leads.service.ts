@@ -14,6 +14,8 @@ export class LeadsService {
   constructor(
     @InjectModel(Lead)
     private leadModel: typeof Lead,
+    @InjectModel(Interaction)
+    private interactionModel: typeof Interaction,
     private aiSummaryService: AISummaryService,
     private sequelize: Sequelize,
   ) {}
@@ -69,12 +71,25 @@ export class LeadsService {
   }
 
   async generateSummary(leadId: number): Promise<Lead> {
-    const lead = await this.findOne(leadId);
+    const lead = await this.leadModel.findByPk(leadId);
     if (!lead) {
       throw new Error(`Lead with ID ${leadId} not found`);
     }
 
-    const interactions = lead.interactions || [];
+    // Explicitly fetch interactions
+    const interactions = await this.interactionModel.findAll({
+      where: { leadId },
+    });
+
+    this.logger.log(
+      `Lead ${leadId} has ${interactions.length} interactions loaded`,
+    );
+    if (interactions.length > 0) {
+      this.logger.debug(
+        `Interactions: ${JSON.stringify(interactions.map((i) => ({ id: i.id, type: i.type, date: i.date })))}`,
+      );
+    }
+
     const result = await this.aiSummaryService.generateSummary(
       lead,
       interactions,

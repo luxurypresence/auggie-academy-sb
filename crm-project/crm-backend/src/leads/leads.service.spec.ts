@@ -3,6 +3,7 @@ import { getModelToken } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize-typescript';
 import { LeadsService } from './leads.service';
 import { Lead } from '../models/lead.model';
+import { Interaction } from '../models/interaction.model';
 import { CreateLeadInput } from './dto/create-lead.input';
 import { UpdateLeadInput } from './dto/update-lead.input';
 import { AISummaryService } from './ai-summary.service';
@@ -58,6 +59,11 @@ describe('LeadsService', () => {
       findByPk: jest.fn(),
     };
 
+    // Create a mock Interaction model
+    const mockInteractionModel = {
+      findAll: jest.fn().mockResolvedValue([]),
+    };
+
     // Create a mock AISummaryService
     mockAISummaryService = {
       generateSummary: jest.fn().mockResolvedValue({
@@ -80,6 +86,10 @@ describe('LeadsService', () => {
         {
           provide: getModelToken(Lead),
           useValue: mockLeadModel,
+        },
+        {
+          provide: getModelToken(Interaction),
+          useValue: mockInteractionModel,
         },
         {
           provide: AISummaryService,

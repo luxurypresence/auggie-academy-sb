@@ -144,7 +144,7 @@ export function AISummaryCard({ lead, onRegenerate, isRegenerating }: AISummaryC
         <div className="flex items-start justify-between">
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-2">
-              <Sparkles className="h-5 w-5 text-orange-500" />
+              <Sparkles className="h-5 w-5 text-blue-500" />
               <CardTitle className="text-xl">AI-Powered Insights</CardTitle>
             </div>
             <p className="text-sm text-muted-foreground">
@@ -193,12 +193,12 @@ export function AISummaryCard({ lead, onRegenerate, isRegenerating }: AISummaryC
         {/* AI Summary Section */}
         <div className="space-y-3 pt-4 border-t">
           <div className="flex items-center justify-between">
-            <h3 className="font-semibold text-sm flex items-center gap-2">
-              <Sparkles className="h-4 w-4 text-orange-500" />
+            <h3 className="font-semibold text-lg flex items-center gap-2">
+              <Sparkles className="h-5 w-5 text-blue-500" />
               AI Summary
             </h3>
             <Button
-              variant="outline"
+              variant="default"
               size="sm"
               onClick={onRegenerate}
               disabled={isRegenerating}

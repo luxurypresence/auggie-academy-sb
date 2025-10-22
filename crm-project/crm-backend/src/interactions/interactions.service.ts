@@ -1,21 +1,45 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject, forwardRef, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Interaction } from '../models/interaction.model';
 import { Lead } from '../models/lead.model';
 import { CreateInteractionInput } from './dto/create-interaction.input';
 import { UpdateInteractionInput } from './dto/update-interaction.input';
+import { LeadsService } from '../leads/leads.service';
 
 @Injectable()
 export class InteractionsService {
+  private readonly logger = new Logger(InteractionsService.name);
+
   constructor(
     @InjectModel(Interaction)
     private interactionModel: typeof Interaction,
+    @Inject(forwardRef(() => LeadsService))
+    private leadsService: LeadsService,
   ) {}
 
   async create(
     createInteractionInput: CreateInteractionInput,
   ): Promise<Interaction> {
-    return this.interactionModel.create(createInteractionInput as any);
+    const interaction = await this.interactionModel.create(
+      createInteractionInput as any,
+    );
+
+    // Trigger async summary regeneration (don't block interaction creation)
+    this.leadsService
+      .generateSummary(interaction.leadId)
+      .then(() => {
+        this.logger.log(
+          `Auto-regenerated AI summary after creating interaction ${interaction.id} for lead ${interaction.leadId}`,
+        );
+      })
+      .catch((error) => {
+        this.logger.error(
+          `Failed to auto-regenerate summary after interaction ${interaction.id}:`,
+          error.message,
+        );
+      });
+
+    return interaction;
   }
 
   async findAll(): Promise<Interaction[]> {
