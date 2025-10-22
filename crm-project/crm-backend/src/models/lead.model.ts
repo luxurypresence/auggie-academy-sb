@@ -130,7 +130,12 @@ export class Lead extends Model<Lead> {
   @Field(() => [Interaction], { nullable: true })
   @HasMany(() => Interaction, 'leadId')
   interactions: Interaction[];
+
+  @Field(() => [Task], { nullable: true })
+  @HasMany(() => Task, 'leadId')
+  tasks: Task[];
 }
 
 // Import at the top level to avoid circular dependency
 import { Interaction } from './interaction.model';
+import { Task } from './task.model';

@@ -10,6 +10,7 @@ import {
 import { LeadsService } from './leads.service';
 import { Lead } from '../models/lead.model';
 import { Interaction } from '../models/interaction.model';
+import { Task } from '../models/task.model';
 import { CreateLeadInput } from './dto/create-lead.input';
 import { UpdateLeadInput } from './dto/update-lead.input';
 import { RecalculateScoresResult } from './dto/recalculate-scores-result.dto';
@@ -61,5 +62,15 @@ export class LeadsResolver {
     }
     // Otherwise, manually load them
     return await lead.$get('interactions');
+  }
+
+  @ResolveField(() => [Task], { nullable: true })
+  async tasks(@Parent() lead: Lead) {
+    // If tasks are already loaded, return them
+    if (lead.tasks) {
+      return lead.tasks;
+    }
+    // Otherwise, manually load them
+    return await lead.$get('tasks');
   }
 }

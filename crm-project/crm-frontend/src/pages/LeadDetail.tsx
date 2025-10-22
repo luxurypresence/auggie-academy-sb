@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import StatusBadge from "@/components/StatusBadge";
 import { AISummaryCard } from "@/components/AISummaryCard";
+import { AITaskSuggestions } from "@/components/AITaskSuggestions";
 import { GET_LEAD, DELETE_LEAD, REGENERATE_SUMMARY } from "@/graphql/leads";
 import { format } from "date-fns";
 import type { Lead } from "@/types/lead";
@@ -427,6 +428,9 @@ export default function LeadDetail() {
               )}
             </CardContent>
           </Card>
+
+          {/* AI Task Suggestions */}
+          <AITaskSuggestions leadId={lead.id} tasks={lead.tasks} />
         </div>
       </div>
     </div>

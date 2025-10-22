@@ -22,7 +22,7 @@ export const GET_LEADS = gql`
   }
 `;
 
-// Query to get a single lead with interactions
+// Query to get a single lead with interactions and tasks
 export const GET_LEAD = gql`
   query GetLead($id: Int!) {
     lead(id: $id) {
@@ -47,6 +47,16 @@ export const GET_LEAD = gql`
         type
         date
         notes
+        createdAt
+      }
+      tasks {
+        id
+        title
+        description
+        aiReasoning
+        source
+        dueDate
+        completed
         createdAt
       }
     }

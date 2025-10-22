@@ -7,8 +7,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { Lead } from './models/lead.model';
 import { Interaction } from './models/interaction.model';
+import { Task } from './models/task.model';
 import { LeadsModule } from './leads/leads.module';
 import { InteractionsModule } from './interactions/interactions.module';
+import { TasksModule } from './tasks/tasks.module';
 
 @Module({
   imports: [
@@ -22,7 +24,7 @@ import { InteractionsModule } from './interactions/interactions.module';
       username: process.env.DB_USERNAME || 'postgres',
       password: process.env.DB_PASSWORD || 'postgres',
       database: process.env.DB_NAME || 'crm_db',
-      models: [Lead, Interaction],
+      models: [Lead, Interaction, Task],
       autoLoadModels: true,
       synchronize: true,
       logging: console.log,
@@ -34,6 +36,7 @@ import { InteractionsModule } from './interactions/interactions.module';
     }),
     LeadsModule,
     InteractionsModule,
+    TasksModule,
   ],
   controllers: [AppController],
   providers: [AppService],
