@@ -9,7 +9,10 @@ export class InteractionsResolver {
   constructor(private readonly interactionsService: InteractionsService) {}
 
   @Mutation(() => Interaction)
-  createInteraction(@Args('createInteractionInput') createInteractionInput: CreateInteractionInput) {
+  createInteraction(
+    @Args('createInteractionInput')
+    createInteractionInput: CreateInteractionInput,
+  ) {
     return this.interactionsService.create(createInteractionInput);
   }
 
@@ -29,7 +32,10 @@ export class InteractionsResolver {
   }
 
   @Mutation(() => Interaction)
-  updateInteraction(@Args('updateInteractionInput') updateInteractionInput: UpdateInteractionInput) {
+  updateInteraction(
+    @Args('updateInteractionInput')
+    updateInteractionInput: UpdateInteractionInput,
+  ) {
     return this.interactionsService.update(updateInteractionInput);
   }
 

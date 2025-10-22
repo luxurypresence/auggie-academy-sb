@@ -14,6 +14,10 @@ export interface Lead {
   createdAt: string;
   updatedAt: string;
   interactions?: Interaction[];
+  summary?: string;
+  summaryGeneratedAt?: string;
+  activityScore?: number;
+  scoreCalculatedAt?: string;
 }
 
 export interface Interaction {

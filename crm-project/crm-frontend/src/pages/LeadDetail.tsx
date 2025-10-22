@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import StatusBadge from "@/components/StatusBadge";
-import { GET_LEAD, DELETE_LEAD } from "@/graphql/leads";
+import { AISummaryCard } from "@/components/AISummaryCard";
+import { GET_LEAD, DELETE_LEAD, REGENERATE_SUMMARY } from "@/graphql/leads";
 import { format } from "date-fns";
 import type { Lead } from "@/types/lead";
 
@@ -30,12 +31,28 @@ export default function LeadDetail() {
     },
   });
 
+  const [regenerateSummary, { loading: isRegenerating }] = useMutation(REGENERATE_SUMMARY, {
+    onCompleted: () => {
+      toast.success("Summary regenerated successfully");
+    },
+    onError: (error) => {
+      toast.error(`Error regenerating summary: ${error.message}`);
+    },
+    refetchQueries: [{ query: GET_LEAD, variables: { id: parseInt(id || "0") } }],
+  });
+
   const handleDelete = async () => {
     if (window.confirm("Are you sure you want to delete this lead?")) {
       await deleteLead({
         variables: { id: parseInt(id || "0") },
       });
     }
+  };
+
+  const handleRegenerate = async () => {
+    await regenerateSummary({
+      variables: { id: parseInt(id || "0") },
+    });
   };
 
   if (loading) {
@@ -268,6 +285,13 @@ export default function LeadDetail() {
               </div>
             </CardContent>
           </Card>
+
+          {/* AI-Powered Insights Card */}
+          <AISummaryCard
+            lead={lead}
+            onRegenerate={handleRegenerate}
+            isRegenerating={isRegenerating}
+          />
 
           {/* Interactions History */}
           <Card>

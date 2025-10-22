@@ -14,7 +14,7 @@ describe('LeadsResolver', () => {
     lastName: 'Doe',
     email: 'john@example.com',
     phone: '555-1234',
-    budget: 50000.00,
+    budget: 50000.0,
     location: 'San Francisco, CA',
     company: 'Acme Corporation',
     source: 'website',
@@ -31,7 +31,7 @@ describe('LeadsResolver', () => {
       lastName: 'Smith',
       email: 'jane@example.com',
       phone: '555-5678',
-      budget: 75000.00,
+      budget: 75000.0,
       location: 'New York, NY',
       company: 'TechStart Inc',
       source: 'referral',
@@ -79,7 +79,7 @@ describe('LeadsResolver', () => {
         lastName: 'Doe',
         email: 'john@example.com',
         phone: '555-1234',
-        budget: 50000.00,
+        budget: 50000.0,
         location: 'San Francisco, CA',
       };
 
@@ -123,7 +123,7 @@ describe('LeadsResolver', () => {
         firstName: 'Jane',
         lastName: 'Smith',
         email: 'jane@example.com',
-        budget: 100000.00,
+        budget: 100000.0,
         location: 'Boston, MA',
       };
 
@@ -137,7 +137,7 @@ describe('LeadsResolver', () => {
       const result = await resolver.createLead(createLeadInput);
 
       expect(service.create).toHaveBeenCalledWith(createLeadInput);
-      expect(result.budget).toBe(100000.00);
+      expect(result.budget).toBe(100000.0);
       expect(result.location).toBe('Boston, MA');
     });
 
@@ -215,7 +215,7 @@ describe('LeadsResolver', () => {
 
       expect(service.findOne).toHaveBeenCalledWith(1);
       expect(result).toEqual(mockLead);
-      expect(result.id).toBe(1);
+      expect(result?.id).toBe(1);
     });
 
     it('should return null when lead is not found', async () => {
@@ -234,7 +234,7 @@ describe('LeadsResolver', () => {
       const result = await resolver.findOne(5);
 
       expect(service.findOne).toHaveBeenCalledWith(5);
-      expect(result.id).toBe(5);
+      expect(result?.id).toBe(5);
     });
 
     it('should handle service errors when finding one lead', async () => {
@@ -299,7 +299,7 @@ describe('LeadsResolver', () => {
         lastName: 'Smith',
         email: 'jane.smith@example.com',
         phone: '555-9999',
-        budget: 150000.00,
+        budget: 150000.0,
         location: 'Seattle, WA',
         status: 'contacted',
       };
@@ -316,7 +316,7 @@ describe('LeadsResolver', () => {
       expect(service.update).toHaveBeenCalledWith(updateLeadInput);
       expect(result.firstName).toBe('Jane');
       expect(result.lastName).toBe('Smith');
-      expect(result.budget).toBe(150000.00);
+      expect(result.budget).toBe(150000.0);
       expect(result.location).toBe('Seattle, WA');
     });
 

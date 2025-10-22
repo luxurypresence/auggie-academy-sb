@@ -65,7 +65,9 @@ describe('InteractionsResolver', () => {
     it('should create a new interaction', async () => {
       mockInteractionsService.create.mockResolvedValue(mockInteraction);
 
-      const result = await resolver.createInteraction(mockCreateInteractionInput);
+      const result = await resolver.createInteraction(
+        mockCreateInteractionInput,
+      );
 
       expect(service.create).toHaveBeenCalledWith(mockCreateInteractionInput);
       expect(result).toEqual(mockInteraction);
@@ -117,10 +119,15 @@ describe('InteractionsResolver', () => {
 
   describe('updateInteraction', () => {
     it('should update an interaction', async () => {
-      const updatedInteraction = { ...mockInteraction, ...mockUpdateInteractionInput };
+      const updatedInteraction = {
+        ...mockInteraction,
+        ...mockUpdateInteractionInput,
+      };
       mockInteractionsService.update.mockResolvedValue(updatedInteraction);
 
-      const result = await resolver.updateInteraction(mockUpdateInteractionInput);
+      const result = await resolver.updateInteraction(
+        mockUpdateInteractionInput,
+      );
 
       expect(service.update).toHaveBeenCalledWith(mockUpdateInteractionInput);
       expect(result).toEqual(updatedInteraction);

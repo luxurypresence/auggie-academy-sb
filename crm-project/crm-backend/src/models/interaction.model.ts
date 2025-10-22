@@ -1,4 +1,14 @@
-import { Table, Column, Model, DataType, PrimaryKey, AutoIncrement, CreatedAt, ForeignKey, BelongsTo } from 'sequelize-typescript';
+import {
+  Table,
+  Column,
+  Model,
+  DataType,
+  PrimaryKey,
+  AutoIncrement,
+  CreatedAt,
+  ForeignKey,
+  BelongsTo,
+} from 'sequelize-typescript';
 import { ObjectType, Field, ID, Int, registerEnumType } from '@nestjs/graphql';
 import { Lead } from './lead.model';
 

@@ -16,6 +16,8 @@ export const GET_LEADS = gql`
       status
       createdAt
       updatedAt
+      activityScore
+      scoreCalculatedAt
     }
   }
 `;
@@ -36,6 +38,10 @@ export const GET_LEAD = gql`
       status
       createdAt
       updatedAt
+      summary
+      summaryGeneratedAt
+      activityScore
+      scoreCalculatedAt
       interactions {
         id
         type
@@ -91,5 +97,26 @@ export const UPDATE_LEAD = gql`
 export const DELETE_LEAD = gql`
   mutation DeleteLead($id: Int!) {
     removeLead(id: $id)
+  }
+`;
+
+// Mutation to regenerate AI summary for a lead
+export const REGENERATE_SUMMARY = gql`
+  mutation RegenerateSummary($id: Int!) {
+    regenerateSummary(id: $id) {
+      id
+      summary
+      summaryGeneratedAt
+      activityScore
+    }
+  }
+`;
+
+// Mutation to recalculate all activity scores
+export const RECALCULATE_ALL_SCORES = gql`
+  mutation RecalculateAllScores {
+    recalculateAllScores {
+      count
+    }
   }
 `;
