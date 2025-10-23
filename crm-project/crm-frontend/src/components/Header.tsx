@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
+import NotificationBell from "./NotificationBell";
 
 const navItems = [
   { name: "Dashboard", path: "/dashboard" },
@@ -64,6 +65,9 @@ export default function Header() {
 
           {/* Right Side - User Info and Logout */}
           <div className="flex items-center gap-3">
+            {/* Notification Bell */}
+            <NotificationBell />
+
             {user && (
               <span className="text-sm text-gray-600">
                 Welcome, <span className="font-medium text-gray-900">{user.firstName}</span>

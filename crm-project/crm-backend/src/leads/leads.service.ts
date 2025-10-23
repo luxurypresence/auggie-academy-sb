@@ -6,6 +6,8 @@ import { CreateLeadInput } from './dto/create-lead.input';
 import { UpdateLeadInput } from './dto/update-lead.input';
 import { AISummaryService } from './ai-summary.service';
 import { Sequelize } from 'sequelize-typescript';
+import { NotificationsService } from '../notifications/notifications.service';
+import { NotificationType } from '../models/notification.model';
 
 @Injectable()
 export class LeadsService {
@@ -18,10 +20,22 @@ export class LeadsService {
     private interactionModel: typeof Interaction,
     private aiSummaryService: AISummaryService,
     private sequelize: Sequelize,
+    private notificationsService: NotificationsService,
   ) {}
 
   async create(createLeadInput: CreateLeadInput): Promise<Lead> {
-    return this.leadModel.create(createLeadInput as any);
+    // Save lead
+    const lead = await this.leadModel.create(createLeadInput as any);
+
+    // Send notification after lead created
+    await this.notificationsService.create({
+      type: NotificationType.LEAD_CREATED,
+      title: 'New Lead Created',
+      message: `${lead.firstName} ${lead.lastName} added to pipeline`,
+      relatedLeadId: lead.id,
+    });
+
+    return lead;
   }
 
   async findAll(): Promise<Lead[]> {

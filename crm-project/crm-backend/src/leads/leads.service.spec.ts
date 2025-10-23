@@ -7,12 +7,14 @@ import { Interaction } from '../models/interaction.model';
 import { CreateLeadInput } from './dto/create-lead.input';
 import { UpdateLeadInput } from './dto/update-lead.input';
 import { AISummaryService } from './ai-summary.service';
+import { NotificationsService } from '../notifications/notifications.service';
 
 describe('LeadsService', () => {
   let service: LeadsService;
   let mockLeadModel: any;
   let mockAISummaryService: any;
   let mockSequelize: any;
+  let mockNotificationsService: any;
 
   const mockLead = {
     id: 1,
@@ -80,6 +82,18 @@ describe('LeadsService', () => {
       }),
     };
 
+    // Create a mock NotificationsService
+    mockNotificationsService = {
+      create: jest.fn().mockResolvedValue({
+        id: '550e8400-e29b-41d4-a716-446655440000',
+        type: 'lead_created',
+        title: 'New Lead Created',
+        message: 'John Doe added to pipeline',
+        isRead: false,
+        relatedLeadId: 1,
+      }),
+    };
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         LeadsService,
@@ -99,6 +113,10 @@ describe('LeadsService', () => {
           provide: Sequelize,
           useValue: mockSequelize,
         },
+        {
+          provide: NotificationsService,
+          useValue: mockNotificationsService,
+        },
       ],
     }).compile();
 
@@ -114,7 +132,7 @@ describe('LeadsService', () => {
   });
 
   describe('create', () => {
-    it('should create a new lead', async () => {
+    it('should create a new lead and send notification', async () => {
       const createLeadInput: CreateLeadInput = {
         firstName: 'John',
         lastName: 'Doe',
@@ -129,10 +147,16 @@ describe('LeadsService', () => {
       const result = await service.create(createLeadInput);
 
       expect(mockLeadModel.create).toHaveBeenCalledWith(createLeadInput);
+      expect(mockNotificationsService.create).toHaveBeenCalledWith({
+        type: 'lead_created',
+        title: 'New Lead Created',
+        message: 'John Doe added to pipeline',
+        relatedLeadId: mockLead.id,
+      });
       expect(result).toEqual(mockLead);
     });
 
-    it('should create a lead with minimal required fields', async () => {
+    it('should create a lead with minimal required fields and send notification', async () => {
       const createLeadInput: CreateLeadInput = {
         firstName: 'John',
         lastName: 'Doe',
@@ -153,10 +177,11 @@ describe('LeadsService', () => {
       const result = await service.create(createLeadInput);
 
       expect(mockLeadModel.create).toHaveBeenCalledWith(createLeadInput);
+      expect(mockNotificationsService.create).toHaveBeenCalled();
       expect(result).toEqual(minimalMockLead);
     });
 
-    it('should create a lead with budget and location', async () => {
+    it('should create a lead with budget and location and send notification', async () => {
       const createLeadInput: CreateLeadInput = {
         firstName: 'Jane',
         lastName: 'Smith',
@@ -168,6 +193,7 @@ describe('LeadsService', () => {
       const leadWithBudget = {
         ...mockLead,
         ...createLeadInput,
+        id: 2,
       };
 
       mockLeadModel.create.mockResolvedValue(leadWithBudget);
@@ -175,6 +201,12 @@ describe('LeadsService', () => {
       const result = await service.create(createLeadInput);
 
       expect(mockLeadModel.create).toHaveBeenCalledWith(createLeadInput);
+      expect(mockNotificationsService.create).toHaveBeenCalledWith({
+        type: 'lead_created',
+        title: 'New Lead Created',
+        message: 'Jane Smith added to pipeline',
+        relatedLeadId: 2,
+      });
       expect(result.budget).toEqual(75000.0);
       expect(result.location).toEqual('New York, NY');
     });
@@ -450,6 +482,7 @@ describe('LeadsService', () => {
       const mockLeadWithSave = {
         ...mockLead,
         interactions: [],
+        scoreCalculatedAt: undefined as Date | undefined,
         save: jest.fn().mockResolvedValue(undefined),
       };
 

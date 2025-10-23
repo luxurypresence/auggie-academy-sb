@@ -9,10 +9,12 @@ import { Lead } from './models/lead.model';
 import { Interaction } from './models/interaction.model';
 import { Task } from './models/task.model';
 import { User } from './models/user.model';
+import { Notification } from './models/notification.model';
 import { LeadsModule } from './leads/leads.module';
 import { InteractionsModule } from './interactions/interactions.module';
 import { TasksModule } from './tasks/tasks.module';
 import { AuthModule } from './auth/auth.module';
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -26,7 +28,7 @@ import { AuthModule } from './auth/auth.module';
       username: process.env.DB_USERNAME || 'postgres',
       password: process.env.DB_PASSWORD || 'postgres',
       database: process.env.DB_NAME || 'crm_db',
-      models: [Lead, Interaction, Task, User],
+      models: [Lead, Interaction, Task, User, Notification],
       autoLoadModels: true,
       synchronize: true,
       logging: console.log,
@@ -40,6 +42,7 @@ import { AuthModule } from './auth/auth.module';
     InteractionsModule,
     TasksModule,
     AuthModule,
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

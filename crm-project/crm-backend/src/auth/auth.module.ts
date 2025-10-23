@@ -40,6 +40,11 @@ import { JwtStrategy } from './jwt.strategy';
     AuthResolver, // GraphQL mutations (register, login)
     JwtStrategy, // Passport strategy for JWT validation
   ],
-  exports: [AuthService], // Export AuthService for use in other modules
+  exports: [
+    AuthService, // Export AuthService for use in other modules
+    JwtStrategy, // Export JwtStrategy so other modules can use JwtAuthGuard
+    PassportModule, // Export PassportModule for use in other modules
+    JwtModule, // Export JwtModule so other modules can use the same JWT configuration
+  ],
 })
 export class AuthModule {}
