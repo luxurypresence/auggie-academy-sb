@@ -1,6 +1,8 @@
-import { Shapes } from "lucide-react";
+import { Shapes, LogOut } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/context/AuthContext";
+import { Button } from "@/components/ui/button";
 
 const navItems = [
   { name: "Dashboard", path: "/dashboard" },
@@ -13,12 +15,20 @@ const navItems = [
 export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user, logout } = useAuth();
 
   const isActive = (path: string) => {
     if (path === "/") {
       return location.pathname === "/" || location.pathname.startsWith("/leads");
     }
     return location.pathname.startsWith(path);
+  };
+
+  const getUserInitials = () => {
+    if (!user) return "U";
+    const firstInitial = user.firstName?.charAt(0) || "";
+    const lastInitial = user.lastName?.charAt(0) || "";
+    return (firstInitial + lastInitial).toUpperCase() || "U";
   };
 
   return (
@@ -52,11 +62,25 @@ export default function Header() {
             </nav>
           </div>
 
-          {/* Right Side - Avatar */}
+          {/* Right Side - User Info and Logout */}
           <div className="flex items-center gap-3">
+            {user && (
+              <span className="text-sm text-gray-600">
+                Welcome, <span className="font-medium text-gray-900">{user.firstName}</span>
+              </span>
+            )}
             <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-pink-300 flex items-center justify-center text-white font-medium">
-              U
+              {getUserInitials()}
             </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={logout}
+              className="gap-2"
+            >
+              <LogOut className="h-4 w-4" />
+              Logout
+            </Button>
           </div>
         </div>
       </div>
